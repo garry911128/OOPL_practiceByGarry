@@ -1,0 +1,4 @@
+﻿cl : 命令列 warning D9035: 選項 'Gm' 已被取代，在未來的發行版本中將會移除
+  CEvent.cpp
+CEvent.obj : warning LNK4075: 忽略 '/EDITANDCONTINUE'，由於 '/SAFESEH' 規格
+  game.vcxproj -> C:\Users\chenkouh\Desktop\NTUT\BOOK\111\-2\OOP_GAME\OOPL_practice\.\Debug\game.exe
