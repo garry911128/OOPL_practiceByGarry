@@ -12,6 +12,7 @@ using namespace game_framework;
 
 MapItem::MapItem() {
 	_Type = 0;
+	_IfShoot = false;
 }
 MapItem::MapItem(int ItemType) { //傳某一個格子 type 進去
 	_Type = ItemType;
