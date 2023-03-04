@@ -1,4 +1,4 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "../Core/Resource.h"
 #include <string>
 #include <mmsystem.h>
@@ -10,38 +10,38 @@
 
 using namespace game_framework;
 
-MapItem::MapItem(int Type) { //¶Ç¬Y¤@­Ó®æ¤l type ¶i¥h
+MapItem::MapItem(int Type) { //å‚³æŸä¸€å€‹æ ¼å­ type é€²å»
 	_Type = Type;
-	if (_Type == 1) { // 1¬O ¶Â¦â®æ¤l(¥i¥H¨«,¤£¦æ®gÀ»(¬ï¹L), ¤£¦æ¯}Ãa)
+	if (_Type == 1) { // 1æ˜¯ é»‘è‰²æ ¼å­(å¯ä»¥èµ°,ä¸è¡Œå°„æ“Š(ç©¿é), ä¸è¡Œç ´å£)
 		_IfShoot = false;
 		_IfBreak = false;
 		_IfWalk = true;
 	}
-	else if (_Type == 2) { //2¬O ¤ô (µLªk¦æ¨«(®³¹D¨ã¥i¨«), ¤£¦æ®gÀ»(¬ï¹L) ,¤£¦æ¯}Ãa )
+	else if (_Type == 2) { //2æ˜¯ æ°´ (ç„¡æ³•è¡Œèµ°(æ‹¿é“å…·å¯èµ°), ä¸è¡Œå°„æ“Š(ç©¿é) ,ä¸è¡Œç ´å£ )
 		_IfShoot = false;
 		_IfBreak = false;
 		_IfWalk = false;
 		_OneGrid.LoadBitmapByString({ "resources/Water1.bmp","resource/Water2" ,"resources/Water3.bmp" }, RGB(0, 0, 0));
 	}
-	else if (_Type == 3) { //3¬O ±×­± (¥i¦æ¨« , ¤£¦æ®gÀ»(¬ï¹L) ,¤£¦æ¯}Ãa )
+	else if (_Type == 3) { //3æ˜¯ æ–œé¢ (å¯è¡Œèµ° , ä¸è¡Œå°„æ“Š(ç©¿é) ,ä¸è¡Œç ´å£ )
 		_IfShoot = false;
 		_IfBreak = false;
 		_IfWalk = true;
 		_OneGrid.LoadBitmapByString({ "resources/Ice"}, RGB(0, 0, 0));
 	}
-	else if (_Type == 4) { //4¬O ¿jÀğ(µLªk¦æ¨«(¥i¯}Ãa«á¨«), ¥i®gÀ»(µLªk¬ï¹L) ,¥i¯}Ãa )
+	else if (_Type == 4) { //4æ˜¯ ç£šç‰†(ç„¡æ³•è¡Œèµ°(å¯ç ´å£å¾Œèµ°), å¯å°„æ“Š(ç„¡æ³•ç©¿é) ,å¯ç ´å£ )
 		_IfShoot = true;
 		_IfBreak = true;
 		_IfWalk = false;
 		_OneGrid.LoadBitmapByString({ "resources/Wall", "resources/WallBottomBreak","resources/WallLeftBreak","resources/WallRightBreak","resources/WallTopBreak" }, RGB(0, 0, 0));
 	}
-	else if (_Type == 5) { //5¬O ÅKÀğ(µLªk¦æ¨«(¥i¯}Ãa«á¨«), ¥i®gÀ»(µLªk¬ï¹L) ,¤£¥i¯}Ãa(®³¹D¨ã«á¥i¯}Ãa) )
+	else if (_Type == 5) { //5æ˜¯ éµç‰†(ç„¡æ³•è¡Œèµ°(å¯ç ´å£å¾Œèµ°), å¯å°„æ“Š(ç„¡æ³•ç©¿é) ,ä¸å¯ç ´å£(æ‹¿é“å…·å¾Œå¯ç ´å£) )
 		_IfShoot = true;
 		_IfBreak = false;
 		_IfWalk = false;
 		_OneGrid.LoadBitmapByString({ "resources/IronWall" }, RGB(0, 0, 0));
 	}
-	else if (_Type == 6) { //6¬O ¯óÂO(¥i¦æ¨«, ¤£¥i®gÀ»(¬ï¹L) ,¤£¥i¯}Ãa )
+	else if (_Type == 6) { //6æ˜¯ è‰å¢(å¯è¡Œèµ°, ä¸å¯å°„æ“Š(ç©¿é) ,ä¸å¯ç ´å£ )
 		_IfShoot = false;
 		_IfBreak = false;
 		_IfWalk = true;

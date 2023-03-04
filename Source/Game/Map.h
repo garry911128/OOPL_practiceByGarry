@@ -1,12 +1,13 @@
-#pragma once
+ï»¿#pragma once
+#include "MapItem.h"
 
 namespace game_framework {
-	class Map { //¦a¹Ïªºª«¥ó(®æ¤l)
+	class Map { //åœ°åœ–çš„ç‰©ä»¶(æ ¼å­)
 	public:
-		Map(vector<vector<int>> stage); //­n¶Ç¬Y¤@­Óstageªº¨C­Ó®æ¤l type
-		vector<vector<MapItem>> _Stage; //¨C¤@­Óstage
-		int _BoardX; //´Ñ½Lªºx
-		int _BoardY; //´Ñ½Lªºy
+		Map(vector<vector<int>> stage); //è¦å‚³æŸä¸€å€‹stageçš„æ¯å€‹æ ¼å­ type
+		vector<vector<MapItem>> _Stage; //æ¯ä¸€å€‹stage
+		int _BoardX; //æ£‹ç›¤çš„x
+		int _BoardY; //æ£‹ç›¤çš„y
 		void OnShow(); 
 	};
 }
