@@ -10,4 +10,4 @@
   
 ## 03/04 進度
 garry : 成功顯示地圖的格子  
-GM    : git merge 失敗  
+GM: git merge 失敗  
