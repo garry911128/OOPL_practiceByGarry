@@ -1,13 +1,13 @@
-#pragma once
+ï»¿#pragma once
 
 namespace game_framework {
-	class MapItem { //¦a¹Ïªºª«¥ó(®æ¤l)
+	class MapItem { //åœ°åœ–çš„ç‰©ä»¶(æ ¼å­)
 	public:
 		MapItem(int Type);
 		int _Type;
-		bool _IfShoot;  //¬O§_¥i¥H®gÀ» false ¤£¦æ , true¥i¥H
-		bool _IfBreak;  //¬O§_¥i¥H¯}Ãa false ¤£¦æ , true¥i¥H
-		bool _IfWalk;	//¬O§_¥i¥H¨«¤W¥h(®æ¤l) false ¤£¦æ , true¥i¥H
+		bool _IfShoot;  //æ˜¯å¦å¯ä»¥å°„æ“Š false ä¸è¡Œ , trueå¯ä»¥
+		bool _IfBreak;  //æ˜¯å¦å¯ä»¥ç ´å£ false ä¸è¡Œ , trueå¯ä»¥
+		bool _IfWalk;	//æ˜¯å¦å¯ä»¥èµ°ä¸Šå»(æ ¼å­) false ä¸è¡Œ , trueå¯ä»¥
 		CMovingBitmap _OneGrid;
 
 		void OnShow();
