@@ -22,7 +22,7 @@
 //! 啟動音效介面
 #define ENABLE_AUDIO		 true		
  //! 是否關閉 toolbar
-#define ENABLE_TOOLBAR       false     
+#define ENABLE_TOOLBAR       false 
 //! 是否關閉 menu
 #define ENABLE_MENU          false      
 //! 是否關閉 statusbar

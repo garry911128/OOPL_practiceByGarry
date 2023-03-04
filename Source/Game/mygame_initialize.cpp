@@ -5,6 +5,7 @@
 #include "../Library/audio.h"
 #include "../Library/gameutil.h"
 #include "../Library/gamecore.h"
+#include <string>
 #include "mygame.h"
 
 using namespace game_framework;
@@ -30,6 +31,9 @@ void CGameStateInit::OnInit()
 	//
 	// 此OnInit動作會接到CGameStaterRun::OnInit()，所以進度還沒到100%
 	//
+	_Lobby.LoadBitmap();
+	_MouseX = 0;
+	_MouseY = 0;
 }
 
 void CGameStateInit::OnBeginState()
@@ -38,14 +42,29 @@ void CGameStateInit::OnBeginState()
 
 void CGameStateInit::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
-
+	_Lobby.OnKeyDown(nChar, nRepCnt, nFlags);
 }
 
 void CGameStateInit::OnLButtonDown(UINT nFlags, CPoint point)
 {
 	GotoGameState(GAME_STATE_RUN);		// 切換至GAME_STATE_RUN
 }
-
+void CGameStateInit::OnMouseMove(UINT nFlags, CPoint point) {
+	_MouseX = point.x;
+	_MouseY = point.y;
+}
 void CGameStateInit::OnShow()
 {
+	_Lobby.OnShow();
+	OnShowText();
+}
+void CGameStateInit::OnShowText() {
+	CDC *pDC = CDDraw::GetBackCDC();
+	CFont *fp;
+	pDC->SetBkMode(TRANSPARENT);
+	pDC->SetTextColor(RGB(0, 180, 0));
+	CTextDraw::Print(pDC, 0, 0, (to_string(_MouseX) + " " + to_string(_MouseY).c_str()));
+	_Lobby.OnShowText(pDC, fp);
+
+	CDDraw::ReleaseBackCDC();
 }
