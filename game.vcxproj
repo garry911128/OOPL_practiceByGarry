@@ -39,6 +39,7 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseOfMfc>Dynamic</UseOfMfc>
     <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>NotSet</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">
     <PlatformToolset>v141</PlatformToolset>
@@ -243,6 +244,7 @@
     <ClCompile Include="Source\Core\StdAfx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Source\Game\CEvent.cpp" />
     <ClCompile Include="Source\Game\Map.cpp" />
     <ClCompile Include="Source\Game\MapItem.cpp" />
     <ClCompile Include="Source\Game\Menu.cpp" />
@@ -262,6 +264,7 @@
     <ClInclude Include="Source\Core\MainFrm.h" />
     <ClInclude Include="Source\Core\Resource.h" />
     <ClInclude Include="Source\Core\StdAfx.h" />
+    <ClInclude Include="Source\Game\CEvent.h" />
     <ClInclude Include="Source\Game\config.h" />
     <ClInclude Include="Source\Game\Map.h" />
     <ClInclude Include="Source\Game\MapItem.h" />
