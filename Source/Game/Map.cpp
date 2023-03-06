@@ -16,19 +16,21 @@ Map::Map() {
 	_BoardY = 0;
 }
 void Map::OnInit(vector<vector<int>> stage) {
-	for (int i = 0; i < 13; i++) {
+	for (int i = 0; i < 26; i++) {
 		vector<MapItem> temp;
-		for (int j = 0; j < 13; j++) {
+		for (int j = 0; j < 26; j++) {
 			temp.push_back(MapItem(stage[i][j]));
-			temp[j]._OneGrid.SetTopLeft(i*40,j*40);
+			if (temp[j].GetType() != 1) {
+				temp[j].SetTopLeft(j * 32, i * 32);
+			}
 		}
 		_Stage.push_back(temp);
 	}
 }
 
 void Map::OnShow() {
-	for (int i = 0; i < 13; i++) {
-		for (int j = 0; j < 13; j++) {
+	for (int i = 0; i < 26; i++) {
+		for (int j = 0; j < 26; j++) {
 			_Stage[i][j].OnShow();
 		}
 	}
