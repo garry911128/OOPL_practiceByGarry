@@ -14,3 +14,8 @@ garry
 
 GM  
 * git merge 失敗  
+  
+## 03/06 進度  
+GM
+* Tank parent
+* Player Child
