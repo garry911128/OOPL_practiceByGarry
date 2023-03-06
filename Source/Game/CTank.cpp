@@ -16,15 +16,24 @@ CTank::CTank() {
 	_Y = 0;
 	_Angle = 0;
 	_Level = 1;
+	_Life = 1;
 	_AttackSpeedUP = false;
 	_CanBreakIron = false;
 	_DoubleAttack = false;
+	_Tank.SetAnimation(1,true);
 }
 int CTank::GetX1(){
 	return _X;
 }
 int CTank::GetY1() {
 	return _Y;
+}
+bool CTank::isBreak() {
+	if (_Life ==0)
+	{
+		return true;
+	}
+	return false;
 }
 void CTank::SetXY(int _x, int _y) {
 	_X = _x;
@@ -67,6 +76,7 @@ void CTank::TurnFace() {
 		_Tank.SetFrameIndexOfBitmap(6);
 	}
 }
+
 void CTank::Attacke() {
 	if (_Angle == 90) {
 		/*spawn Bullet
@@ -83,9 +93,12 @@ void CTank::Attacke() {
 		
 	}
 }
+
 void CTank::OnShow() {
+	_Tank.SetTopLeft(_X, _Y);
 	_Tank.ShowBitmap();
 }
+
 void CTank::LevelUP() {
 	if (_Level <5){
 		_Level += 1;
@@ -99,5 +112,8 @@ void CTank::LevelUP() {
 			_CanBreakIron = true;
 		}
 	}
+}
 
+void CTank::AnimationOnce() {
+	_Tank.ToggleAnimation();
 }
