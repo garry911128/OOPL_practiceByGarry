@@ -17,13 +17,6 @@ Menu::Menu() {
 	tempselect = 0;
 }
 
-void Menu::LoadBitmap() {
-	_Menu.LoadBitmapByString({ "resources/LobbyMenu.bmp" });
-	_Menu.SetTopLeft(0, 0);
-	_Arrow.LoadBitmapByString({ "resources/LobbyArrow.bmp" });
-	_Arrow.SetTopLeft(280, 500);
-}
-
 void Menu::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 	const char KEY_UP = 0x26;
 	const char KEY_DOWN = 0x28;
@@ -41,10 +34,15 @@ void Menu::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 	else if (nChar == KEY_ENTER) {
 		return;
 	}
-	_Arrow.SetTopLeft(280, 500 + 70 * tempselect);
-
+	_Arrow.SetTopLeft(380, 500 + 70 * tempselect);
 }
 
+void Menu::LoadBitMap() {
+	_Menu.LoadBitmapByString({ "resources/LobbyMenu.bmp" });
+	_Menu.SetTopLeft(100, 0);
+	_Arrow.LoadBitmapByString({ "resources/LobbyArrow.bmp" });
+	_Arrow.SetTopLeft(380, 500);
+}
 void Menu::OnShow() {
 	_Menu.ShowBitmap();
 	_Arrow.ShowBitmap();

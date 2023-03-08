@@ -31,7 +31,7 @@ void CGameStateInit::OnInit()
 	//
 	// 此OnInit動作會接到CGameStaterRun::OnInit()，所以進度還沒到100%
 	//
-	_Lobby.LoadBitmap();
+	_Lobby.LoadBitMap();
 	_MouseX = 0;
 	_MouseY = 0;
 }
