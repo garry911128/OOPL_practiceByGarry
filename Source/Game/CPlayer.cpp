@@ -12,15 +12,6 @@
 using namespace game_framework;
 
 CPlayer::CPlayer() {
-	_X = 0;
-	_Y = 0;
-	_Angle = 0;
-	_Level = 1;
-	_Life = 1;
-	_AttackSpeedUP = false;
-	_CanBreakIron = false;
-	_DoubleAttack = false;
-	_Invicible = false;
 }
 void CPlayer::SpawnAfter5Second() {
 	_Invicible = true;

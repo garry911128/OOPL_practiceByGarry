@@ -49,11 +49,12 @@ void CGameStateRun::OnInit()                                  // 遊戲的初值
 	Stage1.OnInit(tempstage);
 	_MouseX = 0;
 	_MouseY = 0;
+	_PlayerTank.LoadBitmap();
 }
 
 void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
-
+	_PlayerTank.Move(nChar);
 }
 
 void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
@@ -63,6 +64,7 @@ void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 
 void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作
 {
+	
 }
 
 void CGameStateRun::OnLButtonUp(UINT nFlags, CPoint point)    // 處理滑鼠的動作
@@ -87,6 +89,7 @@ void CGameStateRun::OnShow()
 {
 	Stage1.OnShow();
 	OnShowText();
+	_PlayerTank.OnShow();
 }
 void CGameStateRun::OnShowText() {
 	CDC *pDC = CDDraw::GetBackCDC();

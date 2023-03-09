@@ -14,13 +14,16 @@ namespace game_framework {
 		void OnShow();
 		void LevelUP();
 		void AnimationOnce();
+		void LocationPoint(int x,int y);
 	protected:
 		CMovingBitmap _Tank;
 		int _X;
 		int _Y;
-		int _Angle;
+		int _OriginAngle,_TurnAngle;
 		int _Level;
 		int _Life;
+		int _OffsetX, _OffsetY;
+		int _PointX, _PointY;
 		bool _AttackSpeedUP;
 		bool _CanBreakIron;
 		bool _DoubleAttack;
