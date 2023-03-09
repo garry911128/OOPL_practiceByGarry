@@ -41,6 +41,7 @@
 #include "Menu.h"
 #include "MapItem.h"
 #include "Map.h"
+#include "CPlayer.h"
 namespace game_framework {
 	/////////////////////////////////////////////////////////////////////////////
 	// Constants
@@ -73,6 +74,7 @@ namespace game_framework {
 		int _MouseX;
 		int _MouseY;
 		CMovingBitmap logo;								// csie的logo
+		CPlayer Player;
 	};
 
 	/////////////////////////////////////////////////////////////////////////////
