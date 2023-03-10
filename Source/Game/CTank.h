@@ -6,6 +6,7 @@ namespace game_framework {
 		CTank();
 		int GetX1();
 		int GetY1();
+		int GetOriginAngle();
 		bool isBreak();
 		void Animation();					
 		//void AnimationOnce();			

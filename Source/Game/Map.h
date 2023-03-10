@@ -11,6 +11,7 @@ namespace game_framework {
 		void Tankdetect(int TankX, int TankY);
 		void OnShow();
 	private:
+		CMovingBitmap _BlackGrid;
 		vector<CMovingBitmap> _EnemySign;
 		CMovingBitmap _OnePlayerHealth;
 		CMovingBitmap _SecondPlayerHealth;
