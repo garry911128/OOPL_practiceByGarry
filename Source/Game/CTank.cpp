@@ -14,8 +14,8 @@ using namespace game_framework;
 CTank::CTank() {
 	_X = 0;
 	_Y = 0;
-	_OriginAngle = 3; // 0 is east,1 south, 2 west,3 north
-	_TurnAngle = 3;
+	_OriginAngle = 0; // 0 is east,1 south, 2 west,3 north
+	_TurnAngle = 0;
 	_Level = 1;
 	_Life = 1;
 	_LocationDistance = 16;
@@ -53,22 +53,23 @@ void CTank::SetXY(int _x, int _y) {
 	_Y = _y;
 }
 void CTank::Move(UINT nChar) {
-	if (nChar == VK_RIGHT){
+	TurnFace(nChar);
+	if (_OriginAngle == 0){
 		_TurnAngle = 0;
 		_OffsetX += _MovementSpeed;
 		_X += _MovementSpeed;
 	}
-	if (nChar == VK_LEFT){
+	if (_OriginAngle == 2){
 		_TurnAngle = 2;
 		_OffsetX -= _MovementSpeed;
 		_X -= _MovementSpeed;
 	}
-	if (nChar ==VK_UP){
+	if (_OriginAngle == 3){
 		_TurnAngle = 3;
 		_OffsetY -= _MovementSpeed;
 		_Y -= _MovementSpeed;
 	}
-	if (nChar == VK_DOWN) {
+	if (_OriginAngle == 1) {
 		_TurnAngle = 1;
 		_OffsetY += _MovementSpeed;
 		_Y += _MovementSpeed;
@@ -86,37 +87,36 @@ void CTank::Animation() {
 	}
 	_FrameTime += 1;
 }
-void CTank::TurnFace() {
-
-	if (_OriginAngle == 0){
-		_FrameIndex = 0;
-		_Tank.SetFrameIndexOfBitmap(0);
+void CTank::TurnFace(UINT nChar) {
+	if (nChar== VK_RIGHT){
+		_TurnAngle = 0;
+		_Tank.SetFrameIndexOfBitmap(_Frameindex);
 	}
-	else if (_OriginAngle == 2){
-		_FrameIndex = 2;
-		_Tank.SetFrameIndexOfBitmap(2);
+	else if (nChar == VK_LEFT){
+		_TurnAngle = 2;
+		_Tank.SetFrameIndexOfBitmap(_Frameindex);
 	}
-	else if (_OriginAngle == 3) {
-		_FrameIndex = 4;
-		_Tank.SetFrameIndexOfBitmap(4);
+	else if (nChar == VK_UP) {
+		_TurnAngle = 3;
+		_Tank.SetFrameIndexOfBitmap(_Frameindex);
 	}
-	else if (_OriginAngle == 1){
-		_FrameIndex = 6;
-		_Tank.SetFrameIndexOfBitmap(6);
+	else if (nChar == VK_DOWN){
+		_TurnAngle = 1;
+		_Tank.SetFrameIndexOfBitmap(_Frameindex);
 	}
 	if (_TurnAngle != _OriginAngle) {
 		LocationPoint(_OffsetX, _OffsetY);
 		_OriginAngle = _TurnAngle;
-		if (_OriginAngle == 90) {
+		if (_OriginAngle == 0) {
 			_Frameindex = 0;
 		}
-		else if (_OriginAngle == -90) {
+		else if (_OriginAngle == 2) {
 			_Frameindex = 2;
 		}
-		else if (_OriginAngle == 0) {
+		else if (_OriginAngle == 3) {
 			_Frameindex = 4;
 		}
-		else if (_OriginAngle == 180) {
+		else if (_OriginAngle == 1) {
 			_Frameindex = 6;
 		}
 		_FrameTime= 0;
