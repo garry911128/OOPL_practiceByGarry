@@ -12,7 +12,6 @@
 using namespace game_framework;
 
 CTank::CTank() {
-	last_time = clock();
 	_X = 0;
 	_Y = 0;
 	_OriginAngle = 3; // 0 is east,1 south, 2 west,3 north
@@ -22,7 +21,8 @@ CTank::CTank() {
 	_LocationDistance = 16;
 	_OffsetX = 0;
 	_OffsetY = 0;
-	_FrameIndex = 0;
+	_FrameTime = 0;
+	_Frameindex = 0;
 	_PointX = _X;
 	_PointY = _Y;
 	_MovementSpeed = 2;
@@ -73,26 +73,18 @@ void CTank::Move(UINT nChar) {
 		_OffsetY += _MovementSpeed;
 		_Y += _MovementSpeed;
 	}
-	if (_TurnAngle != _OriginAngle) {
-		LocationPoint(_OffsetX, _OffsetY);
-		_OriginAngle = _TurnAngle;
-		TurnFace();
-	}
 	Animation();
 }
 void CTank::Animation() {
-	int index;
-	index = _Tank.GetFrameIndexOfBitmap();
-	
-	for (int i = index; i < 2+index; i++){
-		for (int j = last_time; j < 10; j++){
-			if (clock() - last_time >= 10) {
-				last_time = clock();
-				_Tank.SetFrameIndexOfBitmap(i);
-				break;
-			}
-		}
+	if (_FrameTime%2==0){
+		_Tank.SetFrameIndexOfBitmap(_Frameindex + 1);
+		_Frameindex += 1;
 	}
+	else {
+		_Tank.SetFrameIndexOfBitmap(_Frameindex - 1);
+		_Frameindex -= 1;
+	}
+	_FrameTime += 1;
 }
 void CTank::TurnFace() {
 
@@ -112,7 +104,24 @@ void CTank::TurnFace() {
 		_FrameIndex = 6;
 		_Tank.SetFrameIndexOfBitmap(6);
 	}
-	
+	if (_TurnAngle != _OriginAngle) {
+		LocationPoint(_OffsetX, _OffsetY);
+		_OriginAngle = _TurnAngle;
+		if (_OriginAngle == 90) {
+			_Frameindex = 0;
+		}
+		else if (_OriginAngle == -90) {
+			_Frameindex = 2;
+		}
+		else if (_OriginAngle == 0) {
+			_Frameindex = 4;
+		}
+		else if (_OriginAngle == 180) {
+			_Frameindex = 6;
+		}
+		_FrameTime= 0;
+	}
+	_Tank.SetFrameIndexOfBitmap(_Frameindex);
 }
 void CTank::LocationPoint(int _x, int _y) {
 	if (abs(_x) > _LocationDistance){
