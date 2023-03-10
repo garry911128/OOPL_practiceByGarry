@@ -12,16 +12,20 @@
 using namespace game_framework;
 
 CTank::CTank() {
+	last_time = clock();
 	_X = 0;
 	_Y = 0;
 	_OriginAngle = 90;
 	_TurnAngle = 90;
 	_Level = 1;
 	_Life = 1;
+	_LocationDistance = 16;
 	_OffsetX = 0;
 	_OffsetY = 0;
+	_FrameIndex = 0;
 	_PointX = _X;
 	_PointY = _Y;
+	_MovementSpeed = 1;
 	_AttackSpeedUP = false;
 	_CanBreakIron = false;
 	_DoubleAttack = false;
@@ -48,53 +52,76 @@ void CTank::SetXY(int _x, int _y) {
 void CTank::Move(UINT nChar) {
 	if (nChar == VK_RIGHT){
 		_TurnAngle = 90;
-		_OffsetX += 2;
-		_X += 2;
+		_OffsetX += _MovementSpeed;
+		_X += _MovementSpeed;
 	}
 	else if (nChar == VK_LEFT){
 		_TurnAngle = -90;
-		_OffsetX -= 2;
-		_X -= 2;
+		_OffsetX -= _MovementSpeed;
+		_X -= _MovementSpeed;
 	}
 	else if (nChar ==VK_UP){
 		_TurnAngle = 0;
-		_OffsetY -= 2;
-		_Y -= 2;
+		_OffsetY -= _MovementSpeed;
+		_Y -= _MovementSpeed;
 	}
 	else if (nChar == VK_DOWN) {
 		_TurnAngle = 180;
-		_OffsetY += 2;
-		_Y += 2;
+		_OffsetY += _MovementSpeed;
+		_Y += _MovementSpeed;
 	}
 	if (_TurnAngle != _OriginAngle) {
 		LocationPoint(_OffsetX, _OffsetY);
 		_OriginAngle = _TurnAngle;
 		TurnFace();
 	}
-
-
+	Animation();
 }
-
+void CTank::Animation() {
+	int index;
+	index = _Tank.GetFrameIndexOfBitmap();
+	
+	for (int i = index; i < 2+index; i++){
+		for (int j = last_time; j < 10; j++){
+			if (clock() - last_time >= 10) {
+				last_time = clock();
+				_Tank.SetFrameIndexOfBitmap(i);
+				break;
+			}
+		}
+	}
+	//if (_Tank.GetFrameIndexOfBitmap()-index >= 2){
+	//	_Tank.SetFrameIndexOfBitmap(_FrameIndex);
+	//}
+	//AnimationOnce();
+	
+}
 void CTank::TurnFace() {
+
 	if (_OriginAngle == 90){
+		_FrameIndex = 0;
 		_Tank.SetFrameIndexOfBitmap(0);
 	}
 	else if (_OriginAngle == -90){
+		_FrameIndex = 2;
 		_Tank.SetFrameIndexOfBitmap(2);
 	}
 	else if (_OriginAngle == 0) {
+		_FrameIndex = 4;
 		_Tank.SetFrameIndexOfBitmap(4);
 	}
 	else if (_OriginAngle == 180){
+		_FrameIndex = 6;
 		_Tank.SetFrameIndexOfBitmap(6);
 	}
+	
 }
 void CTank::LocationPoint(int _x, int _y) {
-	if (abs(_x) > 16){
+	if (abs(_x) > _LocationDistance){
 		_PointX += _x;
 		_OffsetX = 0;
 	}
-	if (abs(_y) > 16) {
+	if (abs(_y) > _LocationDistance) {
 		_PointY += _y;
 		_OffsetY = 0;
 	}
@@ -137,6 +164,6 @@ void CTank::LevelUP() {
 	}
 }
 
-void CTank::AnimationOnce() {
-	_Tank.ToggleAnimation();
-}
+//void CTank::AnimationOnce() {
+//	_Tank.ToggleAnimation();
+//}
