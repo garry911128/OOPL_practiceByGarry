@@ -71,6 +71,7 @@ namespace game_framework {
 		void OnShow();									// 顯示這個狀態的遊戲畫面
 		void OnShowText();
 	private:
+		int _GOToStateRun = -1;
 		int _MouseX;
 		int _MouseY;
 		CMovingBitmap logo;								// csie的logo

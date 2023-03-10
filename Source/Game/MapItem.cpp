@@ -19,12 +19,13 @@ MapItem::MapItem(int ItemType) { //傳某一個格子 type 進去
 		_IfShoot = false;
 		_IfBreak = false;
 		_IfWalk = true;
+		_OneGrid.LoadBitmapByString({ "resources/BlackGrid.bmp" }, RGB(180, 180, 180));
 	}
 	else if (_Type == 2) { //2是 水 (無法行走(拿道具可走), 不行射擊(穿過) ,不行破壞 )
 		_IfShoot = false;
 		_IfBreak = false;
 		_IfWalk = false;
-		_OneGrid.LoadBitmapByString({ "resources/Water1.bmp","resource/Water2.bmp" ,"resources/Water3.bmp" }, RGB(0, 0, 0));
+		_OneGrid.LoadBitmapByString({ "resources/Water1.bmp","resources/Water2.bmp" ,"resources/Water3.bmp" }, RGB(0, 0, 0));
 		_OneGrid.SetAnimation(1000, false);
 	}
 	else if (_Type == 3) { //3是 斜面 (可行走 , 不行射擊(穿過) ,不行破壞 )
@@ -90,7 +91,5 @@ void MapItem::SetTopLeft(int x, int y) {
 	_OneGrid.SetTopLeft(x, y);
 }
 void MapItem::OnShow() {
-	if (_Type != 1) {
-		_OneGrid.ShowBitmap();
-	}
+	_OneGrid.ShowBitmap();
 }
