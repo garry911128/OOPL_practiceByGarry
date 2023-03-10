@@ -42,12 +42,14 @@ void CGameStateInit::OnBeginState()
 
 void CGameStateInit::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
-	_Lobby.OnKeyDown(nChar, nRepCnt, nFlags);
+	_GOToStateRun = _Lobby.OnKeyDown(nChar, nRepCnt, nFlags);
+	if (_GOToStateRun != -1) {
+		GotoGameState(GAME_STATE_RUN);		// 切換至GAME_STATE_RUN
+	}
 }
 
 void CGameStateInit::OnLButtonDown(UINT nFlags, CPoint point)
 {
-	GotoGameState(GAME_STATE_RUN);		// 切換至GAME_STATE_RUN
 }
 void CGameStateInit::OnMouseMove(UINT nFlags, CPoint point) {
 	_MouseX = point.x;

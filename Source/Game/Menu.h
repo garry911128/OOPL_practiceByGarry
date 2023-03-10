@@ -4,7 +4,7 @@ namespace game_framework {
 	class Menu {
 	public:
 		Menu();
-		void OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);
+		int OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);
 		void OnShow();
 		void OnShowText(CDC *pDC, CFont* &fp);
 		void LoadBitMap();

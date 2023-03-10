@@ -17,7 +17,7 @@ Menu::Menu() {
 	tempselect = 0;
 }
 
-void Menu::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
+int Menu::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 	const char KEY_UP = 0x26;
 	const char KEY_DOWN = 0x28;
 	const char KEY_ENTER = 0x0D;
@@ -32,9 +32,10 @@ void Menu::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 		tempselect %= 2;
 	}
 	else if (nChar == KEY_ENTER) {
-		return;
-	}
+		return tempselect;
+	 }
 	_Arrow.SetTopLeft(380, 500 + 70 * tempselect);
+	return -1;
 }
 
 void Menu::LoadBitMap() {
