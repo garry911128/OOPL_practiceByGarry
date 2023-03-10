@@ -271,3 +271,8 @@ _Pvt_Extensions
 *.exe
 *.out
 *.app
+
+
+
+
+game.vcxproj*

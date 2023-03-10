@@ -90,11 +90,6 @@ void CTank::Animation() {
 			}
 		}
 	}
-	//if (_Tank.GetFrameIndexOfBitmap()-index >= 2){
-	//	_Tank.SetFrameIndexOfBitmap(_FrameIndex);
-	//}
-	//AnimationOnce();
-	
 }
 void CTank::TurnFace() {
 
