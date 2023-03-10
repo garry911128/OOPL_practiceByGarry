@@ -244,6 +244,7 @@
     <ClCompile Include="Source\Core\StdAfx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Source\Game\Bullet.cpp" />
     <ClCompile Include="Source\Game\CEvent.cpp" />
     <ClCompile Include="Source\Game\CPlayer.cpp" />
     <ClCompile Include="Source\Game\CTank.cpp" />
@@ -266,6 +267,7 @@
     <ClInclude Include="Source\Core\MainFrm.h" />
     <ClInclude Include="Source\Core\Resource.h" />
     <ClInclude Include="Source\Core\StdAfx.h" />
+    <ClInclude Include="Source\Game\Bullet.h" />
     <ClInclude Include="Source\Game\CEvent.h" />
     <ClInclude Include="Source\Game\config.h" />
     <ClInclude Include="Source\Game\CPlayer.h" />

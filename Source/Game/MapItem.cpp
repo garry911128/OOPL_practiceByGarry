@@ -19,7 +19,7 @@ MapItem::MapItem(int ItemType) { //傳某一個格子 type 進去
 		_IfShoot = false;
 		_IfBreak = false;
 		_IfWalk = true;
-		_OneGrid.LoadBitmapByString({ "resources/BlackGrid.bmp" }, RGB(180, 180, 180));
+		//_OneGrid.LoadBitmapByString({ "resources/BlackGrid.bmp" }, RGB(180, 180, 180));
 	}
 	else if (_Type == 2) { //2是 水 (無法行走(拿道具可走), 不行射擊(穿過) ,不行破壞 )
 		_IfShoot = false;
@@ -91,5 +91,7 @@ void MapItem::SetTopLeft(int x, int y) {
 	_OneGrid.SetTopLeft(x, y);
 }
 void MapItem::OnShow() {
-	_OneGrid.ShowBitmap();
+	if (_Type != 1) {
+		_OneGrid.ShowBitmap();
+	}
 }

@@ -25,7 +25,7 @@ CTank::CTank() {
 	_FrameIndex = 0;
 	_PointX = _X;
 	_PointY = _Y;
-	_MovementSpeed = 1;
+	_MovementSpeed = 2;
 	_AttackSpeedUP = false;
 	_CanBreakIron = false;
 	_DoubleAttack = false;

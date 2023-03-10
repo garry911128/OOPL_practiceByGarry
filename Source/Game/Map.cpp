@@ -16,11 +16,15 @@ Map::Map() {
 	_BoardY = 0;
 }
 void Map::OnInit(vector<vector<int>> stage) {
+	_BlackGrid.LoadBitmapByString({ "resources/BlackGrid.bmp" }, RGB(105, 105, 105));
+	_BlackGrid.SetTopLeft(100, 0);
 	for (int i = 0; i < 26; i++) {
 		vector<MapItem> temp;
 		for (int j = 0; j < 26; j++) {
 			temp.push_back(MapItem(stage[i][j]));
-			temp[j].SetTopLeft(j * 32+100, i * 32);
+			if (stage[i][j] != 1) {
+				temp[j].SetTopLeft(j * 32 + 100, i * 32);
+			}
 		}
 		_Stage.push_back(temp);
 	}
@@ -52,6 +56,7 @@ void Map::OnInit(vector<vector<int>> stage) {
 	_PlayerSign[1].SetTopLeft(1010, 620);
 }
 void Map::OnShow() {
+	_BlackGrid.ShowBitmap();
 	for (int i = 0; i < 26; i++) {
 		for (int j = 0; j < 26; j++) {
 			_Stage[i][j].OnShow();
