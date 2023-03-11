@@ -28,13 +28,18 @@ void CGameStateRun::OnBeginState()
 
 void CGameStateRun::OnMove()                            // 移動遊戲元素
 {
-
+	if (_isHoldMoveKey == true){
+		_PlayerTank.TurnFace(_HoldKey);
+		//if (){
+			_PlayerTank.Move();
+		//}
+		_PlayerTank.Animation();
+	}
 }
 void CGameStateRun::OnInit()                                  // 遊戲的初值及圖形設定
 {
 	vector<vector<int>> tempstage1,tempstage2,tempstage5,tempstage17;
-	tempstage1= 
-	{ { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }
+	tempstage1= { { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }
 	,{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }
 	,{ 1, 1, 4, 4, 1, 1, 4, 4, 1, 1, 4, 4, 1, 1, 4, 4, 1, 1, 4, 4, 1, 1, 4, 4, 1, 1 }
 	,{ 1, 1, 4, 4, 1, 1, 4, 4, 1, 1, 4, 4, 1, 1, 4, 4, 1, 1, 4, 4, 1, 1, 4, 4, 1, 1 }
@@ -88,8 +93,7 @@ void CGameStateRun::OnInit()                                  // 遊戲的初值
 ,{ 1, 1, 4, 4, 1, 1, 4, 4, 1, 1, 1, 4, 5, 5, 4, 1, 1, 1, 4, 4, 4, 4, 4, 4, 1, 1 }
 ,{ 1, 1, 4, 4, 1, 1, 4, 4, 1, 1, 1, 4, 5, 5, 4, 1, 1, 1, 4, 4, 4, 4, 4, 4, 1, 1 }
 	};
-	tempstage5 = 
-	{ { 1, 1, 1, 1, 1, 1, 1, 1, 4, 4, 4, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }
+	tempstage5 = { { 1, 1, 1, 1, 1, 1, 1, 1, 4, 4, 4, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }
 ,{ 1, 1, 1, 1, 1, 1, 1, 1, 4, 4, 4, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }
 ,{ 1, 1, 1, 1, 1, 1, 1, 1, 4, 4, 1, 1, 1, 1, 1, 1, 5, 5, 5, 5, 5, 5, 1, 1, 1, 1 } 
 ,{ 5, 5, 1, 1, 4, 4, 1, 1, 4, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 5, 5, 1, 1, 1, 1 }
@@ -151,12 +155,18 @@ void CGameStateRun::OnInit()                                  // 遊戲的初值
 
 void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
-	nFlags = 0;
-	_PlayerTank.Move(nChar);
+	if (nChar == VK_UP || nChar ==VK_DOWN || nChar == VK_RIGHT || nChar == VK_LEFT){
+		_isHoldMoveKey = true;
+		_HoldKey = nChar;
+	}
+	
 }
 
 void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
+	if (nChar == VK_UP || nChar == VK_DOWN || nChar == VK_RIGHT || nChar == VK_LEFT) {
+		_isHoldMoveKey = false;
+	}
 }
 
 void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作

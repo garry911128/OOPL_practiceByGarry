@@ -6,6 +6,8 @@ namespace game_framework {
 		CTank();
 		int GetX1();
 		int GetY1();
+		int GetFrontX();
+		int GetFrontY();
 		int GetOriginAngle();
 		bool isBreak();
 		void Animation();					
@@ -13,10 +15,11 @@ namespace game_framework {
 		void Attacke();						//attack
 		void LevelUP();						//升級
 		void LocationPoint(int x,int y);	//位置校正
-		void Move(UINT nChar);				//移動
+		void Move();				//移動
 		void OnShow();						//SHOW
 		void SetXY(int x, int y);			//座標設定
 		void TurnFace(UINT nChar);			//調整圖片方向
+		//CMovingBitmap GetTankBitmap();
 	protected:
 		CMovingBitmap _Tank;
 		int _X,_Y;							//地圖座標								
@@ -27,6 +30,7 @@ namespace game_framework {
 		int _PointX, _PointY;				//紀錄定位點
 		int _MovementSpeed;					//移動速度
 		int _LocationDistance;				//偏移長度上限
+		int _FrontX, _FrontY;				//前方的X和Y 
 		bool _AttackSpeedUP;				//功速提升		 level >= 2
 		bool _CanBreakIron;					//可破壞鐵牆		 level >= 4
 		bool _DoubleAttack;					//可發射兩發子彈   level >= 3

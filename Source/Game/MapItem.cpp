@@ -95,3 +95,6 @@ void MapItem::OnShow() {
 		_OneGrid.ShowBitmap();
 	}
 }
+CMovingBitmap MapItem::GetMapItmeBitmap() {
+	return _OneGrid;
+}
