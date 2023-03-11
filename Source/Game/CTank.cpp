@@ -30,7 +30,7 @@ CTank::CTank() {
 	_CanBreakIron = false;
 	_DoubleAttack = false;
 	_Tank.SetAnimation(1,true);
-	
+	//_Bullet.OnInit();
 }
 int CTank::GetX1(){
 	return _X;
@@ -52,6 +52,12 @@ void CTank::SetXY(int _x, int _y) {
 	_X = _x;
 	_Y = _y;
 }
+/*
+void CTank::FireBullet() {
+	bool temp;
+	temp = _Bullet.BulletFly(_X, _Y);
+}
+*/
 void CTank::Move(UINT nChar) {
 	TurnFace(nChar);
 	if (_OriginAngle == 0){
@@ -133,22 +139,6 @@ void CTank::LocationPoint(int _x, int _y) {
 		_OffsetY = 0;
 	}
 	SetXY(_PointX, _PointY);
-}
-void CTank::Attacke() {
-	if (_OriginAngle == 90) {
-		/*spawn Bullet
-		Bullet.setXY(_X+_Width,_Y+_Height/2);
-		*/
-	}
-	else if (_OriginAngle == -90) {
-		
-	}
-	else if (_OriginAngle == 0) {
-		
-	}
-	else {
-		
-	}
 }
 
 void CTank::OnShow() {

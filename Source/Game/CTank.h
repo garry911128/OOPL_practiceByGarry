@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include "Bullet.h"
 namespace game_framework {
 	class CTank
 	{
@@ -10,14 +11,15 @@ namespace game_framework {
 		bool isBreak();
 		void Animation();					
 		//void AnimationOnce();			
-		void Attacke();						//attack
 		void LevelUP();						//升級
 		void LocationPoint(int x,int y);	//位置校正
 		void Move(UINT nChar);				//移動
 		void OnShow();						//SHOW
 		void SetXY(int x, int y);			//座標設定
 		void TurnFace(UINT nChar);			//調整圖片方向
+		//void FireBullet();
 	protected:
+		CBullet _Bullet;
 		CMovingBitmap _Tank;
 		int _X,_Y;							//地圖座標								
 		int _FrameTime,_Frameindex;			//動畫計時器,動畫初始禎
