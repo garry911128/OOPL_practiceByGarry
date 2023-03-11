@@ -12,6 +12,7 @@ namespace game_framework {
 		bool GetIfBreak();
 		bool GetIfWalk();
 		int GetType();
+		CMovingBitmap GetMapItmeBitmap();
 	private:
 		CMovingBitmap _OneGrid;
 		int _Health;
