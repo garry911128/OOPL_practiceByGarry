@@ -30,9 +30,15 @@ void CGameStateRun::OnMove()                            // 移動遊戲元素
 {
 	if (_isHoldMoveKey == true){
 		_PlayerTank.TurnFace(_HoldKey);
-		//if (){
+		for (int i = 0; i < 2; i++){
+			_PlayerTank.TankFront(i);
+			_PlayerTankFrontX = _PlayerTank.GetFrontX();
+			_PlayerTankFrontY = _PlayerTank.GetFrontY();
+			_CanMove &= Stage1.GetMapItemInfo(_PlayerTankFrontX, _PlayerTankFrontY, 0);
+		}
+		if (_CanMove){
 			_PlayerTank.Move();
-		//}
+		}
 		_PlayerTank.Animation();
 	}
 }
@@ -151,6 +157,9 @@ void CGameStateRun::OnInit()                                  // 遊戲的初值
 	_MouseX = 0;
 	_MouseY = 0;
 	_PlayerTank.LoadBitmap();
+	_PlayerTankFrontX = 0;
+	_PlayerTankFrontY = 0;
+	_CanMove = true;
 }
 
 void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
@@ -202,7 +211,11 @@ void CGameStateRun::OnShowText() {
 	CDC *pDC = CDDraw::GetBackCDC();
 	pDC->SetBkMode(TRANSPARENT);
 	pDC->SetTextColor(RGB(0, 0, 0));
-	CTextDraw::Print(pDC, 0, 0, (to_string(_MouseX) + " " + to_string(_MouseY).c_str()));
+	CTextDraw::Print(pDC, 0, 0, (to_string(_PlayerTankFrontX) + " " + to_string(_PlayerTankFrontY).c_str()));
+	CTextDraw::Print(pDC, 0, 25, (to_string(_MouseX) + " " + to_string(_MouseY).c_str()));
+	CTextDraw::Print(pDC, 0, 50, (to_string(_CanMove)));
+	CTextDraw::Print(pDC, 0, 75, (to_string(Stage1.GetMapItemInfo(12, 23, 0))));
+	CTextDraw::Print(pDC, 0, 100, (to_string(Stage1.GetMapItemInfo(23, 12, 0))));
 
 	CDDraw::ReleaseBackCDC();
 }

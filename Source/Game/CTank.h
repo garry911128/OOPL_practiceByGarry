@@ -10,9 +10,10 @@ namespace game_framework {
 		int GetFrontY();
 		int GetOriginAngle();
 		bool isBreak();
+		void TankFront(int grid);
 		void Animation();					
 		//void AnimationOnce();			
-		void Attacke();						//attack
+		//void Attacke();						//attack
 		void LevelUP();						//升級
 		void LocationPoint(int x,int y);	//位置校正
 		void Move();				//移動
@@ -22,8 +23,9 @@ namespace game_framework {
 		//CMovingBitmap GetTankBitmap();
 	protected:
 		CMovingBitmap _Tank;
+		int Width,Height;					//OneGrid寬,高
 		int _X,_Y;							//地圖座標								
-		int _FrameTime,_Frameindex;			//動畫計時器,動畫初始禎
+		int _FrameTime,_Frameindex,_FrameSecond;			//動畫計時器,動畫初始禎,計時秒數
 		int _OriginAngle,_TurnAngle;		//原始角度,轉向角度
 		int _Level,_Life;					//坦克等級&生命
 		int _OffsetX, _OffsetY;				//偏移長度

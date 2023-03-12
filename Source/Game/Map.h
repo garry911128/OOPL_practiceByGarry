@@ -8,7 +8,7 @@ namespace game_framework {
 		void OnInit(vector<vector<int>> Stage); //要傳某一個stage的每個格子 type
 		int _BoardX; //棋盤的x
 		int _BoardY; //棋盤的y
-		void Tankdetect(int TankX, int TankY);
+		bool GetMapItemInfo(int _x, int _y, int _info); // 獲取地圖某一格格子的資訊 0:walk ,1:shoot ,2:break
 		void OnShow();
 		//CMovingBitmap GetMapBitmap(int _x,int _y);
 	private:

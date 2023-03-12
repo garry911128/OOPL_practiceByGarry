@@ -11,25 +11,28 @@
 // Tank Parent
 using namespace game_framework;
 
-CTank::CTank() {
-	_X = 256+100;
-	_Y = 768;
-	_OriginAngle = 3; // 0 is east,1 south, 2 west,3 north
-	_TurnAngle = 3;
-	_Level = 1;
-	_Life = 1;
-	_LocationDistance = 16;
-	_OffsetX = 0;
-	_OffsetY = 0;
-	_FrameTime = 0;
-	_Frameindex = 4; // (0 is east,1 south, 2 west,3 north)*2
-	_PointX = _X;
-	_PointY = _Y;
-	_MovementSpeed = 2;
+CTank::CTank():Width(32), Height(32) {
+	_X = Width*8+100;
+	_Y = Height*24;
+	_Level = 1;								// 等級
+	_Life = 1;								// 生命
+	_FrontX = (_X + Width / 2) / Width;		// 面對方向的前方格子X座標
+	_FrontY = (_Y - Height / 2) / Height;	// 面對方向的前方格子Y座標
+	_OriginAngle = 3;						// 面對角度 0 is east,1 south, 2 west,3 north
+	_TurnAngle = 3;							// 轉向角度
+	_FrameTime = 0;							// 計時器
+	_Frameindex = 4;						// 動畫偵 (0 is east,1 south, 2 west,3 north)*2
+	_FrameSecond = 3;						// 動畫變換速度
+	_LocationDistance = Height / 2;			// 定位點距離
+	_OffsetX = 0;							// 偏移X
+	_OffsetY = 0;							// 偏移Y
+	_PointX = _X;							// 轉換定位X
+	_PointY = _Y;							// 轉換定位Y
+	_MovementSpeed = 2;						// 移動速度
 	_AttackSpeedUP = false;
 	_CanBreakIron = false;
 	_DoubleAttack = false;
-	_Tank.SetAnimation(1,true);
+	//_Tank.SetAnimation(1,true);
 }
 int CTank::GetX1(){
 	return _X;
@@ -39,6 +42,24 @@ int CTank::GetY1() {
 }
 int CTank::GetOriginAngle() {
 	return _OriginAngle;
+}
+int CTank::GetFrontX() {
+	if (_FrontX < 0){
+		return 0;
+	}
+	else if (_FrontX > 25){
+		return 25;
+	}
+	return _FrontX;
+}
+int CTank::GetFrontY() {
+	if (_FrontY < 0) {
+		return 0;
+	}
+	else if (_FrontY > 25) {
+		return 25;
+	}
+	return _FrontY;
 }
 bool CTank::isBreak() {
 	if (_Life ==0){
@@ -101,13 +122,15 @@ void CTank::TurnFace(UINT nChar) {
 	_Tank.SetFrameIndexOfBitmap(_Frameindex);
 }
 void CTank::Animation() {
-	if (_FrameTime%2==0){
-		_Tank.SetFrameIndexOfBitmap(_Frameindex + 1);
-		_Frameindex += 1;
-	}
-	else {
-		_Tank.SetFrameIndexOfBitmap(_Frameindex - 1);
-		_Frameindex -= 1;
+	if (_FrameTime%_FrameSecond==0){
+		if (_Frameindex%2==0){
+			_Tank.SetFrameIndexOfBitmap(_Frameindex + 1);
+			_Frameindex += 1;
+		}
+		else {
+			_Tank.SetFrameIndexOfBitmap(_Frameindex - 1);
+			_Frameindex -= 1;
+		}
 	}
 	_FrameTime += 1;
 }
@@ -121,22 +144,6 @@ void CTank::LocationPoint(int _x, int _y) {
 		_OffsetY = 0;
 	}
 	SetXY(_PointX, _PointY);
-}
-void CTank::Attacke() {
-	if (_OriginAngle == 90) {
-		/*spawn Bullet
-		Bullet.setXY(_X+_Width,_Y+_Height/2);
-		*/
-	}
-	else if (_OriginAngle == -90) {
-		
-	}
-	else if (_OriginAngle == 0) {
-		
-	}
-	else {
-		
-	}
 }
 
 void CTank::OnShow() {
@@ -159,9 +166,43 @@ void CTank::LevelUP() {
 		}
 	}
 }
+void CTank::TankFront(int grid) {		// ./resource/TankFrontAxis.png
+	if (_OriginAngle == 0) {
+		_FrontX = _X / Width + grid;
+		_FrontY = _Y / Height + 2;
+	}
+	else if (_OriginAngle == 2) {
+		_FrontX = _X / Width + grid;
+		_FrontY = _Y / Height - 1;
+	}
+	else if (_OriginAngle == 3) {
+		_FrontX = _X / Width + grid;
+		_FrontY = _Y / Height - 1;
+	}
+	else if (_OriginAngle == 1) {
+		_FrontX = _X / Width + 2;
+		_FrontY = _Y / Height + grid;
+	}
+}
 //CMovingBitmap CTank::GetTankBitmap() {
 //	return _Tank;
 //}
 //void CTank::AnimationOnce() {
 //	_Tank.ToggleAnimation();
+//}
+//void CTank::Attacke() {
+//	if (_OriginAngle == 90) {
+//		/*spawn Bullet
+//		Bullet.setXY(_X+_Width,_Y+_Height/2);
+//		*/
+//	}
+//	else if (_OriginAngle == -90) {
+//		
+//	}
+//	else if (_OriginAngle == 0) {
+//		
+//	}
+//	else {
+//		
+//	}
 //}
