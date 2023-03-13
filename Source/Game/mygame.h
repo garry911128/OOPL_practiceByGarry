@@ -105,7 +105,6 @@ namespace game_framework {
 		void OnShow();									// 顯示這個狀態的遊戲畫面
 		CPlayer _PlayerTank;
 		bool _isHoldMoveKey;
-		bool _CanMove;
 		int _HoldKey;
 		int _PlayerTankFrontX ;
 		int _PlayerTankFrontY ;

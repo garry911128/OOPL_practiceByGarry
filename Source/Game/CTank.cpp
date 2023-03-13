@@ -16,8 +16,8 @@ CTank::CTank():Width(32), Height(32) {
 	_Y = Height*24;
 	_Level = 1;								// 等級
 	_Life = 1;								// 生命
-	_FrontX = (_X + Width / 2) / Width;		// 面對方向的前方格子X座標
-	_FrontY = (_Y - Height / 2) / Height;	// 面對方向的前方格子Y座標
+	_FrontX =0;								// 面對方向的前方格子X座標
+	_FrontY =0;								// 面對方向的前方格子Y座標
 	_OriginAngle = 3;						// 面對角度 0 is east,1 south, 2 west,3 north
 	_TurnAngle = 3;							// 轉向角度
 	_FrameTime = 0;							// 計時器
@@ -167,21 +167,23 @@ void CTank::LevelUP() {
 	}
 }
 void CTank::TankFront(int grid) {		// ./resource/TankFrontAxis.png
+	int Cal_X = (_X - 100) / Width;
+	int Cal_Y = _Y / Height;
 	if (_OriginAngle == 0) {
-		_FrontX = _X / Width + grid;
-		_FrontY = _Y / Height + 2;
+		_FrontX = Cal_X + 2;
+		_FrontY = Cal_Y + grid;
 	}
 	else if (_OriginAngle == 2) {
-		_FrontX = _X / Width + grid;
-		_FrontY = _Y / Height - 1;
+		_FrontX = Cal_X + grid;
+		_FrontY = Cal_Y;
 	}
 	else if (_OriginAngle == 3) {
-		_FrontX = _X / Width + grid;
-		_FrontY = _Y / Height - 1;
+		_FrontX = Cal_X + grid;
+		_FrontY = Cal_Y;
 	}
 	else if (_OriginAngle == 1) {
-		_FrontX = _X / Width + 2;
-		_FrontY = _Y / Height + grid;
+		_FrontX = Cal_X + grid;
+		_FrontY = Cal_Y +2;
 	}
 }
 //CMovingBitmap CTank::GetTankBitmap() {

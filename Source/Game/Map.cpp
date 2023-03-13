@@ -86,3 +86,6 @@ bool Map::GetMapItemInfo(int x, int y, int info) {
 	}
 	return true;
 }
+int Map::GetType(int x, int y) {
+	return _Stage[x][y].GetType();
+}
