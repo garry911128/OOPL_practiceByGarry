@@ -30,7 +30,11 @@ CTank::CTank() {
 	_CanBreakIron = false;
 	_DoubleAttack = false;
 	_Tank.SetAnimation(1,true);
-	//_Bullet.OnInit();
+	_IfFire = false;
+	//_Bullet.LoadBitmap();
+}
+bool CTank::GetIfFire() {
+	return _IfFire;
 }
 int CTank::GetX1(){
 	return _X;
@@ -51,14 +55,15 @@ void CTank::SetXY(int _x, int _y) {
 	_X = _x;
 	_Y = _y;
 }
-/*
+
 void CTank::FireBullet() {
-	bool temp;
-	temp = _Bullet.BulletFly(_X, _Y);
+	if (clock() - _Last_time >= 10) {
+		_Bullet.SetBulletFire(_X, _Y, _OriginAngle);
+		_Last_time = clock();
+		_IfFire = _Bullet.GetAlreadyFire();
+	}
 }
-*/
-void CTank::Move(UINT nChar) {
-	TurnFace(nChar);
+
 void CTank::Move() {
 	if (_OriginAngle == 0){
 		_OffsetX += _MovementSpeed;
@@ -136,6 +141,7 @@ void CTank::OnShow() {
 	_Tank.SetFrameIndexOfBitmap(_Frameindex);
 	_Tank.SetTopLeft(_X, _Y);
 	_Tank.ShowBitmap();
+	_Bullet.OnShow();
 }
 
 void CTank::LevelUP() {

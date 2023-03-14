@@ -1,5 +1,7 @@
 ﻿#pragma once
+
 #include "Bullet.h"
+
 namespace game_framework {
 	class CTank
 	{
@@ -19,9 +21,12 @@ namespace game_framework {
 		void OnShow();						//SHOW
 		void SetXY(int x, int y);			//座標設定
 		void TurnFace(UINT nChar);			//調整圖片方向
-		//void FireBullet();
+		void FireBullet();
+		bool GetIfFire();
 		//CMovingBitmap GetTankBitmap();
 	protected:
+		bool _IfFire;
+		clock_t _Last_time; // last time that bullet move; (we can consider it as delay)
 		CBullet _Bullet;
 		CMovingBitmap _Tank;
 		int _X,_Y;							//地圖座標								

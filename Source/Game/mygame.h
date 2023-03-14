@@ -40,7 +40,6 @@
 
 #include "Menu.h"
 #include "MapItem.h"
-#include "Bullet.h"
 #include "Map.h"
 #include "CPlayer.h"
 namespace game_framework {
