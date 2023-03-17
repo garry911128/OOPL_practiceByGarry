@@ -1,4 +1,5 @@
-#include <vector>
+﻿#include <vector>
+#include <string>
 #include "stdafx.h"
 #include "../Core/Resource.h"
 #include <mmsystem.h>
@@ -10,14 +11,11 @@
 
 
 using namespace game_framework;
-vector<int> CBullet::localRight = { 0,2 };
-vector<int> CBullet::localDown = { 2,0 };
-vector<int> CBullet::localLeft = { 0, -2 };
-vector<int> CBullet::localUp = { -2,0 };
+
 CBullet::CBullet() {
 	//"resources/Bullet0.bmp","resources/Bullet1.bmp","resources/Bullet2.bmp","resources/Bullet3.bmp"
 	//_Boom.LoadBitmapByString({ "resources/Boom0.bmp","resources/Boom1.bmp","resources/Boom2.bmp" }, RGB(0, 0, 0));
-	_FlySpeed = 15;
+	_FlySpeed = 5;
 	_IfFlying = false;
 	_AlreadyFire = false;
 	_DestinationX = 0;
@@ -34,19 +32,19 @@ bool CBullet::GetAlreadyFire() {
 void CBullet::SetBulletFire(int TankX,int TankY,int TankDirect) {
 	if (_AlreadyFire == false) {
 		_AlreadyFire = true;
-		if (TankDirect == Right) {
+		if (TankDirect == 0) {
 			_DestinationX = 932;
 			_DestinationY = TankY;
 		}
-		else if (TankDirect == Down) {
+		else if (TankDirect == 1) {
 			_DestinationX = TankX;
 			_DestinationY = 832;
 		}
-		else if (TankDirect == Left) {
+		else if (TankDirect == 2) {
 			_DestinationX = 100;
 			_DestinationY = TankY;
 		}
-		else if (TankDirect == Up) {
+		else if (TankDirect == 3) {
 			_DestinationX = TankX;
 			_DestinationY = 0;
 		}
@@ -54,50 +52,38 @@ void CBullet::SetBulletFire(int TankX,int TankY,int TankDirect) {
 		_NowY = TankY;
 		_Direction = TankDirect;
 		_Bulletimage.SetFrameIndexOfBitmap(TankDirect);
+		_Bulletimage.SetTopLeft(_NowX, _NowY);
 	}
 	else {
-		if (_Direction == Right) {
+		if (_Direction == 0) {
 			if (_NowX >= 932) {
 				_AlreadyFire = false;
 			}
 			_NowX += _FlySpeed;
 		}
-		else if (_Direction == Down) {
+		else if (_Direction == 1) {
 			if (_NowY >= 832) {
 				_AlreadyFire = false;
 			}
 			_NowY += _FlySpeed;
 		}
-		else if (_Direction == Left) {
+		else if (_Direction == 2) {
 			if (_NowX <= 100) {
 				_AlreadyFire = false;
 			}
 			_NowX -= _FlySpeed;
 		}
-		else if (_Direction == Up) {
+		else if (_Direction == 3) {
 			if (_NowY <= 0) {
 				_AlreadyFire = false;
 			}
 			_NowY -= _FlySpeed;
 		}
+		_Bulletimage.SetTopLeft(_NowX, _NowY);
 	}
-	_Bulletimage.SetTopLeft(_NowX, _NowY);
 }
-
 void CBullet::OnShow() {
 	if (_AlreadyFire == true) {
 		_Bulletimage.ShowBitmap();
 	}
-}
-
-int CBullet::GetDirection() {
-	return _Direction;
-}
-
-int CBullet::GetNowX() {
-	return _NowX;
-}
-
-int CBullet::GetNowY() {
-	return _NowY;
 }
