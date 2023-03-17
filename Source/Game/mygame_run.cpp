@@ -44,9 +44,12 @@ void CGameStateRun::OnMove()                            // 移動遊戲元素
 		}
 		_PlayerTank.Animation();
 	}
+<<<<<<< HEAD
 	if (_PlayerTank.GetIfFire()) {
 		_PlayerTank.FireBullet();
 	}
+=======
+>>>>>>> parent of 6576488 (sleep)
 }
 void CGameStateRun::OnInit()                                  // 遊戲的初值及圖形設定
 {
