@@ -44,9 +44,14 @@ void CGameStateRun::OnMove()                            // 移動遊戲元素
 		}
 		_PlayerTank.Animation();
 	}
+<<<<<<< Updated upstream
 	if (_PlayerTank.GetIfFire()) {
 		_PlayerTank.FireBullet();
 	}
+=======
+
+	
+>>>>>>> Stashed changes
 }
 void CGameStateRun::OnInit()                                  // 遊戲的初值及圖形設定
 {
@@ -172,11 +177,20 @@ void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	if (nChar == 0x5A || nChar == 0x58) {
 		_PlayerTank.FireBullet();
 	}
+<<<<<<< Updated upstream
 	if (nChar == VK_DOWN)	_isHoldDownKey = true;
 	if (nChar == VK_UP)		_isHoldUpKey   = true;
 	if (nChar == VK_LEFT)	_isHoldLeftKey = true;
 	if (nChar == VK_RIGHT)	_isHoldLeftKey = true;
 	if (nChar == VK_DOWN || nChar == VK_RIGHT|| nChar == VK_LEFT|| nChar == VK_UP) _HoldKey = nChar;
+=======
+	/*if (GetKeyState(VK_UP) || GetKeyState(VK_DOWN) || GetKeyState(VK_RIGHT) || GetKeyState(VK_LEFT)) {
+		_HoldKey = nChar;
+		_PlayerTank.TurnFace(_HoldKey);
+		_PlayerTank.Move();
+		_PlayerTank.Animation();
+	}*/
+>>>>>>> Stashed changes
 }
 
 void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
@@ -221,7 +235,7 @@ void CGameStateRun::OnShowText() {
 	pDC->SetBkMode(TRANSPARENT);
 	pDC->SetTextColor(RGB(0, 0, 0));
 	CTextDraw::Print(pDC, 0, 0, (to_string(_PlayerTankFrontY) + " " + to_string(_PlayerTankFrontX).c_str()));
-	CTextDraw::Print(pDC, 0, 25, (to_string(_MouseX) + " " + to_string(_MouseY).c_str()));
+	CTextDraw::Print(pDC, 0, 25,(to_string(_MouseX) + " " + to_string(_MouseY).c_str()));
 
 	CDDraw::ReleaseBackCDC();
 }
