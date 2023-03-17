@@ -21,6 +21,12 @@ namespace game_framework {
 		void SetXY(int x, int y);			//座標設定
 		void TurnFace(UINT nChar);			//調整圖片方向
 		//CMovingBitmap GetTankBitmap();
+		enum Direction {
+			Right,
+			Down,
+			Left,
+			Up,
+		};
 	protected:
 		CMovingBitmap _Tank;
 		int Width,Height;					//OneGrid寬,高
@@ -31,7 +37,7 @@ namespace game_framework {
 		int _OffsetX, _OffsetY;				//偏移長度
 		int _PointX, _PointY;				//紀錄定位點
 		int _MovementSpeed;					//移動速度
-		int _LocationDistance;				//偏移長度上限
+		int _LocationDistance;				//偏移距離上限
 		int _FrontX, _FrontY;				//前方的X和Y 
 		bool _AttackSpeedUP;				//功速提升		 level >= 2
 		bool _CanBreakIron;					//可破壞鐵牆		 level >= 4

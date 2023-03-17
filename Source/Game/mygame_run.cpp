@@ -29,7 +29,7 @@ void CGameStateRun::OnBeginState()
 void CGameStateRun::OnMove()                            // 移動遊戲元素
 {
 	bool temp1, temp2;
-	if (_isHoldMoveKey == true){
+	if (_isHoldRightKey == true ||_isHoldLeftKey == true || _isHoldDownKey == true || _isHoldUpKey == true){
 		_PlayerTank.TurnFace(_HoldKey);
 		_PlayerTank.TankFront(0);
 		_PlayerTankFrontX = _PlayerTank.GetFrontX();
@@ -156,7 +156,7 @@ void CGameStateRun::OnInit()                                  // 遊戲的初值
 					,{ 4, 4, 4, 4, 5, 1, 1, 1, 1, 1, 1, 4, 5, 5, 4, 1, 1, 1, 4, 4, 1, 1, 4, 4, 1, 1 }
 					,{ 4, 4, 4, 4, 5, 1, 1, 1, 1, 1, 1, 4, 5, 5, 4, 1, 1, 1, 4, 4, 1, 1, 4, 4, 1, 1 }//25
 	};
-	Stage1.OnInit(tempstage17);
+	Stage1.OnInit(tempstage1);
 	_MouseX = 0;
 	_MouseY = 0;
 	_PlayerTank.LoadBitmap();
@@ -166,18 +166,20 @@ void CGameStateRun::OnInit()                                  // 遊戲的初值
 
 void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
-	if (nChar == VK_UP || nChar ==VK_DOWN || nChar == VK_RIGHT || nChar == VK_LEFT){
-		_isHoldMoveKey = true;
-		_HoldKey = nChar;
-	}
+	if (nChar == VK_DOWN)	_isHoldDownKey = true;
+	if (nChar == VK_UP)		_isHoldUpKey   = true;
+	if (nChar == VK_LEFT)	_isHoldLeftKey = true;
+	if (nChar == VK_RIGHT)	_isHoldLeftKey = true;
+	if (nChar == VK_DOWN || nChar == VK_RIGHT|| nChar == VK_LEFT|| nChar == VK_UP) _HoldKey = nChar;
 	
 }
 
 void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
-	if (nChar == VK_UP || nChar == VK_DOWN || nChar == VK_RIGHT || nChar == VK_LEFT) {
-		_isHoldMoveKey = false;
-	}
+	if (nChar == VK_DOWN)	_isHoldDownKey = false;
+	if (nChar == VK_UP)		_isHoldUpKey   = false;
+	if (nChar == VK_LEFT)	_isHoldLeftKey = false;
+	if (nChar == VK_RIGHT)	_isHoldLeftKey = false;
 }
 
 void CGameStateRun::OnLButtonDown(UINT nFlags, CPoint point)  // 處理滑鼠的動作

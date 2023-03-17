@@ -1,5 +1,4 @@
 //#define	 INITGUID
-#pragma once
 #include "stdafx.h"
 #include "../Core/Game.h"
 #include "../Core/MainFrm.h"
@@ -153,7 +152,7 @@ namespace game_framework {
 	void CGame::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	{
 		if (running)
-			//if ((nFlags & 0x4000) == 0) // 去除auto repeat
+			if ((nFlags & 0x4000) == 0) // 去除auto repeat
 				gameState->OnKeyDown(nChar, nRepCnt, nFlags);
 #ifdef _UNITTEST					// invike unit test if _UNITTEST is defined
 		void runTest();
