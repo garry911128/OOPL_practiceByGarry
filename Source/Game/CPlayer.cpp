@@ -11,7 +11,7 @@
 // Tank Child
 using namespace game_framework;
 
-CPlayer::CPlayer() {
+CPlayer::CPlayer() : CTank(){
 }
 void CPlayer::SpawnAfter5Second() {
 	_Invicible = true;
@@ -21,4 +21,5 @@ void CPlayer::LoadBitmap() {
 							    "resources/Tank_Left_1.bmp"  ,"resources/Tank_Left_2.bmp", 
 								"resources/Tank_Top_1.bmp"   ,"resources/Tank_Top_2.bmp", 
 								"resources/Tank_Bottom_1.bmp","resources/Tank_Bottom_2.bmp"},RGB(0,0,0));
+	_Bullet.LoadBitmap();
 }
