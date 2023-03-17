@@ -30,9 +30,7 @@ void CGameStateRun::OnMove()                            // 移動遊戲元素
 {
 	if (_isHoldMoveKey == true){
 		_PlayerTank.TurnFace(_HoldKey);
-		//if (){
-			_PlayerTank.Move();
-		//}
+		_PlayerTank.Move();
 		_PlayerTank.Animation();
 	}
 	if (_PlayerTank.GetIfFire()) {

@@ -10,7 +10,17 @@ namespace game_framework {
 		void OnShow();
 		bool _IfFlying;
 		bool GetAlreadyFire();
+		int GetDirection();
+		int GetNowX();
+		int GetNowY();
+		static vector<int> localRight;
+		static vector<int> localDown;
+		static vector<int> localLeft;
+		static vector<int> localUp;
 	private:
+		enum Direction {
+			Right, Down, Left, Up
+		};
 		bool _AlreadyFire;
 		int _NowX, _NowY;
 		int _Direction;

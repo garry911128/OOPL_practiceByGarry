@@ -73,6 +73,9 @@ void Map::OnShow() {
 	_BattleMenuFlag.ShowBitmap();
 }
 
+void Map::BulletHitWall(int BulletX, int BulletY,int Direction) {
+	
+}
 //CMovingBitmap Map::GetMapBitmap(int x, int y) {
 //	return _Stage[x][y].GetMapItmeBitmap();
 //}

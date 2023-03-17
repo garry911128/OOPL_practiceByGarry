@@ -9,6 +9,7 @@ namespace game_framework {
 		int _BoardX; //棋盤的x
 		int _BoardY; //棋盤的y
 		void Tankdetect(int TankX, int TankY);
+		void BulletHitWall(int BulletX, int BulletY,int Direction);
 		void OnShow();
 		//CMovingBitmap GetMapBitmap(int _x,int _y);
 	private:
