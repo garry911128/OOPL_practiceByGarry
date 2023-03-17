@@ -11,21 +11,24 @@
 // Tank Parent
 using namespace game_framework;
 
-CTank::CTank() {
-	_X = 256+100;
-	_Y = 768;
-	_OriginAngle = 3; // 0 is east,1 south, 2 west,3 north
-	_TurnAngle = 3;
-	_Level = 1;
-	_Life = 1;
-	_LocationDistance = 16;
-	_OffsetX = 0;
-	_OffsetY = 0;
-	_FrameTime = 0;
-	_Frameindex = 4; // (0 is east,1 south, 2 west,3 north)*2
-	_PointX = _X;
-	_PointY = _Y;
-	_MovementSpeed = 2;
+CTank::CTank():Width(32), Height(32) {
+	_X = Width*8+100;
+	_Y = Height*24;
+	_Level = 1;								// 等級
+	_Life = 1;								// 生命
+	_FrontX =0;								// 面對方向的前方格子X座標
+	_FrontY =0;								// 面對方向的前方格子Y座標
+	_OriginAngle = Up;						// 面對角度 0 is east,1 south, 2 west,3 north
+	_TurnAngle = Up;							// 轉向角度
+	_FrameTime = 0;							// 計時器
+	_Frameindex = 4;						// 動畫偵 (0 is east,1 south, 2 west,3 north)*2
+	_FrameSecond = 3;						// 動畫變換速度
+	_LocationDistance = Height / 4;			// 定位點距離
+	_OffsetX = 0;							// 偏移X
+	_OffsetY = 0;							// 偏移Y
+	_PointX = _X;							// 轉換定位X
+	_PointY = _Y;							// 轉換定位Y
+	_MovementSpeed = 2;						// 移動速度
 	_AttackSpeedUP = false;
 	_CanBreakIron = false;
 	_DoubleAttack = false;
@@ -44,6 +47,24 @@ int CTank::GetY1() {
 }
 int CTank::GetOriginAngle() {
 	return _OriginAngle;
+}
+int CTank::GetFrontX() {
+	if (_FrontX < 0){
+		return 0;
+	}
+	else if (_FrontX > 25){
+		return 25;
+	}
+	return _FrontX;
+}
+int CTank::GetFrontY() {
+	if (_FrontY < 0) {
+		return 0;
+	}
+	else if (_FrontY > 25) {
+		return 25;
+	}
+	return _FrontY;
 }
 bool CTank::isBreak() {
 	if (_Life ==0){
@@ -65,49 +86,49 @@ void CTank::FireBullet() {
 }
 
 void CTank::Move() {
-	if (_OriginAngle == 0){
+	if (_OriginAngle == Right){
 		_OffsetX += _MovementSpeed;
 		_X += _MovementSpeed;
 	}
-	if (_OriginAngle == 2){
+	if (_OriginAngle == Left){
 		_OffsetX -= _MovementSpeed;
 		_X -= _MovementSpeed;
 	}
-	if (_OriginAngle == 3){
+	if (_OriginAngle == Up){
 		_OffsetY -= _MovementSpeed;
 		_Y -= _MovementSpeed;
 	}
-	if (_OriginAngle == 1) {
+	if (_OriginAngle == Down) {
 		_OffsetY += _MovementSpeed;
 		_Y += _MovementSpeed;
 	}
 }
 void CTank::TurnFace(UINT nChar) {
 	if (nChar == VK_RIGHT) {
-		_TurnAngle = 0;
+		_TurnAngle = Right;
 	}
 	else if (nChar == VK_LEFT) {
-		_TurnAngle = 2;
+		_TurnAngle = Left;
 	}
 	else if (nChar == VK_UP) {
-		_TurnAngle = 3;
+		_TurnAngle = Up;
 	}
 	else if (nChar == VK_DOWN) {
-		_TurnAngle = 1;
+		_TurnAngle = Down;
 	}
 	if (_TurnAngle != _OriginAngle) {
 		LocationPoint(_OffsetX, _OffsetY);
 		_OriginAngle = _TurnAngle;
-		if (_OriginAngle == 0) {
+		if (_OriginAngle == Right) {
 			_Frameindex = 0;
 		}
-		else if (_OriginAngle == 2) {
+		else if (_OriginAngle == Left) {
 			_Frameindex = 2;
 		}
-		else if (_OriginAngle == 3) {
+		else if (_OriginAngle == Up) {
 			_Frameindex = 4;
 		}
-		else if (_OriginAngle == 1) {
+		else if (_OriginAngle == Down) {
 			_Frameindex = 6;
 		}
 		_FrameTime= 0;
@@ -115,13 +136,15 @@ void CTank::TurnFace(UINT nChar) {
 	_Tank.SetFrameIndexOfBitmap(_Frameindex);
 }
 void CTank::Animation() {
-	if (_FrameTime%2==0){
-		_Tank.SetFrameIndexOfBitmap(_Frameindex + 1);
-		_Frameindex += 1;
-	}
-	else {
-		_Tank.SetFrameIndexOfBitmap(_Frameindex - 1);
-		_Frameindex -= 1;
+	if (_FrameTime%_FrameSecond==0){
+		if (_Frameindex%2==0){
+			_Tank.SetFrameIndexOfBitmap(_Frameindex + 1);
+			_Frameindex += 1;
+		}
+		else {
+			_Tank.SetFrameIndexOfBitmap(_Frameindex - 1);
+			_Frameindex -= 1;
+		}
 	}
 	_FrameTime += 1;
 }
@@ -158,9 +181,45 @@ void CTank::LevelUP() {
 		}
 	}
 }
+void CTank::TankFront(int grid) {		// ./resource/TankFrontAxis.png
+	int Cal_X = (_X - 100) / Width;
+	int Cal_Y = _Y / Height;
+	if (_OriginAngle == Right) {
+		_FrontX = Cal_X + 2;
+		_FrontY = Cal_Y + grid;
+	}
+	else if (_OriginAngle == Left) {
+		_FrontX = Cal_X + grid;
+		_FrontY = Cal_Y;
+	}
+	else if (_OriginAngle == Up) {
+		_FrontX = Cal_X + grid;
+		_FrontY = Cal_Y;
+	}
+	else if (_OriginAngle == Down) {
+		_FrontX = Cal_X + grid;
+		_FrontY = Cal_Y +2;
+	}
+}
 //CMovingBitmap CTank::GetTankBitmap() {
 //	return _Tank;
 //}
 //void CTank::AnimationOnce() {
 //	_Tank.ToggleAnimation();
+//}
+//void CTank::Attacke() {
+//	if (_OriginAngle == 90) {
+//		/*spawn Bullet
+//		Bullet.setXY(_X+_Width,_Y+_Height/2);
+//		*/
+//	}
+//	else if (_OriginAngle == -90) {
+//		
+//	}
+//	else if (_OriginAngle == 0) {
+//		
+//	}
+//	else {
+//		
+//	}
 //}
