@@ -44,12 +44,7 @@ void CGameStateRun::OnMove()                            // 移動遊戲元素
 		}
 		_PlayerTank.Animation();
 	}
-<<<<<<< HEAD
-	if (_PlayerTank.GetIfFire()) {
-		_PlayerTank.FireBullet();
-	}
-=======
->>>>>>> parent of 6576488 (sleep)
+	//git merge error?
 }
 void CGameStateRun::OnInit()                                  // 遊戲的初值及圖形設定
 {
@@ -172,14 +167,12 @@ void CGameStateRun::OnInit()                                  // 遊戲的初值
 
 void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
-	if (nChar == 0x5A || nChar == 0x58) {
-		_PlayerTank.FireBullet();
-	}
 	if (nChar == VK_DOWN)	_isHoldDownKey = true;
 	if (nChar == VK_UP)		_isHoldUpKey   = true;
 	if (nChar == VK_LEFT)	_isHoldLeftKey = true;
 	if (nChar == VK_RIGHT)	_isHoldLeftKey = true;
 	if (nChar == VK_DOWN || nChar == VK_RIGHT|| nChar == VK_LEFT|| nChar == VK_UP) _HoldKey = nChar;
+	
 }
 
 void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
