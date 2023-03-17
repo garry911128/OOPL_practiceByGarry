@@ -7,10 +7,16 @@ namespace game_framework {
 	{
 	public:
 		CTank();
+		enum Direction {
+			Right,
+			Down,
+			Left,
+			Up,
+		};
 		int GetX1();
 		int GetY1();
-		int GetFrontX();
-		int GetFrontY();
+		/*int GetFrontX();
+		int GetFrontY();*/
 		int GetOriginAngle();
 		bool isBreak();
 		void TankFront(int grid);
@@ -25,12 +31,6 @@ namespace game_framework {
 		void FireBullet();
 		bool GetIfFire();
 		//CMovingBitmap GetTankBitmap();
-		enum Direction {
-			Right,
-			Down,
-			Left,
-			Up,
-		};
 	protected:
 		bool _IfFire;
 		clock_t _Last_time; // last time that bullet move; (we can consider it as delay)
@@ -45,7 +45,7 @@ namespace game_framework {
 		int _PointX, _PointY;				//紀錄定位點
 		int _MovementSpeed;					//移動速度
 		int _LocationDistance;				//偏移距離上限
-		int _FrontX, _FrontY;				//前方的X和Y 
+		vector<vector<int>> _FrontXY;		//前方的X和Y 
 		bool _AttackSpeedUP;				//功速提升		 level >= 2
 		bool _CanBreakIron;					//可破壞鐵牆		 level >= 4
 		bool _DoubleAttack;					//可發射兩發子彈   level >= 3
