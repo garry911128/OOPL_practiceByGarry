@@ -79,7 +79,7 @@ void CTank::SetXY(int _x, int _y) {
 
 void CTank::FireBullet() {
 	if (clock() - _Last_time >= 10) {
-		_Bullet.SetBulletFire(_X+_Tank.GetWidth()/4, _Y+_Tank.GetHeight()/4, _OriginAngle);
+		_Bullet.SetBulletFire(_X, _Y, _OriginAngle);
 		_Last_time = clock();
 		_IfFire = _Bullet.GetAlreadyFire();
 	}
@@ -104,7 +104,6 @@ void CTank::Move() {
 	}
 }
 void CTank::TurnFace(UINT nChar) {
-	
 	if (nChar == VK_RIGHT) {
 		_TurnAngle = Right;
 	}
@@ -135,7 +134,6 @@ void CTank::TurnFace(UINT nChar) {
 		_FrameTime= 0;
 	}
 	_Tank.SetFrameIndexOfBitmap(_Frameindex);
-	
 }
 void CTank::Animation() {
 	if (_FrameTime%_FrameSecond==0){
@@ -181,6 +179,26 @@ void CTank::LevelUP() {
 		else if (_Level == 4) {
 			_CanBreakIron = true;
 		}
+	}
+}
+void CTank::TankFront(int grid) {		// ./resource/TankFrontAxis.png
+	int Cal_X = (_X - 100) / Width;
+	int Cal_Y = _Y / Height;
+	if (_OriginAngle == Right) {
+		_FrontX = Cal_X + 2;
+		_FrontY = Cal_Y + grid;
+	}
+	else if (_OriginAngle == Left) {
+		_FrontX = Cal_X + grid;
+		_FrontY = Cal_Y;
+	}
+	else if (_OriginAngle == Up) {
+		_FrontX = Cal_X + grid;
+		_FrontY = Cal_Y;
+	}
+	else if (_OriginAngle == Down) {
+		_FrontX = Cal_X + grid;
+		_FrontY = Cal_Y +2;
 	}
 }
 //CMovingBitmap CTank::GetTankBitmap() {
