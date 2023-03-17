@@ -20,6 +20,12 @@ namespace game_framework {
 		void OnShow();						//SHOW
 		void SetXY(int x, int y);			//座標設定
 		void TurnFace(UINT nChar);			//調整圖片方向
+		
+		void FireBullet();
+		bool GetIfFire();
+		int GetBulletX();
+		int GetBulletY();
+		int GetBulletDirection();
 		//CMovingBitmap GetTankBitmap();
 		enum Direction {
 			Right,
