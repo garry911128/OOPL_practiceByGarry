@@ -73,6 +73,9 @@ void Map::OnShow() {
 	_BattleMenuFlag.ShowBitmap();
 }
 
+//vector<int> Map::GetMapPosition(int X, int Y) {
+//	return 0;
+//}
 void Map::BulletHitWall(int BulletX, int BulletY,int Direction) {
 	
 }
