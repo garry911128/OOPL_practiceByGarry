@@ -18,24 +18,25 @@ namespace game_framework {
 		//void AnimationOnce();			
 		void LevelUP();						//升級
 		void LocationPoint(int x,int y);	//位置校正
-		void Move();				//移動
+		void Move();						//移動
 		void OnShow();						//SHOW
 		void SetXY(int x, int y);			//座標設定
 		void TurnFace(UINT nChar);			//調整圖片方向
+
 		void FireBullet();
 		bool GetIfFire();
-		bool GetBulletStatus();
 		void SetBulletStatus(bool Status);
 		void SetIfFire(bool Status);
 		vector<vector<int>> GetBulletPlace();
+		int GetBulletDirection();
 		//CMovingBitmap GetTankBitmap();
+	protected:
 		enum Direction {
 			Right,
 			Down,
 			Left,
 			Up,
 		};
-	protected:
 		bool _IfFire;
 		clock_t _Last_time; // last time that bullet move; (we can consider it as delay)
 		CBullet _Bullet;

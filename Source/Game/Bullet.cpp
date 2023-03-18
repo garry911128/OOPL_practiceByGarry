@@ -62,22 +62,22 @@ void CBullet::SetBulletFire(int TankX,int TankY,int TankDirect) {
 		_NextMove[0][1] = _NowPlace[0][1] + _Move[_Direction][1] * _FlySpeed;
 		_NextMove[1][0] = _NowPlace[1][0] + _Move[_Direction][0] * _FlySpeed;
 		_NextMove[1][1] = _NowPlace[1][1] + _Move[_Direction][1] * _FlySpeed;
-		if (_Direction == Right) {
+		if (_Direction == 0) {
 			if (_NowPlace[0][0] >= 932) {
 				_AlreadyFire = false;
 			}
 		}
-		else if (_Direction == Down) {
+		else if (_Direction == 1) {
 			if (_NowPlace[0][1] >= 832) {
 				_AlreadyFire = false;
 			}
 		}
-		else if (_Direction == Left) {
+		else if (_Direction == 2) {
 			if (_NowPlace[0][0] <= 100) {
 				_AlreadyFire = false;
 			}
 		}
-		else if (_Direction == Up) {
+		else if (_Direction == 3) {
 			if (_NowPlace[0][1] <= 0) {
 				_AlreadyFire = false;
 			}
@@ -95,4 +95,7 @@ void CBullet::SetBulletAlreadyFire(bool BulletAlreadyFire) {
 }
 vector<vector<int>> CBullet::_GetNowPlace() {
 	return _NowPlace;
+}
+int CBullet::GetDirection() {
+	return _Direction;
 }

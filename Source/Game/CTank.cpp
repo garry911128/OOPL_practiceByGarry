@@ -215,8 +215,8 @@ void CTank::SetBulletStatus(bool Status) {
 void CTank::SetIfFire(bool Status) {
 	_IfFire = Status;
 }
-bool CTank::GetBulletStatus() {
-	return _Bullet.GetAlreadyFire();
+int CTank::GetBulletDirection() {
+	return _Bullet.GetDirection();
 }
 //CMovingBitmap CTank::GetTankBitmap() {
 //	return _Tank;
