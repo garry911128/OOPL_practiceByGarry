@@ -30,6 +30,10 @@ namespace game_framework {
 		void TurnFace(UINT nChar);			//調整圖片方向
 		void FireBullet();
 		bool GetIfFire();
+		bool GetBulletStatus();
+		void SetBulletStatus(bool Status);
+		void SetIfFire(bool Status);
+		vector<vector<int>> GetBulletPlace();
 		//CMovingBitmap GetTankBitmap();
 	protected:
 		bool _IfFire;

@@ -80,7 +80,12 @@ void CTank::SetXY(int _x, int _y) {
 
 void CTank::FireBullet() {
 	if (clock() - _Last_time >= 10) {
-		_Bullet.SetBulletFire(_X, _Y, _OriginAngle);
+		if (_OriginAngle == Right || _OriginAngle == Left) {
+			_Bullet.SetBulletFire(_X, _Y + 25, _OriginAngle);
+		}
+		else {
+			_Bullet.SetBulletFire(_X + 25, _Y, _OriginAngle);
+		}
 		_Last_time = clock();
 		_IfFire = _Bullet.GetAlreadyFire();
 	}
@@ -208,6 +213,18 @@ void CTank::TankFront(int grid) {		// ./resource/TankFrontAxis.png
 		_FrontXY[1][0] = _X + Width * 3 / 2;
 		_FrontXY[1][1] = _Y + Height * 2;
 	}
+}
+vector<vector<int>> CTank::GetBulletPlace() {
+	return _Bullet._GetNowPlace();
+}
+void CTank::SetBulletStatus(bool Status) {
+	_Bullet.SetBulletAlreadyFire(Status);
+}
+void CTank::SetIfFire(bool Status) {
+	_IfFire = Status;
+}
+bool CTank::GetBulletStatus() {
+	return _Bullet.GetAlreadyFire();
 }
 //CMovingBitmap CTank::GetTankBitmap() {
 //	return _Tank;

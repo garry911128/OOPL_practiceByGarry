@@ -29,6 +29,7 @@ void CGameStateRun::OnBeginState()
 void CGameStateRun::OnMove()                            // 移動遊戲元素
 {
 	bool temp1, temp2;
+	vector<vector<int>> _tempcollision;
 	if (_isHoldRightKey == true ||_isHoldLeftKey == true || _isHoldDownKey == true || _isHoldUpKey == true){
 		_PlayerTank.TurnFace(_HoldKey);
 		_PlayerTank.TankFront(0);
@@ -46,6 +47,11 @@ void CGameStateRun::OnMove()                            // 移動遊戲元素
 	}
 	if (_PlayerTank.GetIfFire()) {
 		_PlayerTank.FireBullet();
+		_tempcollision = Stage1.GetFrontGridsIndex(_PlayerTank.GetBulletPlace());
+		if ((_PlayerTank.GetBulletStatus() == true ) && (Stage1.GetMapItemInfo(_tempcollision[0][1], _tempcollision[0][0], 1) == true && Stage1.GetMapItemInfo(_tempcollision[1][1], _tempcollision[1][0], 1) == true)) {
+			_PlayerTank.SetBulletStatus(false);
+			_PlayerTank.SetIfFire(false);
+		}
 	}
 }
 void CGameStateRun::OnInit()                                  // 遊戲的初值及圖形設定
@@ -227,8 +233,20 @@ void CGameStateRun::OnShowText() {
 	CDC *pDC = CDDraw::GetBackCDC();
 	pDC->SetBkMode(TRANSPARENT);
 	pDC->SetTextColor(RGB(0, 0, 0));
+	vector<vector<int>> _tempcollision;
+	_tempcollision = Stage1.GetFrontGridsIndex(_PlayerTank.GetBulletPlace());
 	CTextDraw::Print(pDC, 0, 0, (to_string(_PlayerTankFrontY) + " " + to_string(_PlayerTankFrontX).c_str()));
-	CTextDraw::Print(pDC, 0, 25,(to_string(_MouseX) + " " + to_string(_MouseY).c_str()));
+	CTextDraw::Print(pDC, 0, 25, (to_string(_MouseX) + " " + to_string(_MouseY).c_str()));
+	CTextDraw::Print(pDC, 0, 50, (to_string(_tempcollision[0][0]) + "," + to_string(_tempcollision[0][1]).c_str()));
+	CTextDraw::Print(pDC, 0, 75, (to_string(_tempcollision[1][0]) + "," + to_string(_tempcollision[1][1]).c_str())*.
+	/*
+	CTextDraw::ChangeFontLog( pDC, 10, "TRANSPARENT", RGB(0, 180, 0));
+	for (int i = 0; i < 26; i++) {
+		for (int j = 0; j < 26; j++) {
+			CTextDraw::Print(pDC, j * 32 + 110, i * 32, (to_string(i) + "," + to_string(j).c_str()));
+		}
+	}
+	*/
 
 	CDDraw::ReleaseBackCDC();
 }

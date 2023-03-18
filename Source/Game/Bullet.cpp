@@ -12,14 +12,16 @@
 
 using namespace game_framework;
 
+vector<vector<int>> CBullet::_Move = { {1,0},{0,1},{-1,0},{0,-1} }; //Vector 2D
+
 CBullet::CBullet() {
 	//"resources/Bullet0.bmp","resources/Bullet1.bmp","resources/Bullet2.bmp","resources/Bullet3.bmp"
 	//_Boom.LoadBitmapByString({ "resources/Boom0.bmp","resources/Boom1.bmp","resources/Boom2.bmp" }, RGB(0, 0, 0));
 	_FlySpeed = 5;
 	_IfFlying = false;
 	_AlreadyFire = false;
-	_DestinationX = 0;
-	_DestinationY = 0;
+	_NextMove = { {0,0},{0,0} };
+	_NowPlace = { {0,0},{0,0} };
 }
 
 void CBullet::LoadBitmap() {
@@ -32,58 +34,65 @@ bool CBullet::GetAlreadyFire() {
 void CBullet::SetBulletFire(int TankX,int TankY,int TankDirect) {
 	if (_AlreadyFire == false) {
 		_AlreadyFire = true;
-		if (TankDirect == 0) {
-			_DestinationX = 932;
-			_DestinationY = TankY;
-		}
-		else if (TankDirect == 1) {
-			_DestinationX = TankX;
-			_DestinationY = 832;
-		}
-		else if (TankDirect == 2) {
-			_DestinationX = 100;
-			_DestinationY = TankY;
-		}
-		else if (TankDirect == 3) {
-			_DestinationX = TankX;
-			_DestinationY = 0;
-		}
-		_NowX = TankX;
-		_NowY = TankY;
+		_NowPlace[0][0] = TankX;
+		_NowPlace[0][1] = TankY;
 		_Direction = TankDirect;
+		if (_Direction == Right || _Direction == Left) {
+			_NowPlace[1][0] = TankX;
+			_NowPlace[1][1] = TankY + 4;
+		}
+		else if (_Direction == Down || _Direction == Up) {
+			_NowPlace[1][0] = TankX + 4;
+			_NowPlace[1][1] = TankY;
+		}
 		_Bulletimage.SetFrameIndexOfBitmap(TankDirect);
-		_Bulletimage.SetTopLeft(_NowX, _NowY);
+		_NextMove[0][0] = _NowPlace[0][0] + _Move[TankDirect][0] * _FlySpeed;
+		_NextMove[0][1] = _NowPlace[0][1] + _Move[TankDirect][1] * _FlySpeed;
+		_NextMove[1][0] = _NowPlace[1][0] + _Move[TankDirect][0] * _FlySpeed;
+		_NextMove[1][1] = _NowPlace[1][1] + _Move[TankDirect][1] * _FlySpeed;
+		_Bulletimage.SetTopLeft(_NowPlace[0][0], _NowPlace[0][1]);
 	}
 	else {
-		if (_Direction == 0) {
-			if (_NowX >= 932) {
+		_NowPlace[0][0] = _NextMove[0][0];
+		_NowPlace[0][1] = _NextMove[0][1];
+		_NowPlace[1][0] = _NextMove[1][0];
+		_NowPlace[1][1] = _NextMove[1][1];
+
+		_NextMove[0][0] = _NowPlace[0][0] + _Move[_Direction][0] * _FlySpeed;
+		_NextMove[0][1] = _NowPlace[0][1] + _Move[_Direction][1] * _FlySpeed;
+		_NextMove[1][0] = _NowPlace[1][0] + _Move[_Direction][0] * _FlySpeed;
+		_NextMove[1][1] = _NowPlace[1][1] + _Move[_Direction][1] * _FlySpeed;
+		if (_Direction == Right) {
+			if (_NowPlace[0][0] >= 932) {
 				_AlreadyFire = false;
 			}
-			_NowX += _FlySpeed;
 		}
-		else if (_Direction == 1) {
-			if (_NowY >= 832) {
+		else if (_Direction == Down) {
+			if (_NowPlace[0][1] >= 832) {
 				_AlreadyFire = false;
 			}
-			_NowY += _FlySpeed;
 		}
-		else if (_Direction == 2) {
-			if (_NowX <= 100) {
+		else if (_Direction == Left) {
+			if (_NowPlace[0][0] <= 100) {
 				_AlreadyFire = false;
 			}
-			_NowX -= _FlySpeed;
 		}
-		else if (_Direction == 3) {
-			if (_NowY <= 0) {
+		else if (_Direction == Up) {
+			if (_NowPlace[0][1] <= 0) {
 				_AlreadyFire = false;
 			}
-			_NowY -= _FlySpeed;
 		}
-		_Bulletimage.SetTopLeft(_NowX, _NowY);
+		_Bulletimage.SetTopLeft(_NowPlace[0][0], _NowPlace[0][1]);
 	}
 }
 void CBullet::OnShow() {
 	if (_AlreadyFire == true) {
 		_Bulletimage.ShowBitmap();
 	}
+}
+void CBullet::SetBulletAlreadyFire(bool BulletAlreadyFire) {
+	_AlreadyFire = BulletAlreadyFire;
+}
+vector<vector<int>> CBullet::_GetNowPlace() {
+	return _NowPlace;
 }
