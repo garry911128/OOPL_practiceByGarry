@@ -16,8 +16,8 @@ CTank::CTank():Width(32), Height(32) {
 	_Y = Height*24;
 	_Level = 1;								// 等級
 	_Life = 1;								// 生命
-	_FrontX =0;								// 面對方向的前方格子X座標
-	_FrontY =0;								// 面對方向的前方格子Y座標
+	//_FrontX =0;								// 面對方向的前方格子X座標
+	//_FrontY =0;								// 面對方向的前方格子Y座標
 	_OriginAngle = Up;						// 面對角度 0 is east,1 south, 2 west,3 north
 	_TurnAngle = Up;							// 轉向角度
 	_FrameTime = 0;							// 計時器
@@ -34,6 +34,7 @@ CTank::CTank():Width(32), Height(32) {
 	_DoubleAttack = false;
 	_Tank.SetAnimation(1,true);
 	_IfFire = false;
+	_FrontXY = { {0,0},{0,0} };
 	//_Bullet.LoadBitmap();
 }
 bool CTank::GetIfFire() {
@@ -48,24 +49,24 @@ int CTank::GetY1() {
 int CTank::GetOriginAngle() {
 	return _OriginAngle;
 }
-int CTank::GetFrontX() {
-	if (_FrontX < 0){
-		return 0;
-	}
-	else if (_FrontX > 25){
-		return 25;
-	}
-	return _FrontX;
-}
-int CTank::GetFrontY() {
-	if (_FrontY < 0) {
-		return 0;
-	}
-	else if (_FrontY > 25) {
-		return 25;
-	}
-	return _FrontY;
-}
+//int CTank::GetFrontX() {
+//	if (_FrontX < 0){
+//		return 0;
+//	}
+//	else if (_FrontX > 25){
+//		return 25;
+//	}
+//	return _FrontX;
+//}
+//int CTank::GetFrontY() {
+//	if (_FrontY < 0) {
+//		return 0;
+//	}
+//	else if (_FrontY > 25) {
+//		return 25;
+//	}
+//	return _FrontY;
+//}
 bool CTank::isBreak() {
 	if (_Life ==0){
 		return true;
@@ -187,23 +188,30 @@ void CTank::LevelUP() {
 	}
 }
 void CTank::TankFront(int grid) {		// ./resource/TankFrontAxis.png
-	int Cal_X = (_X - 100) / Width;
-	int Cal_Y = _Y / Height;
+	
 	if (_OriginAngle == Right) {
-		_FrontX = Cal_X + 2;
-		_FrontY = Cal_Y + grid;
+		_FrontXY[0][0] = _X + Width * 2;
+		_FrontXY[0][1] = _Y + Height / 2;
+		_FrontXY[1][0] = _X + Width * 2;
+		_FrontXY[1][1] = _Y + Height * 3 / 2;
 	}
 	else if (_OriginAngle == Left) {
-		_FrontX = Cal_X + grid;
-		_FrontY = Cal_Y;
+		_FrontXY[0][0] = _X - Width / 2;
+		_FrontXY[0][1] = _Y + Height / 2;
+		_FrontXY[1][0] = _X - Width / 2;
+		_FrontXY[1][1] = _Y + Height * 3 / 2;
 	}
 	else if (_OriginAngle == Up) {
-		_FrontX = Cal_X + grid;
-		_FrontY = Cal_Y;
+		_FrontXY[0][0] = _X + Width / 2;
+		_FrontXY[0][1] = _Y + Height / 2;
+		_FrontXY[1][0] = _X + Width * 3 / 2;
+		_FrontXY[1][1] = _Y + Height / 2;
 	}
 	else if (_OriginAngle == Down) {
-		_FrontX = Cal_X + grid;
-		_FrontY = Cal_Y +2;
+		_FrontXY[0][0] = _X + Width / 2;
+		_FrontXY[0][1] = _Y + Height * 2;
+		_FrontXY[1][0] = _X + Width * 3 / 2;
+		_FrontXY[1][1] = _Y + Height * 2;
 	}
 }
 vector<vector<int>> CTank::GetBulletPlace() {
