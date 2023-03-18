@@ -49,24 +49,6 @@ int CTank::GetY1() {
 int CTank::GetOriginAngle() {
 	return _OriginAngle;
 }
-//int CTank::GetFrontX() {
-//	if (_FrontX < 0){
-//		return 0;
-//	}
-//	else if (_FrontX > 25){
-//		return 25;
-//	}
-//	return _FrontX;
-//}
-//int CTank::GetFrontY() {
-//	if (_FrontY < 0) {
-//		return 0;
-//	}
-//	else if (_FrontY > 25) {
-//		return 25;
-//	}
-//	return _FrontY;
-//}
 bool CTank::isBreak() {
 	if (_Life ==0){
 		return true;
@@ -187,8 +169,7 @@ void CTank::LevelUP() {
 		}
 	}
 }
-void CTank::TankFront(int grid) {		// ./resource/TankFrontAxis.png
-	
+void CTank::TankFront() {		// ./resource/TankFrontAxis.png
 	if (_OriginAngle == Right) {
 		_FrontXY[0][0] = _X + Width * 2;
 		_FrontXY[0][1] = _Y + Height / 2;
@@ -214,6 +195,9 @@ void CTank::TankFront(int grid) {		// ./resource/TankFrontAxis.png
 		_FrontXY[1][1] = _Y + Height * 2;
 	}
 }
+vector<vector<int>> CTank::GetTankFront(){
+	return _FrontXY;
+}
 vector<vector<int>> CTank::GetBulletPlace() {
 	return _Bullet._GetNowPlace();
 }
@@ -226,25 +210,3 @@ void CTank::SetIfFire(bool Status) {
 bool CTank::GetBulletStatus() {
 	return _Bullet.GetAlreadyFire();
 }
-//CMovingBitmap CTank::GetTankBitmap() {
-//	return _Tank;
-//}
-//void CTank::AnimationOnce() {
-//	_Tank.ToggleAnimation();
-//}
-//void CTank::Attacke() {
-//	if (_OriginAngle == 90) {
-//		/*spawn Bullet
-//		Bullet.setXY(_X+_Width,_Y+_Height/2);
-//		*/
-//	}
-//	else if (_OriginAngle == -90) {
-//		
-//	}
-//	else if (_OriginAngle == 0) {
-//		
-//	}
-//	else {
-//		
-//	}
-//}

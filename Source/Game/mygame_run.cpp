@@ -28,19 +28,12 @@ void CGameStateRun::OnBeginState()
 
 void CGameStateRun::OnMove()                            // 移動遊戲元素
 {
-	bool temp1, temp2;
 	vector<vector<int>> _tempcollision;
 	if (_isHoldRightKey == true ||_isHoldLeftKey == true || _isHoldDownKey == true || _isHoldUpKey == true){
 		_PlayerTank.TurnFace(_HoldKey);
-		_PlayerTank.TankFront(0);
-		//_PlayerTankFrontX = _PlayerTank.GetFrontX();
-		//_PlayerTankFrontY = _PlayerTank.GetFrontY();
-		temp1 = Stage1.GetMapItemInfo(_PlayerTankFrontY, _PlayerTankFrontX, 0);
-		_PlayerTank.TankFront(1);
-		//_PlayerTankFrontX = _PlayerTank.GetFrontX();
-		//_PlayerTankFrontY = _PlayerTank.GetFrontY();
-		temp2 = Stage1.GetMapItemInfo(_PlayerTankFrontY, _PlayerTankFrontX, 0); 
-		if (temp1 && temp2){
+		_PlayerTank.TankFront();
+		_tempcollision = Stage1.GetFrontGridsIndex(_PlayerTank.GetTankFront());
+		if (Stage1.GetMapItemInfo(_tempcollision[0][1], _tempcollision[0][0], 0) && Stage1.GetMapItemInfo(_tempcollision[1][1], _tempcollision[1][0], 0)){
 			_PlayerTank.Move();
 		}
 		_PlayerTank.Animation();
@@ -48,7 +41,7 @@ void CGameStateRun::OnMove()                            // 移動遊戲元素
 	if (_PlayerTank.GetIfFire()) {
 		_PlayerTank.FireBullet();
 		_tempcollision = Stage1.GetFrontGridsIndex(_PlayerTank.GetBulletPlace());
-		if ((_PlayerTank.GetBulletStatus() == true ) && (Stage1.GetMapItemInfo(_tempcollision[0][1], _tempcollision[0][0], 1) == true && Stage1.GetMapItemInfo(_tempcollision[1][1], _tempcollision[1][0], 1) == true)) {
+		if (_PlayerTank.GetBulletStatus() && Stage1.GetMapItemInfo(_tempcollision[0][1], _tempcollision[0][0], 1) && Stage1.GetMapItemInfo(_tempcollision[1][1], _tempcollision[1][0], 1)) {
 			_PlayerTank.SetBulletStatus(false);
 			_PlayerTank.SetIfFire(false);
 		}
@@ -238,7 +231,7 @@ void CGameStateRun::OnShowText() {
 	CTextDraw::Print(pDC, 0, 0, (to_string(_PlayerTankFrontY) + " " + to_string(_PlayerTankFrontX).c_str()));
 	CTextDraw::Print(pDC, 0, 25, (to_string(_MouseX) + " " + to_string(_MouseY).c_str()));
 	CTextDraw::Print(pDC, 0, 50, (to_string(_tempcollision[0][0]) + "," + to_string(_tempcollision[0][1]).c_str()));
-	CTextDraw::Print(pDC, 0, 75, (to_string(_tempcollision[1][0]) + "," + to_string(_tempcollision[1][1]).c_str())*.
+	CTextDraw::Print(pDC, 0, 75, (to_string(_tempcollision[1][0]) + "," + to_string(_tempcollision[1][1]).c_str()));
 	/*
 	CTextDraw::ChangeFontLog( pDC, 10, "TRANSPARENT", RGB(0, 180, 0));
 	for (int i = 0; i < 26; i++) {
