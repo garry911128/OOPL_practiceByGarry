@@ -73,7 +73,7 @@ void Map::OnShow() {
 	_BattleMenuFlag.ShowBitmap();
 }
 
-bool Map::GetMapItemInfo(int x, int y, int info) {
+bool Map::GetMapItemInfo(int x, int y, int info) { // info = GetWhatType 
 	if (info == 0){
 		return _Stage[x][y].GetIfWalk();
 	}
@@ -88,4 +88,14 @@ bool Map::GetMapItemInfo(int x, int y, int info) {
 }
 int Map::GetType(int x, int y) {
 	return _Stage[x][y].GetType();
+}
+vector<vector<int>> Map::GetFrontGridsIndex(vector<vector<int>> GridXY) { // u should give the two of pixel xy in front of your object
+	vector<vector<int>> FrontIndex = { {0,0},{0,0} };
+	FrontIndex[0][0] = (GridXY[0][0] - 100)/ 32;
+	FrontIndex[0][1] = GridXY[0][1] / 32;
+
+	FrontIndex[1][0] = (GridXY[1][0] - 100) / 32;
+	FrontIndex[1][1] = GridXY[1][1] / 32;
+
+	return FrontIndex;
 }
