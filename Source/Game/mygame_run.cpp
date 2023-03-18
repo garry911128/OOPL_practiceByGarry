@@ -32,12 +32,12 @@ void CGameStateRun::OnMove()                            // 移動遊戲元素
 	if (_isHoldRightKey == true ||_isHoldLeftKey == true || _isHoldDownKey == true || _isHoldUpKey == true){
 		_PlayerTank.TurnFace(_HoldKey);
 		_PlayerTank.TankFront(0);
-		_PlayerTankFrontX = _PlayerTank.GetFrontX();
-		_PlayerTankFrontY = _PlayerTank.GetFrontY();
+		//_PlayerTankFrontX = _PlayerTank.GetFrontX();
+		//_PlayerTankFrontY = _PlayerTank.GetFrontY();
 		temp1 = Stage1.GetMapItemInfo(_PlayerTankFrontY, _PlayerTankFrontX, 0);
 		_PlayerTank.TankFront(1);
-		_PlayerTankFrontX = _PlayerTank.GetFrontX();
-		_PlayerTankFrontY = _PlayerTank.GetFrontY();
+		//_PlayerTankFrontX = _PlayerTank.GetFrontX();
+		//_PlayerTankFrontY = _PlayerTank.GetFrontY();
 		temp2 = Stage1.GetMapItemInfo(_PlayerTankFrontY, _PlayerTankFrontX, 0); 
 		if (temp1 && temp2){
 			_PlayerTank.Move();
@@ -177,6 +177,13 @@ void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	if (nChar == VK_LEFT)	_isHoldLeftKey = true;
 	if (nChar == VK_RIGHT)	_isHoldLeftKey = true;
 	if (nChar == VK_DOWN || nChar == VK_RIGHT|| nChar == VK_LEFT|| nChar == VK_UP) _HoldKey = nChar;
+	/*if (GetKeyState(VK_UP) || GetKeyState(VK_DOWN) || GetKeyState(VK_RIGHT) || GetKeyState(VK_LEFT)) {
+		_HoldKey = nChar;
+		_PlayerTank.TurnFace(_HoldKey);
+		_PlayerTank.Move();
+		_PlayerTank.Animation();
+	}*/
+
 }
 
 void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
@@ -221,7 +228,7 @@ void CGameStateRun::OnShowText() {
 	pDC->SetBkMode(TRANSPARENT);
 	pDC->SetTextColor(RGB(0, 0, 0));
 	CTextDraw::Print(pDC, 0, 0, (to_string(_PlayerTankFrontY) + " " + to_string(_PlayerTankFrontX).c_str()));
-	CTextDraw::Print(pDC, 0, 25, (to_string(_MouseX) + " " + to_string(_MouseY).c_str()));
+	CTextDraw::Print(pDC, 0, 25,(to_string(_MouseX) + " " + to_string(_MouseY).c_str()));
 
 	CDDraw::ReleaseBackCDC();
 }
