@@ -28,19 +28,12 @@ void CGameStateRun::OnBeginState()
 
 void CGameStateRun::OnMove()                            // 移動遊戲元素
 {
-	bool temp1, temp2;
 	vector<vector<int>> _tempcollision;
 	if (_isHoldRightKey == true ||_isHoldLeftKey == true || _isHoldDownKey == true || _isHoldUpKey == true){
 		_PlayerTank.TurnFace(_HoldKey);
-		_PlayerTank.TankFront(0);
-		//_PlayerTankFrontX = _PlayerTank.GetFrontX();
-		//_PlayerTankFrontY = _PlayerTank.GetFrontY();
-		temp1 = Stage1.GetMapItemInfo(_PlayerTankFrontY, _PlayerTankFrontX, 0);
-		_PlayerTank.TankFront(1);
-		//_PlayerTankFrontX = _PlayerTank.GetFrontX();
-		//_PlayerTankFrontY = _PlayerTank.GetFrontY();
-		temp2 = Stage1.GetMapItemInfo(_PlayerTankFrontY, _PlayerTankFrontX, 0);
-		if (temp1 && temp2 && Stage1.GetIfBoardEdge(_PlayerTank.GetX1(),_PlayerTank.GetY1(),_PlayerTank.GetHeight(),_PlayerTank.GetWidth(),_PlayerTank.GetOriginAngle()) == true){
+		_PlayerTank.TankFront();
+		_tempcollision = Stage1.GetFrontGridsIndex(_PlayerTank.GetTankFront());
+		if (Stage1.GetMapItemInfo(_tempcollision[0][1], _tempcollision[0][0], 0) && Stage1.GetMapItemInfo(_tempcollision[1][1], _tempcollision[1][0], 0)){
 			_PlayerTank.Move();
 		}
 		_PlayerTank.Animation();
