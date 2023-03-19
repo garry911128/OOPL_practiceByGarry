@@ -23,11 +23,11 @@ CTank::CTank():Width(32), Height(32) {
 	_FrameTime = 0;							// 計時器
 	_Frameindex = 4;						// 動畫偵 (0 is east,1 south, 2 west,3 north)*2
 	_FrameSecond = 3;						// 動畫變換速度
-	_LocationDistance = Height / 4;			// 定位點距離
+	_LocationDistance = Height;				// 定位點距離
 	_OffsetX = 0;							// 偏移X
 	_OffsetY = 0;							// 偏移Y
-	_PointX = _X;							// 轉換定位X
-	_PointY = _Y;							// 轉換定位Y
+	_PointX = (_X - 100) / Width;			// 轉換定位X
+	_PointY = (_Y / Height);				// 轉換定位Y
 	_MovementSpeed = 2;						// 移動速度
 	_AttackSpeedUP = false;
 	_CanBreakIron = false;
@@ -90,6 +90,16 @@ void CTank::Move() {
 		_OffsetY += _MovementSpeed;
 		_Y += _MovementSpeed;
 	}
+	if (abs(_OffsetX) == _LocationDistance) {
+		if (_OffsetX > 0) _PointX += 1;
+		else _PointX -= 1;
+	}
+	if (abs(_OffsetY) == _LocationDistance) {
+		if(_OffsetY>0) _PointY += 1;
+		else _PointY -= 1;
+	}
+	if (abs(_OffsetX) == Width * 2)_OffsetX = 0;
+	if (abs(_OffsetY) == Height * 2)_OffsetY = 0;
 }
 void CTank::TurnFace(UINT nChar) {
 	if (nChar == VK_RIGHT) {
@@ -137,15 +147,15 @@ void CTank::Animation() {
 	_FrameTime += 1;
 }
 void CTank::LocationPoint(int _x, int _y) {
-	if (abs(_x) > _LocationDistance){
-		_PointX += _x;
-		_OffsetX = 0;
+	/*if (abs(_x) > _LocationDistance){
+		_PointX += _x / Width;
 	}
 	if (abs(_y) > _LocationDistance) {
-		_PointY += _y;
-		_OffsetY = 0;
-	}
-	SetXY(_PointX, _PointY);
+		_PointY += _y / Height;
+	}*/
+	_OffsetX = 0;
+	_OffsetY = 0;
+	SetXY(_PointX*Width+100, _PointY*Height);
 }
 
 void CTank::OnShow() {
@@ -177,16 +187,16 @@ void CTank::TankFront() {		// ./resource/TankFrontAxis.png
 		_FrontXY[1][1] = _Y + Height * 3 / 2;
 	}
 	else if (_OriginAngle == Left) {
-		_FrontXY[0][0] = _X - Width / 2;
+		_FrontXY[0][0] = _X ;
 		_FrontXY[0][1] = _Y + Height / 2;
-		_FrontXY[1][0] = _X - Width / 2;
+		_FrontXY[1][0] = _X ;
 		_FrontXY[1][1] = _Y + Height * 3 / 2;
 	}
 	else if (_OriginAngle == Up) {
 		_FrontXY[0][0] = _X + Width / 2;
-		_FrontXY[0][1] = _Y + Height / 2;
+		_FrontXY[0][1] = _Y ;
 		_FrontXY[1][0] = _X + Width * 3 / 2;
-		_FrontXY[1][1] = _Y + Height / 2;
+		_FrontXY[1][1] = _Y ;
 	}
 	else if (_OriginAngle == Down) {
 		_FrontXY[0][0] = _X + Width / 2;
