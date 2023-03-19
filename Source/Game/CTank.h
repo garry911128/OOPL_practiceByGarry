@@ -15,7 +15,7 @@ namespace game_framework {
 		int GetFrontY();*/
 		int GetOriginAngle();
 		bool isBreak();
-		void TankFront(int grid);
+		void TankFront();
 		void Animation();					
 		//void AnimationOnce();			
 		void LevelUP();						//升級
@@ -30,6 +30,7 @@ namespace game_framework {
 		void SetBulletStatus(bool Status);
 		void SetIfFire(bool Status);
 		vector<vector<int>> GetBulletPlace();
+		vector<vector<int>> GetTankFront();
 		int GetBulletDirection();
 		//CMovingBitmap GetTankBitmap();
 	protected:
