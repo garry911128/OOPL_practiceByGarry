@@ -62,26 +62,7 @@ void CBullet::SetBulletFire(int TankX,int TankY,int TankDirect) {
 		_NextMove[0][1] = _NowPlace[0][1] + _Move[_Direction][1] * _FlySpeed;
 		_NextMove[1][0] = _NowPlace[1][0] + _Move[_Direction][0] * _FlySpeed;
 		_NextMove[1][1] = _NowPlace[1][1] + _Move[_Direction][1] * _FlySpeed;
-		if (_Direction == 0) {
-			if (_NowPlace[0][0] >= 932) {
-				_AlreadyFire = false;
-			}
-		}
-		else if (_Direction == 1) {
-			if (_NowPlace[0][1] >= 832) {
-				_AlreadyFire = false;
-			}
-		}
-		else if (_Direction == 2) {
-			if (_NowPlace[0][0] <= 100) {
-				_AlreadyFire = false;
-			}
-		}
-		else if (_Direction == 3) {
-			if (_NowPlace[0][1] <= 0) {
-				_AlreadyFire = false;
-			}
-		}
+	
 		_Bulletimage.SetTopLeft(_NowPlace[0][0], _NowPlace[0][1]);
 	}
 }
@@ -98,4 +79,10 @@ vector<vector<int>> CBullet::_GetNowPlace() {
 }
 int CBullet::GetDirection() {
 	return _Direction;
+}
+int CBullet::GetHeight() {
+	return _Bulletimage.GetHeight();
+}
+int CBullet::GetWidth() {
+	return _Bulletimage.GetWidth();
 }

@@ -14,6 +14,8 @@ namespace game_framework {
 		int GetDirection();
 		static vector<vector<int>> _Move;
 		vector<vector<int>> _GetNowPlace();
+		int GetHeight();
+		int GetWidth();
 	private:
 		enum Move {
 			Right, Down, Left, Up

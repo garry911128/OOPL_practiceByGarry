@@ -39,6 +39,7 @@
 */
 
 #include "Menu.h"
+#include "GameProps.h"
 #include "MapItem.h"
 #include "Map.h"
 #include "CPlayer.h"
@@ -71,7 +72,6 @@ namespace game_framework {
 		void OnShow();									// 顯示這個狀態的遊戲畫面
 		void OnShowText();
 	private:
-		int _GOToStateRun = -1;
 		int _MouseX;
 		int _MouseY;
 		CMovingBitmap logo;								// csie的logo
@@ -97,6 +97,7 @@ namespace game_framework {
 		void OnRButtonDown(UINT nFlags, CPoint point);  // 處理滑鼠的動作
 		void OnRButtonUp(UINT nFlags, CPoint point);	// 處理滑鼠的動作
 		Map Stage1;
+		GameProps Prop;
 	protected:
 		void OnShowText();
 		int _MouseX;

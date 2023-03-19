@@ -216,3 +216,38 @@ int CTank::GetHeight() {
 int CTank::GetWidth() {
 	return _Tank.GetWidth();
 }
+int CTank::GetBulletX() {
+	return _Bullet._GetNowPlace()[0][0];
+}
+int CTank::GetBulletY() {
+	return _Bullet._GetNowPlace()[0][1];
+}
+int CTank::GetBulletHeight() {
+	return _Bullet.GetHeight();
+}
+int CTank::GetBulletWidth() {
+	return _Bullet.GetWidth();
+}
+//CMovingBitmap CTank::GetTankBitmap() {
+//	return _Tank;
+//}
+//void CTank::AnimationOnce() {
+//	_Tank.ToggleAnimation();
+//}
+//void CTank::Attacke() {
+//	if (_OriginAngle == 90) {
+//		/*spawn Bullet
+//		Bullet.setXY(_X+_Width,_Y+_Height/2);
+//		*/
+//	}
+//	else if (_OriginAngle == -90) {
+//		
+//	}
+//	else if (_OriginAngle == 0) {
+//		
+//	}
+//	else {
+//		
+//	}
+//}
+

@@ -42,8 +42,8 @@ void CGameStateInit::OnBeginState()
 
 void CGameStateInit::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
-	_GOToStateRun = _Lobby.OnKeyDown(nChar, nRepCnt, nFlags);
-	if (_GOToStateRun != -1) {
+	_1POr2P = _Lobby.OnKeyDown(nChar, nRepCnt, nFlags);
+	if ( _1POr2P != -1) {
 		GotoGameState(GAME_STATE_RUN);		// 切換至GAME_STATE_RUN
 	}
 }

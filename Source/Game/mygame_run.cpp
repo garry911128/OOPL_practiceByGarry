@@ -41,7 +41,13 @@ void CGameStateRun::OnMove()                            // 移動遊戲元素
 	if (_PlayerTank.GetIfFire()) {
 		_PlayerTank.FireBullet();
 		_tempcollision = Stage1.GetFrontGridsIndex(_PlayerTank.GetBulletPlace());
-		if (_PlayerTank.GetBulletStatus() && Stage1.GetMapItemInfo(_tempcollision[0][1], _tempcollision[0][0], 1) && Stage1.GetMapItemInfo(_tempcollision[1][1], _tempcollision[1][0], 1)) {
+		if (Stage1.GetIfBoardEdge(_PlayerTank.GetBulletX(), _PlayerTank.GetBulletY(), _PlayerTank.GetBulletHeight(), _PlayerTank.GetBulletWidth(), _PlayerTank.GetBulletDirection()) == true) {
+			if (Stage1.GetMapItemInfo(_tempcollision[0][1], _tempcollision[0][0], 1) == true || Stage1.GetMapItemInfo(_tempcollision[1][1], _tempcollision[1][0], 1) == true) {
+				_PlayerTank.SetBulletStatus(false);
+				_PlayerTank.SetIfFire(false);
+			}
+		}
+		else {
 			_PlayerTank.SetBulletStatus(false);
 			_PlayerTank.SetIfFire(false);
 		}
@@ -164,6 +170,7 @@ void CGameStateRun::OnInit()                                  // 遊戲的初值
 	_PlayerTank.LoadBitmap();
 	_PlayerTankFrontX = 0;
 	_PlayerTankFrontY = 0;
+	Prop.OnInit(0);
 }
 
 void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
@@ -221,6 +228,7 @@ void CGameStateRun::OnShow()
 	Stage1.OnShow();
 	OnShowText();
 	_PlayerTank.OnShow();
+	Prop.OnShow();
 }
 void CGameStateRun::OnShowText() {
 	CDC *pDC = CDDraw::GetBackCDC();
@@ -232,6 +240,7 @@ void CGameStateRun::OnShowText() {
 	CTextDraw::Print(pDC, 0, 25, (to_string(_MouseX) + " " + to_string(_MouseY).c_str()));
 	CTextDraw::Print(pDC, 0, 50, (to_string(_tempcollision[0][0]) + "," + to_string(_tempcollision[0][1]).c_str()));
 	CTextDraw::Print(pDC, 0, 75, (to_string(_tempcollision[1][0]) + "," + to_string(_tempcollision[1][1]).c_str()));
+	CTextDraw::Print(pDC, 0, 95, ( to_string(_1POr2P).c_str()));
 	/*
 	CTextDraw::ChangeFontLog( pDC, 10, "TRANSPARENT", RGB(0, 180, 0));
 	for (int i = 0; i < 26; i++) {
