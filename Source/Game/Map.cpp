@@ -73,14 +73,15 @@ void Map::OnShow() {
 	_BattleMenuFlag.ShowBitmap();
 }
 
-bool Map::GetMapItemInfo(int x, int y, int info) { // info = GetWhatType 
-	if (info == 0){
+
+bool Map::GetMapItemInfo(int x, int y, int gettype) { 
+	if (gettype == 0){
 		return _Stage[x][y].GetIfWalk();
 	}
-	else if (info == 1){
+	else if (gettype == 1){
 		return _Stage[x][y].GetIfShoot();
 	}
-	else if (info == 2)
+	else if (gettype == 2)
 	{
 		return _Stage[x][y].GetIfBreak();
 	}
@@ -98,4 +99,27 @@ vector<vector<int>> Map::GetFrontGridsIndex(vector<vector<int>> GridXY) { // u s
 	FrontIndex[1][1] = GridXY[1][1] / 32;
 
 	return FrontIndex;
+}
+bool Map::GetIfBoardEdge(int Nowx, int Nowy,int NowHeight,int NowWidth,int NowDirection) {
+	if (NowDirection == 0) {
+		if (Nowx + NowWidth >= 932) {
+			return false;
+		}
+	}
+	else if (NowDirection == 1) {
+		if (Nowy + NowHeight>= 832) {
+			return false;
+		}
+	}
+	else if (NowDirection == 2) {
+		if (Nowx <= 100) {
+			return false;
+		}
+	}
+	else if (NowDirection == 3) {
+		if (Nowy <= 0) {
+			return false;
+		}
+	}
+	return true;
 }

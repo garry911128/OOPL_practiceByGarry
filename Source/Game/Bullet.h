@@ -11,6 +11,7 @@ namespace game_framework {
 		void SetBulletAlreadyFire(bool AlreadyFire);
 		bool _IfFlying;
 		bool GetAlreadyFire();
+		int GetDirection();
 		static vector<vector<int>> _Move;
 		vector<vector<int>> _GetNowPlace();
 	private:
