@@ -226,6 +226,12 @@ void CTank::SetIfFire(bool Status) {
 int CTank::GetBulletDirection() {
 	return _Bullet.GetDirection();
 }
+int CTank::GetHeight() {
+	return _Tank.GetHeight();
+}
+int CTank::GetWidth() {
+	return _Tank.GetWidth();
+}
 //CMovingBitmap CTank::GetTankBitmap() {
 //	return _Tank;
 //}

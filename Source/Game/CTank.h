@@ -7,14 +7,10 @@ namespace game_framework {
 	{
 	public:
 		CTank();
-		enum Direction {
-			Right,
-			Down,
-			Left,
-			Up,
-		};
-		int GetX1();
-		int GetY1();
+		int GetX1(); //Get top left 
+		int GetY1(); //Get top left 
+		int GetWidth();
+		int GetHeight();
 		/*int GetFrontX();
 		int GetFrontY();*/
 		int GetOriginAngle();

@@ -17,7 +17,7 @@ vector<vector<int>> CBullet::_Move = { {1,0},{0,1},{-1,0},{0,-1} }; //Vector 2D
 CBullet::CBullet() {
 	//"resources/Bullet0.bmp","resources/Bullet1.bmp","resources/Bullet2.bmp","resources/Bullet3.bmp"
 	//_Boom.LoadBitmapByString({ "resources/Boom0.bmp","resources/Boom1.bmp","resources/Boom2.bmp" }, RGB(0, 0, 0));
-	_FlySpeed = 5;
+	_FlySpeed = 15;
 	_IfFlying = false;
 	_AlreadyFire = false;
 	_NextMove = { {0,0},{0,0} };
