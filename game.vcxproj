@@ -248,6 +248,7 @@
     <ClCompile Include="Source\Game\CEvent.cpp" />
     <ClCompile Include="Source\Game\CPlayer.cpp" />
     <ClCompile Include="Source\Game\CTank.cpp" />
+    <ClCompile Include="Source\Game\GameProps.cpp" />
     <ClCompile Include="Source\Game\Map.cpp" />
     <ClCompile Include="Source\Game\MapItem.cpp" />
     <ClCompile Include="Source\Game\Menu.cpp" />
@@ -272,6 +273,7 @@
     <ClInclude Include="Source\Game\config.h" />
     <ClInclude Include="Source\Game\CPlayer.h" />
     <ClInclude Include="Source\Game\CTank.h" />
+    <ClInclude Include="Source\Game\GameProps.h" />
     <ClInclude Include="Source\Game\Map.h" />
     <ClInclude Include="Source\Game\MapItem.h" />
     <ClInclude Include="Source\Game\Menu.h" />

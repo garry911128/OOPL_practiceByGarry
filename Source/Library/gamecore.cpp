@@ -26,6 +26,7 @@ namespace game_framework {
 	// 這個class是遊戲的facade，是MFC與各個遊戲狀態的橋樑，如果不增加或減少
 	// 遊戲狀態的話，可以不用管這個class的介面與實作。
 	/////////////////////////////////////////////////////////////////////////////
+	int CGameState::_1POr2P = -1;
 
 	CGame CGame::instance;
 
