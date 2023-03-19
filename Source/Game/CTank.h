@@ -31,6 +31,10 @@ namespace game_framework {
 		void SetIfFire(bool Status);
 		vector<vector<int>> GetBulletPlace();
 		int GetBulletDirection();
+		int GetBulletX();
+		int GetBulletY();
+		int GetBulletHeight();
+		int GetBulletWidth();
 		//CMovingBitmap GetTankBitmap();
 	protected:
 		enum Direction {

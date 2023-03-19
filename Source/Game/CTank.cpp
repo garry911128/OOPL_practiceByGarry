@@ -232,6 +232,18 @@ int CTank::GetHeight() {
 int CTank::GetWidth() {
 	return _Tank.GetWidth();
 }
+int CTank::GetBulletX() {
+	return _Bullet._GetNowPlace()[0][0];
+}
+int CTank::GetBulletY() {
+	return _Bullet._GetNowPlace()[0][1];
+}
+int CTank::GetBulletHeight() {
+	return _Bullet.GetHeight();
+}
+int CTank::GetBulletWidth() {
+	return _Bullet.GetWidth();
+}
 //CMovingBitmap CTank::GetTankBitmap() {
 //	return _Tank;
 //}
