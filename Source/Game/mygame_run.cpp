@@ -247,6 +247,7 @@ void CGameStateRun::OnShowText() {
 	CTextDraw::Print(pDC, 0, 25, (to_string(_MouseX) + " " + to_string(_MouseY).c_str()));
 	CTextDraw::Print(pDC, 0, 50, (to_string(_tempcollision[0][0]) + "," + to_string(_tempcollision[0][1]).c_str()));
 	CTextDraw::Print(pDC, 0, 75, (to_string(_tempcollision[1][0]) + "," + to_string(_tempcollision[1][1]).c_str()));
+	CTextDraw::Print(pDC, 0, 95, ( to_string(_1POr2P).c_str()));
 	/*
 	CTextDraw::ChangeFontLog( pDC, 10, "TRANSPARENT", RGB(0, 180, 0));
 	for (int i = 0; i < 26; i++) {
