@@ -33,7 +33,9 @@ void CGameStateRun::OnMove()                            // 移動遊戲元素
 		_PlayerTank.TurnFace(_HoldKey);
 		_PlayerTank.TankFront();
 		_tempcollision = Stage1.GetFrontGridsIndex(_PlayerTank.GetTankFront());
-		if (Stage1.GetMapItemInfo(_tempcollision[0][1], _tempcollision[0][0], 0) && Stage1.GetMapItemInfo(_tempcollision[1][1], _tempcollision[1][0], 0)){
+		if (Stage1.GetMapItemInfo(_tempcollision[0][1], _tempcollision[0][0], 0) && \
+			Stage1.GetMapItemInfo(_tempcollision[1][1], _tempcollision[1][0], 0) && \
+			Stage1.GetIfBoardEdge(_PlayerTank.GetX1(), _PlayerTank.GetY1(), _PlayerTank.GetHeight(), _PlayerTank.GetWidth(), _PlayerTank.GetOriginAngle())){
 			_PlayerTank.Move();
 		}
 		_PlayerTank.Animation();
@@ -41,7 +43,7 @@ void CGameStateRun::OnMove()                            // 移動遊戲元素
 	if (_PlayerTank.GetIfFire()) {
 		_PlayerTank.FireBullet();
 		_tempcollision = Stage1.GetFrontGridsIndex(_PlayerTank.GetBulletPlace());
-		if (_PlayerTank.GetBulletStatus() && Stage1.GetMapItemInfo(_tempcollision[0][1], _tempcollision[0][0], 1) && Stage1.GetMapItemInfo(_tempcollision[1][1], _tempcollision[1][0], 1)) {
+		if (_PlayerTank.GetIfFire() && (Stage1.GetMapItemInfo(_tempcollision[0][1], _tempcollision[0][0], 1)|| Stage1.GetMapItemInfo(_tempcollision[1][1], _tempcollision[1][0], 1))) {
 			_PlayerTank.SetBulletStatus(false);
 			_PlayerTank.SetIfFire(false);
 		}
