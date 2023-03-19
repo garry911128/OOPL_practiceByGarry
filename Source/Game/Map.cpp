@@ -97,7 +97,12 @@ vector<vector<int>> Map::GetFrontGridsIndex(vector<vector<int>> GridXY) { // u s
 
 	FrontIndex[1][0] = (GridXY[1][0] - 100) / 32;
 	FrontIndex[1][1] = GridXY[1][1] / 32;
-
+	for (int i = 0; i < 2; i++) {
+		for (int j = 0; j < 2; j++) {
+			if (FrontIndex[i][j] < 0) FrontIndex[i][j] = 0;
+			else if (FrontIndex[i][j] > 25) FrontIndex[i][j] = 25;
+		}
+	}
 	return FrontIndex;
 }
 bool Map::GetIfBoardEdge(int Nowx, int Nowy,int NowHeight,int NowWidth,int NowDirection) {
