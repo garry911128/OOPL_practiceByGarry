@@ -11,20 +11,16 @@ namespace game_framework {
 		int GetY1(); //Get top left 
 		int GetWidth();
 		int GetHeight();
-		/*int GetFrontX();
-		int GetFrontY();*/
 		int GetOriginAngle();
 		bool isBreak();
-		void TankFront();
-		void Animation();					
-		//void AnimationOnce();			
+		void TankFront();					//坦克前方的格子做定位
+		void Animation();							
 		void LevelUP();						//升級
 		void LocationPoint();				//位置校正
 		void Move();						//移動
 		void OnShow();						//SHOW
 		void SetXY(int x, int y);			//座標設定
 		void TurnFace(UINT nChar);			//調整圖片方向
-
 		void FireBullet();
 		bool GetIfFire();
 		void SetBulletStatus(bool Status);

@@ -16,23 +16,21 @@ CTank::CTank() :Width(32), Height(32) {
 	_Y = Height * 24;
 	_Level = 1;								// 等級
 	_Life = 1;								// 生命
-	//_FrontX =0;								// 面對方向的前方格子X座標
-	//_FrontY =0;								// 面對方向的前方格子Y座標
 	_OriginAngle = Up;						// 面對角度 0 is east,1 south, 2 west,3 north
-	_TurnAngle = Up;							// 轉向角度
+	_TurnAngle = Up;						// 轉向角度
 	_FrameTime = 0;							// 計時器
 	_Frameindex = 4;						// 動畫偵 (0 is east,1 south, 2 west,3 north)*2
-	_FrameSecond = 3;						// 動畫變換速度
-	_LocationDistance = Height;				// 定位點距離
+	_FrameSecond = 2;						// 動畫變換速度
+	_LocationDistance = Height/4;			// 定位點距離
 	_MovementSpeed = 2;						// 移動速度
 	_AttackSpeedUP = false;
 	_CanBreakIron = false;
 	_DoubleAttack = false;
 	_Tank.SetAnimation(1, true);
 	_IfFire = false;
-	_FrontXY = { {0,0},{0,0} };
-	_NowGrid = { (_X-100) / Width, _Y / Height };
-	_OffsetXY = { 0,0 };
+	_FrontXY = { {0,0},{0,0} };						// 移動方向前方兩格子的XY
+	_NowGrid = { (_X-100) / Width, _Y / Height };	// 坦克現在的格子
+	_OffsetXY = { 0,0 };							// 偏移的XY距離
 	//_Bullet.LoadBitmap();
 }
 bool CTank::GetIfFire() {
@@ -89,11 +87,11 @@ void CTank::Move() {
 		_OffsetXY[1] += _MovementSpeed;
 	}
 	for (int i = 0; i < 2; i++){
-		if (abs(_OffsetXY[i]) >= 32){		//當坦克持續移動到下一格時 偏移要歸零 不然_NowGrid會加太多次
+		if (abs(_OffsetXY[i]) >= 32){	//當坦克持續移動到下一格時 偏移要歸零 不然_NowGrid會加太多次
 			_OffsetXY[i] = 0;
 		}
-		else if (abs(_OffsetXY[i]) == 8){	//當坦克移動超過8pixel 代表定位點要往下一格走
-			if (_OffsetXY[i] < 0){
+		else if (abs(_OffsetXY[i]) == _LocationDistance){	//當坦克移動超過_LocationDistance 代表定位點要往下一格走
+			if (_OffsetXY[i] < 0){							//正負號會影響格子定位
 				_NowGrid[i] -= 1;
 			}
 			else if (_OffsetXY[i] > 0){
@@ -173,7 +171,7 @@ void CTank::LevelUP() {
 		}
 	}
 }
-void CTank::TankFront() {		// ./resource/TankFrontAxis.png
+void CTank::TankFront() {		// 對坦克前方的兩格格子做XY定位
 	if (_OriginAngle == Right) {
 		_FrontXY[0][0] = _X + Width * 2;
 		_FrontXY[0][1] = _Y + Height / 2;
@@ -232,26 +230,5 @@ int CTank::GetBulletHeight() {
 int CTank::GetBulletWidth() {
 	return _Bullet.GetWidth();
 }
-//CMovingBitmap CTank::GetTankBitmap() {
-//	return _Tank;
-//}
-//void CTank::AnimationOnce() {
-//	_Tank.ToggleAnimation();
-//}
-//void CTank::Attacke() {
-//	if (_OriginAngle == 90) {
-//		/*spawn Bullet
-//		Bullet.setXY(_X+_Width,_Y+_Height/2);
-//		*/
-//	}
-//	else if (_OriginAngle == -90) {
-//		
-//	}
-//	else if (_OriginAngle == 0) {
-//		
-//	}
-//	else {
-//		
-//	}
-//}
+
 

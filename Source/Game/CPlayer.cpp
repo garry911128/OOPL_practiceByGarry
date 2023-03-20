@@ -23,3 +23,6 @@ void CPlayer::LoadBitmap() {
 								"resources/Tank_Bottom_1.bmp","resources/Tank_Bottom_2.bmp"},RGB(0,0,0));
 	_Bullet.LoadBitmap();
 }
+
+
+
