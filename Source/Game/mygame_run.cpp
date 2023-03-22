@@ -32,7 +32,7 @@ void CGameStateRun::OnMove()                            // 移動遊戲元素
 		event.TrigSelectingStage(ChooseStageScreen);
 	}
 	if (_NowStage >= 1) {
-		event.TrigSetBattleMap(_NowStage,Stage1, _EnemyNum);
+		event.TrigSetBattleMap(_NowStage,Stage1, _EnemyNum,ChooseStageScreen);
 	}
 	vector<vector<int>> _tempcollision;
 	if (_isHoldRightKey == true ||_isHoldLeftKey == true || _isHoldDownKey == true || _isHoldUpKey == true){
@@ -236,10 +236,10 @@ void CGameStateRun::OnRButtonUp(UINT nFlags, CPoint point)    // 處理滑鼠的
 
 void CGameStateRun::OnShow()
 {
+	ChooseStageScreen.OnShow();
 	Stage1.OnShow();
 	_PlayerTank.OnShow();
 	//Prop.OnShow();
-	ChooseStageScreen.OnShow();
 	OnShowText();
 }
 void CGameStateRun::OnShowText() {

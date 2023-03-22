@@ -22,6 +22,8 @@ namespace game_framework {
 		bool GetAnimationing();
 		void SetAnimationing(bool Status);
 
+		void SetBattleing(bool Status);
+
 		void LoadBitMap();
 	private:
 		enum MenuType{
@@ -34,11 +36,13 @@ namespace game_framework {
 		int _TheHightestScore;
 		int _MenuType;
 
+		bool _Battleing;
+		CMovingBitmap _BattleMenuGray; //GrayMenu(background)
+
 		bool _Animationing;
 		bool _Selecting; // If Selecting (in Main Menu)
 		bool _Menuing; // If Menuing (in Main Menu)
 		bool _ChoosingStage; // Choosing Stage will appear gray Menu and let player choose stage 
-		CMovingBitmap _BattleMenu; //BlackMenu(background)
 		CMovingBitmap _ChooseStageMenuTop; //GrayMenu from Top
 		CMovingBitmap _ChooseStageMenuDown; //GrayMenu from Down
 
