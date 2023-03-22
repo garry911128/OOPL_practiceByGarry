@@ -39,7 +39,7 @@ MapItem::MapItem(int ItemType) { //傳某一個格子 type 進去
 		_IfShoot = true;
 		_IfBreak = true;
 		_IfWalk = false;
-		_OneGrid.LoadBitmapByString({ "resources/wall.bmp","resources/WallTopBreak.bmp", "resources/WallBottomBreak.bmp","resources/WallLeftBreak.bmp","resources/WallRightBreak.bmp" }, RGB(0, 0, 0));
+		_OneGrid.LoadBitmapByString({ "resources/wall.bmp","resources/WallLeftBreak.bmp","resources/WallTopBreak.bmp", "resources/WallRightBreak.bmp","resources/WallBottomBreak.bmp" }, RGB(0, 0, 0));
 	}
 	else if (_Type == 5) { //5是 鐵牆(無法行走(可破壞後走), 可射擊(無法穿過) ,不可破壞(拿道具後可破壞) )
 		_Health = 3;
@@ -55,10 +55,11 @@ MapItem::MapItem(int ItemType) { //傳某一個格子 type 進去
 		_OneGrid.LoadBitmapByString({ "resources/Grass.bmp" }, RGB(0, 0, 0));
 	}
 }
-void MapItem::ChangeGridState(int Direction,int Attack) { // direction  1 是磚牆上面被打到 , 2 是下 , 3 是左 , 4 是右
+void MapItem::ChangeGridState(int Direction,int Attack) { // direction  1 是磚牆左邊被打到(子彈往右飛) 
+	//, 2 是上面被打(子彈往下) , 3是右邊被打(子彈往左飛) , 4 是 下面被打(子彈往上飛)
 	if (_Type == 4) {
 		if (_Health > 1) {  //如果是磚牆,生命值不變 (最高是2) 變圖片就好
-			_OneGrid.SetFrameIndexOfBitmap(Direction);
+			_OneGrid.SetFrameIndexOfBitmap(Direction+1);
 			_Health -= Attack;
 		}
 		else {  //如果沒生命了變Type 1
@@ -68,12 +69,14 @@ void MapItem::ChangeGridState(int Direction,int Attack) { // direction  1 是磚
 			_IfWalk = true;
 		}
 	}
+	/*
 	else if (_Type == 5 && Attack > 3) { //如果ItemBuff = true (玩家的攻擊力夠)
 		_Type = 1;
 		_IfShoot = false;
 		_IfBreak = false;
 		_IfWalk = true;
 	}
+	*/
 }
 int MapItem::GetType() {
 	return _Type;
