@@ -32,6 +32,8 @@ void Event::TrigSelectingStage(Menu& GrayScreen) {
 	}
 }
 
-void Event::TrigSetBattle(int Stage, Map& StageMap) {
-	
+void Event::TrigSetBattleMap(int& NowStage,Map& StageMap,int& EnemyNum) {
+	StageMap.SetIfShowMap(true);
+	NowStage = 0;
+	EnemyNum = 20;
 }

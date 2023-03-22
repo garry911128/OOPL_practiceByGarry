@@ -108,6 +108,7 @@ namespace game_framework {
 		void OnShow();									// 顯示這個狀態的遊戲畫面
 
 		int _NowStage;
+		int _EnemyNum;
 		Event event;
 		Menu ChooseStageScreen;
 

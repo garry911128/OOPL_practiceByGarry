@@ -15,6 +15,9 @@ namespace game_framework {
 		bool GetIfBoardEdge(int Nowx, int Nowy, int NowHeight, int NowWidth,int NowDirection); // wil return a bool that If u touch the edge
 		//CMovingBitmap GetMapBitmap(int _x,int _y);
 
+		void SetIfShowMap(bool Status);
+		bool GetIfShowMap();
+
 	private:
 		enum ObjectDirection {
 			Right, Down, Left, Up

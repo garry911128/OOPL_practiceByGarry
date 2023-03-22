@@ -28,8 +28,11 @@ void CGameStateRun::OnBeginState()
 
 void CGameStateRun::OnMove()                            // 移動遊戲元素
 {
-	if (_NowStage == -1) {
+	if (_NowStage == -1) { // NowStage == -1  代表正在選 , == 0 代表正在戰鬥(已經選地圖了), == 1 ~ 35代表已經選完了
 		event.TrigSelectingStage(ChooseStageScreen);
+	}
+	if (_NowStage >= 1) {
+		event.TrigSetBattleMap(_NowStage,Stage1, _EnemyNum);
 	}
 	vector<vector<int>> _tempcollision;
 	if (_isHoldRightKey == true ||_isHoldLeftKey == true || _isHoldDownKey == true || _isHoldUpKey == true){
@@ -196,6 +199,7 @@ void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 		_PlayerTank.Move();
 		_PlayerTank.Animation();
 	}*/
+	_NowStage = ChooseStageScreen.OnKeyDown(nChar, nRepCnt, nFlags);
 
 }
 
@@ -232,8 +236,8 @@ void CGameStateRun::OnRButtonUp(UINT nFlags, CPoint point)    // 處理滑鼠的
 
 void CGameStateRun::OnShow()
 {
-	//Stage1.OnShow();
-	//_PlayerTank.OnShow();
+	Stage1.OnShow();
+	_PlayerTank.OnShow();
 	//Prop.OnShow();
 	ChooseStageScreen.OnShow();
 	OnShowText();

@@ -19,6 +19,9 @@ namespace game_framework {
 		bool GetChoosingStage();
 		void SetChoosingStage(bool choosingstage);
 
+		bool GetAnimationing();
+		void SetAnimationing(bool Status);
+
 		void LoadBitMap();
 	private:
 		enum MenuType{
@@ -31,6 +34,7 @@ namespace game_framework {
 		int _TheHightestScore;
 		int _MenuType;
 
+		bool _Animationing;
 		bool _Selecting; // If Selecting (in Main Menu)
 		bool _Menuing; // If Menuing (in Main Menu)
 		bool _ChoosingStage; // Choosing Stage will appear gray Menu and let player choose stage 
