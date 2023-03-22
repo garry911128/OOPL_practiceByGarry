@@ -14,10 +14,13 @@ namespace game_framework {
 		vector<vector<int>> GetFrontGridsIndex(vector<vector<int>> Grid1XY); // you should put the two of pixel xy here
 		bool GetIfBoardEdge(int Nowx, int Nowy, int NowHeight, int NowWidth,int NowDirection); // wil return a bool that If u touch the edge
 		//CMovingBitmap GetMapBitmap(int _x,int _y);
+
 	private:
 		enum ObjectDirection {
 			Right, Down, Left, Up
 		};
+
+		bool _IfShowMap;
 		CMovingBitmap _BlackGrid;
 		vector<CMovingBitmap> _EnemySign;
 		CMovingBitmap _OnePlayerHealth;
