@@ -155,6 +155,10 @@ void CTank::OnShow() {
 	_Tank.SetTopLeft(_X, _Y);
 	_Tank.ShowBitmap();
 	_Bullet.OnShow();
+	if (!_SpawnAnimationDone){
+		_SpawnAnimation.SetTopLeft(Width * 8 + 100,Height*24);
+		_SpawnAnimation.ShowBitmap();
+	}
 }
 
 void CTank::LevelUP() {
@@ -200,6 +204,32 @@ void CTank::TankFront() {		// 對坦克前方的兩格格子做XY定位
 vector<vector<int>> CTank::GetTankFront(){
 	return _FrontXY;
 }
+
+void CTank::LoadSpawnBitmap() {
+	_SpawnAnimation.LoadBitmapByString({"./resource/Spanw_1.bmp",
+										"./resource/Spanw_2.bmp",
+										"./resource/Spanw_3.bmp", 
+										"./resource/Spanw_4.bmp"}, RGB(0, 0, 0));
+}
+void CTank::ShowSpawnAnimation() {
+	if (_FrameTime%4==0){
+		_SpawnAnimation.SetFrameIndexOfBitmap(0);
+	}
+	else if (_FrameTime % 4 == 1) {
+		_SpawnAnimation.SetFrameIndexOfBitmap(1);
+	}
+	else if (_FrameTime % 4 == 2) {
+		_SpawnAnimation.SetFrameIndexOfBitmap(2);
+	}
+	else if (_FrameTime % 4 == 3) {
+		_SpawnAnimation.SetFrameIndexOfBitmap(3);
+	}
+	_FrameTime += 1;
+	if (_FrameTime == 12){
+		_SpawnAnimationDone == true;
+	}
+}
+/*Bullet*/
 vector<vector<int>> CTank::GetBulletPlace() {
 	return _Bullet._GetNowPlace();
 }

@@ -9,7 +9,6 @@ namespace game_framework {
 		Enemy();
 		void SetEnemyType(int _num);
 		void LoadBitmap();
-		void SpawnAfter5Second();
 	private:
 		enum EnemyType{
 			LightTank,
@@ -19,6 +18,7 @@ namespace game_framework {
 		};
 		int _EnemyType;
 		int _Invicible;
+		CMovingBitmap _SpawnAnimation;
 	};
 
 }
