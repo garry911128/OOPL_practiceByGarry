@@ -39,7 +39,9 @@ void CGameStateInit::OnInit()
 void CGameStateInit::OnBeginState()
 {
 }
-
+void CGameStateInit::OnMove() {
+	event.TrigLobbyMenu(_Lobby);
+}
 void CGameStateInit::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
 	_1POr2P = _Lobby.OnKeyDown(nChar, nRepCnt, nFlags);
@@ -62,11 +64,11 @@ void CGameStateInit::OnShow()
 }
 void CGameStateInit::OnShowText() {
 	CDC *pDC = CDDraw::GetBackCDC();
-	CFont *fp;
+	//CFont *fp;
 	pDC->SetBkMode(TRANSPARENT);
 	pDC->SetTextColor(RGB(0, 180, 0));
 	CTextDraw::Print(pDC, 0, 0, (to_string(_MouseX) + " " + to_string(_MouseY).c_str()));
-	_Lobby.OnShowText(pDC, fp);
+	//_Lobby.OnShowText(pDC, fp);
 
 	CDDraw::ReleaseBackCDC();
 }

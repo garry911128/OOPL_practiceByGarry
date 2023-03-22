@@ -28,6 +28,12 @@ void CGameStateRun::OnBeginState()
 
 void CGameStateRun::OnMove()                            // 移動遊戲元素
 {
+	if (_NowStage == -1) { // NowStage == -1  代表正在選 , == 0 代表正在戰鬥(已經選地圖了), == 1 ~ 35代表已經選完了
+		event.TrigSelectingStage(ChooseStageScreen);
+	}
+	if (_NowStage >= 1) {
+		event.TrigSetBattleMap(_NowStage,Stage1, _EnemyNum);
+	}
 	vector<vector<int>> _tempcollision;
 	if (_isHoldRightKey == true ||_isHoldLeftKey == true || _isHoldDownKey == true || _isHoldUpKey == true){
 		_PlayerTank.TurnFace(_HoldKey);
@@ -57,6 +63,8 @@ void CGameStateRun::OnMove()                            // 移動遊戲元素
 }
 void CGameStateRun::OnInit()                                  // 遊戲的初值及圖形設定
 {
+	_NowStage = -1;
+	ChooseStageScreen.LoadBitMap();
 	vector<vector<int>> tempstage1,tempstage2,tempstage5,tempstage17;
 	tempstage1= { { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }
 	,{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }
@@ -191,6 +199,7 @@ void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 		_PlayerTank.Move();
 		_PlayerTank.Animation();
 	}*/
+	_NowStage = ChooseStageScreen.OnKeyDown(nChar, nRepCnt, nFlags);
 
 }
 
@@ -228,14 +237,17 @@ void CGameStateRun::OnRButtonUp(UINT nFlags, CPoint point)    // 處理滑鼠的
 void CGameStateRun::OnShow()
 {
 	Stage1.OnShow();
-	OnShowText();
 	_PlayerTank.OnShow();
-	Prop.OnShow();
+	//Prop.OnShow();
+	ChooseStageScreen.OnShow();
+	OnShowText();
 }
 void CGameStateRun::OnShowText() {
 	CDC *pDC = CDDraw::GetBackCDC();
+	CFont *fp;
 	pDC->SetBkMode(TRANSPARENT);
-	pDC->SetTextColor(RGB(0, 0, 0));
+	pDC->SetTextColor(RGB(0, 180, 0));
+
 	vector<vector<int>> _tempcollision;
 	_tempcollision = Stage1.GetFrontGridsIndex(_PlayerTank.GetBulletPlace());
 	CTextDraw::Print(pDC, 0, 0, (to_string(_PlayerTankFrontY) + " " + to_string(_PlayerTankFrontX).c_str()));
@@ -243,6 +255,7 @@ void CGameStateRun::OnShowText() {
 	CTextDraw::Print(pDC, 0, 50, (to_string(_tempcollision[0][0]) + "," + to_string(_tempcollision[0][1]).c_str()));
 	CTextDraw::Print(pDC, 0, 75, (to_string(_tempcollision[1][0]) + "," + to_string(_tempcollision[1][1]).c_str()));
 	CTextDraw::Print(pDC, 0, 95, ( to_string(_1POr2P).c_str()));
+	ChooseStageScreen.OnShowText(pDC,fp);
 	/*
 	CTextDraw::ChangeFontLog( pDC, 10, "TRANSPARENT", RGB(0, 180, 0));
 	for (int i = 0; i < 26; i++) {

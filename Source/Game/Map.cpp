@@ -16,6 +16,7 @@ Map::Map() {
 	_BoardY = 0;
 }
 void Map::OnInit(vector<vector<int>> stage) {
+	_IfShowMap = false;
 	_BlackGrid.LoadBitmapByString({ "resources/BlackGrid.bmp" }, RGB(105, 105, 105));
 	_BlackGrid.SetTopLeft(100, 0);
 	for (int i = 0; i < 26; i++) {
@@ -55,22 +56,32 @@ void Map::OnInit(vector<vector<int>> stage) {
 	_PlayerSign[0].SetTopLeft(1010, 520);
 	_PlayerSign[1].SetTopLeft(1010, 620);
 }
+
+void Map::SetIfShowMap(bool Status) {
+	_IfShowMap = Status;
+}
+bool Map::GetIfShowMap() {
+	return _IfShowMap;
+}
+
 void Map::OnShow() {
-	_BlackGrid.ShowBitmap();
-	for (int i = 0; i < 26; i++) {
-		for (int j = 0; j < 26; j++) {
-			_Stage[i][j].OnShow();
+	if (_IfShowMap) {
+		_BlackGrid.ShowBitmap();
+		for (int i = 0; i < 26; i++) {
+			for (int j = 0; j < 26; j++) {
+				_Stage[i][j].OnShow();
+			}
 		}
+		for (int i = 0; i < (int)_EnemySign.size(); i++) {
+			_EnemySign[i].ShowBitmap();
+		}
+		_OnePlayerHealth.ShowBitmap();
+		_SecondPlayerHealth.ShowBitmap();
+		for (int i = 0; i < 2; i++) {
+			_PlayerSign[i].ShowBitmap();
+		}
+		_BattleMenuFlag.ShowBitmap();
 	}
-	for (int i = 0; i < (int)_EnemySign.size(); i++) {
-		_EnemySign[i].ShowBitmap();
-	}
-	_OnePlayerHealth.ShowBitmap();
-	_SecondPlayerHealth.ShowBitmap();
-	for (int i = 0; i < 2; i++) {
-		_PlayerSign[i].ShowBitmap();
-	}
-	_BattleMenuFlag.ShowBitmap();
 }
 
 
