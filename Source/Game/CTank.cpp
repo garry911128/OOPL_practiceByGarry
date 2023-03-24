@@ -28,6 +28,7 @@ CTank::CTank() :Width(32), Height(32) {
 	_DoubleAttack = false;
 	_Tank.SetAnimation(1, true);
 	_IfFire = false;
+	_IfBattle = false;
 	_FrontXY = { {0,0},{0,0} };						// 移動方向前方兩格子的XY
 	_NowGrid = { (_X-100) / Width, _Y / Height };	// 坦克現在的格子
 	_OffsetXY = { 0,0 };							// 偏移的XY距離
@@ -55,6 +56,10 @@ bool CTank::isBreak() {
 void CTank::SetXY(int _x, int _y) {
 	_X = _x;
 	_Y = _y;
+}
+
+void CTank::SetIfBattle(bool Status) {
+	_IfBattle = Status;
 }
 
 void CTank::FireBullet() {
@@ -152,7 +157,13 @@ void CTank::LocationPoint() {
 } 
 
 void CTank::OnShow() {
-	if (!GetSpawnAnimationDone()) {
+	if (_IfBattle) {
+		_Tank.SetFrameIndexOfBitmap(_Frameindex);
+		_Tank.SetTopLeft(_X, _Y);
+		_Tank.ShowBitmap();
+		_Bullet.OnShow();
+	}
+	/*if (!GetSpawnAnimationDone()) {
 		LoadSpawnBitmap();
 		ShowSpawnAnimation();
 	}
@@ -161,7 +172,7 @@ void CTank::OnShow() {
 		_Tank.SetTopLeft(_X, _Y);
 		_Tank.ShowBitmap();
 	}
-	_Bullet.OnShow();
+	_Bullet.OnShow();*/
 }
 
 void CTank::LevelUP() {
@@ -242,6 +253,9 @@ vector<vector<int>> CTank::GetBulletPlace() {
 	return _Bullet._GetNowPlace();
 }
 void CTank::SetBulletStatus(bool Status) {
+	if (_Bullet.GetAlreadyFire() == true && Status == false) {
+		_Bullet.SetIfBoom(true);
+	}
 	_Bullet.SetBulletAlreadyFire(Status);
 }
 void CTank::SetIfFire(bool Status) {

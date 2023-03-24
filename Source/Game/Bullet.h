@@ -9,8 +9,9 @@ namespace game_framework {
 		void SetBulletFire(int TankX, int TankY,int TankDirect);
 		void OnShow();
 		void SetBulletAlreadyFire(bool AlreadyFire);
-		bool _IfFlying;
 		bool GetAlreadyFire();
+		bool GetIfBoom();
+		void SetIfBoom(bool Status);
 		int GetDirection();
 		static vector<vector<int>> _Move;
 		vector<vector<int>> _GetNowPlace();
@@ -21,6 +22,7 @@ namespace game_framework {
 			Right, Down, Left, Up
 		};
 		bool _AlreadyFire;
+		bool _IfBoom;
 		vector<vector<int>> _NowPlace; //the place that stand on your left and right
 		int _Direction;
 		vector<vector<int>> _NextMove;

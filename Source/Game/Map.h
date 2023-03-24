@@ -18,6 +18,7 @@ namespace game_framework {
 		void SetIfShowMap(bool Status);
 		bool GetIfShowMap();
 
+		void ShootWall(int Direction, int Attack, int x, int y); //Iron wall or wall was shot
 	private:
 		enum ObjectDirection {
 			Right, Down, Left, Up

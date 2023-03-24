@@ -18,7 +18,6 @@ CBullet::CBullet() {
 	//"resources/Bullet0.bmp","resources/Bullet1.bmp","resources/Bullet2.bmp","resources/Bullet3.bmp"
 	//_Boom.LoadBitmapByString({ "resources/Boom0.bmp","resources/Boom1.bmp","resources/Boom2.bmp" }, RGB(0, 0, 0));
 	_FlySpeed = 15;
-	_IfFlying = false;
 	_AlreadyFire = false;
 	_NextMove = { {0,0},{0,0} };
 	_NowPlace = { {0,0},{0,0} };
@@ -26,7 +25,8 @@ CBullet::CBullet() {
 
 void CBullet::LoadBitmap() {
 	_Bulletimage.LoadBitmapByString({ "resources/Bullet0.bmp","resources/Bullet1.bmp","resources/Bullet2.bmp","resources/Bullet3.bmp" }, RGB(105, 105, 105));
-	_Boom.LoadBitmapByString({ "resources/Boom0.bmp","resources/Boom1.bmp","resources/Boom2.bmp" }, RGB(0, 0, 0));
+	_Boom.LoadBitmapByString({ "resources/Boom0.bmp","resources/Boom1.bmp","resources/Boom2.bmp" }, RGB(105, 105, 105));
+	_Boom.SetAnimation(50, true);
 }
 bool CBullet::GetAlreadyFire() {
 	return _AlreadyFire;
@@ -39,10 +39,10 @@ void CBullet::SetBulletFire(int TankX,int TankY,int TankDirect) {
 		_Direction = TankDirect;
 		if (_Direction == Right || _Direction == Left) {
 			_NowPlace[1][0] = TankX;
-			_NowPlace[1][1] = TankY + 4;
+			_NowPlace[1][1] = TankY + 10;
 		}
 		else if (_Direction == Down || _Direction == Up) {
-			_NowPlace[1][0] = TankX + 4;
+			_NowPlace[1][0] = TankX + 10;
 			_NowPlace[1][1] = TankY;
 		}
 		_Bulletimage.SetFrameIndexOfBitmap(TankDirect);
@@ -51,6 +51,7 @@ void CBullet::SetBulletFire(int TankX,int TankY,int TankDirect) {
 		_NextMove[1][0] = _NowPlace[1][0] + _Move[TankDirect][0] * _FlySpeed;
 		_NextMove[1][1] = _NowPlace[1][1] + _Move[TankDirect][1] * _FlySpeed;
 		_Bulletimage.SetTopLeft(_NowPlace[0][0], _NowPlace[0][1]);
+		_Boom.SetTopLeft(_NowPlace[0][0], _NowPlace[0][1]);
 	}
 	else {
 		_NowPlace[0][0] = _NextMove[0][0];
@@ -64,12 +65,23 @@ void CBullet::SetBulletFire(int TankX,int TankY,int TankDirect) {
 		_NextMove[1][1] = _NowPlace[1][1] + _Move[_Direction][1] * _FlySpeed;
 	
 		_Bulletimage.SetTopLeft(_NowPlace[0][0], _NowPlace[0][1]);
+		_Boom.SetTopLeft(_NowPlace[0][0], _NowPlace[0][1]);
 	}
 }
 void CBullet::OnShow() {
 	if (_AlreadyFire == true) {
 		_Bulletimage.ShowBitmap();
 	}
+
+	if (_IfBoom == true) {
+		if (_Boom.IsAnimationDone() == false) {
+			_Boom.ShowBitmap();
+		}
+		else {
+			_IfBoom = false;
+		}
+	}
+	
 }
 void CBullet::SetBulletAlreadyFire(bool BulletAlreadyFire) {
 	_AlreadyFire = BulletAlreadyFire;
@@ -85,4 +97,11 @@ int CBullet::GetHeight() {
 }
 int CBullet::GetWidth() {
 	return _Bulletimage.GetWidth();
+}
+bool CBullet::GetIfBoom() {
+	return _IfBoom;
+}
+void CBullet::SetIfBoom(bool Status) {
+	_Boom.ToggleAnimation();
+	_IfBoom = Status;
 }

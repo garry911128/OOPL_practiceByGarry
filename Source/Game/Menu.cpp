@@ -24,6 +24,7 @@ Menu::Menu() {
 	_Selecting = false;
 	_ChoosingStage = false;
 	_Animationing = false;
+	_Battleing = false;
 }
 
 void Menu::SetSelecting(bool select) {
@@ -81,6 +82,10 @@ bool Menu::GetAnimationing() {
 void Menu::SetAnimationing(bool Status) {
 	_Animationing = Status;
 }
+
+void Menu::SetBattleing(bool Status) {
+	_Battleing = Status;
+}
 int Menu::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 	const char KEY_UP = 0x26;
 	const char KEY_DOWN = 0x28;
@@ -93,11 +98,6 @@ int Menu::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 		_Animationing = false;
 		return -1;
 	}
-	else if (_Animationing == true && _MenuType == ChooseStage) {
-		_ChooseStageMenuTop.SetTopLeft(0, -450);
-		_ChooseStageMenuDown.SetTopLeft(0, 900);
-		_Animationing = false;
-	}
 	if (_Selecting && _MenuType == Lobby) {
 		if (nChar == KEY_DOWN) {
 			tempselect += 1;
@@ -109,6 +109,8 @@ int Menu::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 			tempselect %= 2;
 		}
 		else if (nChar == KEY_ENTER) {
+			_ChooseStageMenuTop.SetTopLeft(0, -450);
+			_ChooseStageMenuDown.SetTopLeft(0, 900);
 			_Selecting = false;
 			_Menuing = false;
 			_Menu.SetTopLeft(100, 900);
@@ -146,8 +148,8 @@ void Menu::LoadBitMap() {
 	_Menu.SetTopLeft(100, 900);
 	_Arrow.LoadBitmapByString({ "resources/LobbyArrow.bmp" });
 	_Arrow.SetTopLeft(380, 500);
-	_BattleMenu.LoadBitmapByString({"resources/BlackGrid.bmp"});
-	_BattleMenu.SetTopLeft(100, 0);
+	_BattleMenuGray.LoadBitmapByString({ "resources/GrayScreen_Background.bmp" });
+	_BattleMenuGray.SetTopLeft(0, 0);
 	_ChooseStageMenuTop.LoadBitmapByString({ "resources/GrayScreen.bmp" });
 	_ChooseStageMenuTop.SetTopLeft(0, -450);
 	_ChooseStageMenuDown.LoadBitmapByString({ "resources/GrayScreen.bmp" });
@@ -166,6 +168,9 @@ void Menu::OnShow() {
 	if (_ChoosingStage && _MenuType == ChooseStage) {
 		_ChooseStageMenuTop.ShowBitmap();
 		_ChooseStageMenuDown.ShowBitmap();
+	}
+	if (_Battleing) {
+		_BattleMenuGray.ShowBitmap();
 	}
 }
 void Menu::OnShowText(CDC *pDC, CFont* &fp) {

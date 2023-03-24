@@ -13,7 +13,7 @@ GameProps::GameProps() {
 }
 void GameProps::OnInit(int Type) {
 	_Type = Type;
-	_IfShow = false;
+	_IfShow = true;
 	string filename = "resources/Prop" + to_string(Type) + ".bmp";
 	_Props.LoadBitmapByString({ filename }, RGB(0, 0, 0));
 	_Props.SetTopLeft(100, 20);
