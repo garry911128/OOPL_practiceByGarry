@@ -56,7 +56,7 @@ MapItem::MapItem(int ItemType) { //傳某一個格子 type 進去
 	}
 }
 void MapItem::ChangeGridState(int Direction,int Attack) { // direction  1 是磚牆左邊被打到(子彈往右飛) 
-	//, 2 是上面被打(子彈往下) , 3是右邊被打(子彈往左飛) , 4 是 下面被打(子彈往上飛)
+	//, 2 是上面被打(子彈往下) , 3是右邊被打(子彈往左飛) , 4是 下面被打(子彈往上飛)
 	if (_Type == 4) {
 		if (_Health > 1) {  //如果是磚牆,生命值不變 (最高是2) 變圖片就好
 			_OneGrid.SetFrameIndexOfBitmap(Direction+1);

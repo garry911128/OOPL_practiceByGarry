@@ -21,6 +21,7 @@ namespace game_framework {
 		void OnShow();						//SHOW
 		void SetXY(int x, int y);			//座標設定
 		void TurnFace(UINT nChar);			//調整圖片方向
+
 		void FireBullet();
 		bool GetIfFire();
 		void SetBulletStatus(bool Status);
@@ -32,6 +33,7 @@ namespace game_framework {
 		int GetBulletY();
 		int GetBulletHeight();
 		int GetBulletWidth();
+		void SetIfBattle(bool Battle);
 		//CMovingBitmap GetTankBitmap();
 	protected:
 		enum Direction {
@@ -40,6 +42,7 @@ namespace game_framework {
 			Left,
 			Up,
 		};
+		bool _IfBattle; //the var that decide onshow
 		bool _IfFire;
 		clock_t _Last_time; // last time that bullet move; (we can consider it as delay)
 		CBullet _Bullet;

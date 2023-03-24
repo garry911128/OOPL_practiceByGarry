@@ -5,7 +5,7 @@ namespace game_framework {
 	public:
 		GameProps();
 		void OnInit(int Type);
-		void SetTopLeft(int x, int y);
+		void SetGameProps();
 		void OnShow();
 		int GetType();
 		void SetIfShow(bool IfShow);
