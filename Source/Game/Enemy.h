@@ -8,6 +8,7 @@ namespace game_framework {
 	public:
 		Enemy();
 		void SetEnemyType(int _num);
+		void SetEnemyInit();
 		void LoadBitmap();
 	private:
 		enum EnemyType{
@@ -17,8 +18,6 @@ namespace game_framework {
 			HeavyTank,
 		};
 		int _EnemyType;
-		int _Invicible;
-		CMovingBitmap _SpawnAnimation;
 	};
 
 }

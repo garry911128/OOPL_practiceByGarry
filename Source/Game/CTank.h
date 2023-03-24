@@ -32,9 +32,9 @@ namespace game_framework {
 		int GetBulletY();
 		int GetBulletHeight();
 		int GetBulletWidth();
-		void LoadSpawnBitmap();
-		void ShowSpawnAnimation();
-		void GetSpawnAnimationDone();
+		void LoadSpawnBitmap();				//Load重生動畫
+		void ShowSpawnAnimation();			//Show重生動畫
+		bool GetSpawnAnimationDone();		//Get重生動畫播放完畢
 		//CMovingBitmap GetTankBitmap();
 	protected:
 		enum Direction {

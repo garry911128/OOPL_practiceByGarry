@@ -12,6 +12,7 @@
 using namespace game_framework;
 
 Enemy::Enemy() : CTank() {
+	_EnemyType = 0;
 }
 void Enemy::SetEnemyType(int num) {
 	_EnemyType = num;
