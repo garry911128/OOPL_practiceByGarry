@@ -12,13 +12,12 @@
 using namespace game_framework;
 
 Enemy::Enemy() : CTank() {
+	_EnemyType = 0;
 }
 void Enemy::SetEnemyType(int num) {
 	_EnemyType = num;
 }
-void Enemy::SpawnAfter5Second() {
-	_Invicible = true;
-}
+
 void Enemy::LoadBitmap() {
 	if (_EnemyType == LightTank){
 		_Tank.LoadBitmapByString({  "resources/Enemy_LightTank_Right1.bmp" ,"resources/Enemy_LightTank_Right2.bmp",

@@ -36,7 +36,12 @@ void CGameStateRun::OnMove()                            // 移動遊戲元素
 		_PlayerTank.SetIfBattle(true);
 	}
 	vector<vector<int>> _tempcollision;
-	if (_isHoldRightKey == true ||_isHoldLeftKey == true || _isHoldDownKey == true || _isHoldUpKey == true){
+	if ((_isHoldRightKey == true|| \
+		 _isHoldLeftKey == true || \
+		 _isHoldDownKey == true || \
+		 _isHoldUpKey == true)  && \
+		 _PlayerTank.GetSpawnAnimationDone())
+	{
 		_PlayerTank.TurnFace(_HoldKey);
 		_PlayerTank.TankFront();
 		_tempcollision = Stage1.GetFrontGridsIndex(_PlayerTank.GetTankFront());
@@ -185,6 +190,7 @@ void CGameStateRun::OnInit()                                  // 遊戲的初值
 	_MouseX = 0;
 	_MouseY = 0;
 	_PlayerTank.LoadBitmap();
+	_PlayerTank.LoadSpawnBitmap();
 	_PlayerTankFrontX = 0;
 	_PlayerTankFrontY = 0;
 	Prop.OnInit(7);
@@ -245,8 +251,13 @@ void CGameStateRun::OnShow()
 {
 	ChooseStageScreen.OnShow();
 	Stage1.OnShow();
-	_PlayerTank.OnShow();
-	Prop.OnShow();
+	/*_PlayerTank.OnShow();
+	Prop.OnShow();*/
+	ChooseStageScreen.OnShow();
+	if (!ChooseStageScreen.GetAnimationing())
+		_PlayerTank.OnShow();
+
+	//Prop.OnShow();
 	OnShowText();
 }
 void CGameStateRun::OnShowText() {

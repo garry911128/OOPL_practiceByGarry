@@ -34,6 +34,9 @@ namespace game_framework {
 		int GetBulletHeight();
 		int GetBulletWidth();
 		void SetIfBattle(bool Battle);
+		void LoadSpawnBitmap();				//Load重生動畫
+		void ShowSpawnAnimation();			//Show重生動畫
+		bool GetSpawnAnimationDone();		//Get重生動畫播放完畢
 		//CMovingBitmap GetTankBitmap();
 	protected:
 		enum Direction {
@@ -47,6 +50,8 @@ namespace game_framework {
 		clock_t _Last_time; // last time that bullet move; (we can consider it as delay)
 		CBullet _Bullet;
 		CMovingBitmap _Tank;
+		CMovingBitmap _SpawnAnimation;
+		bool _SpawnAnimationDone;
 		int Width,Height;							//OneGrid寬,高
 		int _X,_Y;									//地圖座標								
 		int _FrameTime,_Frameindex,_FrameSecond;	//動畫計時器,動畫初始禎,計時秒數
