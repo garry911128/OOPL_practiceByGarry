@@ -251,13 +251,8 @@ void CGameStateRun::OnShow()
 {
 	ChooseStageScreen.OnShow();
 	Stage1.OnShow();
-	/*_PlayerTank.OnShow();
-	Prop.OnShow();*/
-	ChooseStageScreen.OnShow();
-	if (!ChooseStageScreen.GetAnimationing())
-		_PlayerTank.OnShow();
-
-	//Prop.OnShow();
+	Prop.OnShow();
+	_PlayerTank.OnShow();
 	OnShowText();
 }
 void CGameStateRun::OnShowText() {

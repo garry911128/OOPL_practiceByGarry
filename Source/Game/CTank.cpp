@@ -93,7 +93,7 @@ void CTank::Move() {
 		_OffsetXY[1] += _MovementSpeed;
 	}
 	for (int i = 0; i < 2; i++){
-		if (abs(_OffsetXY[i]) >= 32){	//當坦克持續移動到下一格時 偏移要歸零 不然_NowGrid會加太多次
+		if (abs(_OffsetXY[i]) >= Width){	//當坦克持續移動到下一格時 偏移要歸零 不然_NowGrid會加太多次
 			_OffsetXY[i] = 0;
 		}
 		else if (abs(_OffsetXY[i]) == _LocationDistance){	//當坦克移動超過_LocationDistance 代表定位點要往下一格走
@@ -158,21 +158,17 @@ void CTank::LocationPoint() {
 
 void CTank::OnShow() {
 	if (_IfBattle) {
-		_Tank.SetFrameIndexOfBitmap(_Frameindex);
-		_Tank.SetTopLeft(_X, _Y);
-		_Tank.ShowBitmap();
+		if (!GetSpawnAnimationDone()) {
+			LoadSpawnBitmap();
+			ShowSpawnAnimation();
+		}
+		else {
+			_Tank.SetFrameIndexOfBitmap(_Frameindex);
+			_Tank.SetTopLeft(_X, _Y);
+			_Tank.ShowBitmap();
+		}
 		_Bullet.OnShow();
 	}
-	/*if (!GetSpawnAnimationDone()) {
-		LoadSpawnBitmap();
-		ShowSpawnAnimation();
-	}
-	else {
-		_Tank.SetFrameIndexOfBitmap(_Frameindex);
-		_Tank.SetTopLeft(_X, _Y);
-		_Tank.ShowBitmap();
-	}
-	_Bullet.OnShow();*/
 }
 
 void CTank::LevelUP() {

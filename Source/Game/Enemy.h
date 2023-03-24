@@ -7,6 +7,9 @@ namespace game_framework {
 	{
 	public:
 		Enemy();
+		int GetEnemyScore();
+		bool isEnemuHaveItem();
+		void SetEnemyHaveItem();
 		void SetEnemyType(int _num);
 		void SetEnemyInit();
 		void LoadBitmap();
@@ -18,6 +21,8 @@ namespace game_framework {
 			HeavyTank,
 		};
 		int _EnemyType;
+		int _EnemyScore;
+		bool _EnemyHaveItem;
 	};
 
 }
