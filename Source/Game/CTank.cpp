@@ -31,6 +31,7 @@ CTank::CTank() :Width(32), Height(32) {
 	_FrontXY = { {0,0},{0,0} };						// 移動方向前方兩格子的XY
 	_NowGrid = { (_X-100) / Width, _Y / Height };	// 坦克現在的格子
 	_OffsetXY = { 0,0 };							// 偏移的XY距離
+	_SpawnAnimationDone = false;					// 重生動畫結束撥放
 	//_Bullet.LoadBitmap();
 }
 bool CTank::GetIfFire() {
@@ -151,9 +152,15 @@ void CTank::LocationPoint() {
 } 
 
 void CTank::OnShow() {
-	_Tank.SetFrameIndexOfBitmap(_Frameindex);
-	_Tank.SetTopLeft(_X, _Y);
-	_Tank.ShowBitmap();
+	if (!GetSpawnAnimationDone()) {
+		LoadSpawnBitmap();
+		ShowSpawnAnimation();
+	}
+	else {
+		_Tank.SetFrameIndexOfBitmap(_Frameindex);
+		_Tank.SetTopLeft(_X, _Y);
+		_Tank.ShowBitmap();
+	}
 	_Bullet.OnShow();
 }
 
@@ -200,6 +207,37 @@ void CTank::TankFront() {		// 對坦克前方的兩格格子做XY定位
 vector<vector<int>> CTank::GetTankFront(){
 	return _FrontXY;
 }
+
+bool CTank::GetSpawnAnimationDone() {
+	return _SpawnAnimationDone;
+}
+void CTank::LoadSpawnBitmap() {
+	_SpawnAnimation.LoadBitmapByString({"resources/Spawn_1.bmp",
+										"resources/Spawn_2.bmp",
+										"resources/Spawn_3.bmp", 
+										"resources/Spawn_4.bmp"}, RGB(0, 0, 0));
+}
+void CTank::ShowSpawnAnimation() {
+	if (_FrameTime % 12 == 0) {
+		_SpawnAnimation.SetFrameIndexOfBitmap(0);
+	}
+	else if (_FrameTime % 12 == 3) {
+		_SpawnAnimation.SetFrameIndexOfBitmap(1);
+	}
+	else if (_FrameTime % 12 == 6) {
+		_SpawnAnimation.SetFrameIndexOfBitmap(2);
+	}
+	else if (_FrameTime % 12 == 9) {
+		_SpawnAnimation.SetFrameIndexOfBitmap(3);
+	}
+	_FrameTime += 1;
+	if (_FrameTime == 60) {
+		_SpawnAnimationDone = true;
+	}
+	_SpawnAnimation.SetTopLeft(_X, _Y);
+	_SpawnAnimation.ShowBitmap();
+}
+/*Bullet*/
 vector<vector<int>> CTank::GetBulletPlace() {
 	return _Bullet._GetNowPlace();
 }
