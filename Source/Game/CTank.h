@@ -15,7 +15,7 @@ namespace game_framework {
 		bool isBreak();
 		void TankFront();					//坦克前方的格子做定位
 		void Animation();							
-		void LevelUP();						//升級
+		//void LevelUP();						//升級
 		void LocationPoint();				//位置校正
 		void Move();						//移動
 		void OnShow();						//SHOW
@@ -45,6 +45,12 @@ namespace game_framework {
 			Left,
 			Up,
 		};
+		enum EnemyType {
+			LightTank,
+			QuickTank,
+			ArmorTank,
+			HeavyTank,
+		};
 		bool _IfBattle; //the var that decide onshow
 		bool _IfFire;
 		clock_t _Last_time; // last time that bullet move; (we can consider it as delay)
@@ -66,5 +72,4 @@ namespace game_framework {
 		bool _CanBreakIron;							//可破壞鐵牆		 level >= 4
 		bool _DoubleAttack;							//可發射兩發子彈   level >= 3
 	};
-
 }

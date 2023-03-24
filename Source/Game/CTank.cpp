@@ -1,11 +1,11 @@
-﻿#include <vector>
-#include "stdafx.h"
+﻿#include "stdafx.h"
 #include "../Core/Resource.h"
 #include <mmsystem.h>
 #include <ddraw.h>
 #include "../Library/audio.h"
 #include "../Library/gameutil.h"
 #include "../Library/gamecore.h"
+#include <vector>
 #include "CTank.h"
 
 // Tank Parent
@@ -48,7 +48,7 @@ int CTank::GetOriginAngle() {
 	return _OriginAngle;
 }
 bool CTank::isBreak() {
-	if (_Life ==0){
+	if (_Life == 0){
 		return true;
 	}
 	return false;
@@ -138,6 +138,7 @@ void CTank::TurnFace(UINT nChar) {
 	}
 	_Tank.SetFrameIndexOfBitmap(_Frameindex);
 }
+
 void CTank::Animation() {
 	if (_FrameTime%_FrameSecond==0){
 		if (_Frameindex%2==0){
@@ -171,20 +172,21 @@ void CTank::OnShow() {
 	}
 }
 
-void CTank::LevelUP() {
-	if (_Level <5){
-		_Level += 1;
-		if (_Level == 2){
-			_AttackSpeedUP = true;
-		}
-		else if (_Level == 3) {
-			_DoubleAttack = true;
-		}
-		else if (_Level == 4) {
-			_CanBreakIron = true;
-		}
-	}
-}
+//void CTank::LevelUP() {
+//	if (_Level <5){
+//		_Level += 1;
+//		if (_Level == 2){
+//			_AttackSpeedUP = true;
+//		}
+//		else if (_Level == 3) {
+//			_DoubleAttack = true;
+//		}
+//		else if (_Level == 4) {
+//			_CanBreakIron = true;
+//		}
+//	}
+//}
+
 void CTank::TankFront() {		// 對坦克前方的兩格格子做XY定位
 	if (_OriginAngle == Right) {
 		_FrontXY[0][0] = _X + Width * 2;
@@ -244,6 +246,7 @@ void CTank::ShowSpawnAnimation() {
 	_SpawnAnimation.SetTopLeft(_X, _Y);
 	_SpawnAnimation.ShowBitmap();
 }
+
 /*Bullet*/
 vector<vector<int>> CTank::GetBulletPlace() {
 	return _Bullet._GetNowPlace();

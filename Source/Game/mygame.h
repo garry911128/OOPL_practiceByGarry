@@ -43,6 +43,7 @@
 #include "MapItem.h"
 #include "Map.h"
 #include "CPlayer.h"
+#include "Enemy.h"
 namespace game_framework {
 	/////////////////////////////////////////////////////////////////////////////
 	// Constants
@@ -78,6 +79,7 @@ namespace game_framework {
 		int _MouseY;
 		CMovingBitmap logo;								// csie的logo
 		CPlayer Player;
+		
 	};
 
 	/////////////////////////////////////////////////////////////////////////////
@@ -117,6 +119,9 @@ namespace game_framework {
 		int _HoldKey;
 		int _PlayerTankFrontX ;
 		int _PlayerTankFrontY ;
+		Enemy EnemyTank;
+		vector<Enemy> EnemyList;
+		vector<int> EnemyTypeList = { 0,1,2,3 };
 	};
 
 	/////////////////////////////////////////////////////////////////////////////

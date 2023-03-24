@@ -14,12 +14,6 @@ namespace game_framework {
 		void SetEnemyInit();
 		void LoadBitmap();
 	private:
-		enum EnemyType{
-			LightTank,
-			QuickTank,
-			ArmorTank,
-			HeavyTank,
-		};
 		int _EnemyType;
 		int _EnemyScore;
 		bool _EnemyHaveItem;

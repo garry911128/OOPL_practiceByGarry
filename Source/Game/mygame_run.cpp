@@ -34,6 +34,7 @@ void CGameStateRun::OnMove()                            // 移動遊戲元素
 	if (_NowStage >= 1) {
 		event.TrigSetBattleMap(_NowStage,Stage1, _EnemyNum,ChooseStageScreen);
 		_PlayerTank.SetIfBattle(true);
+		EnemyTank.SetIfBattle(true);
 	}
 	vector<vector<int>> _tempcollision;
 	if ((_isHoldRightKey == true|| \
@@ -45,8 +46,8 @@ void CGameStateRun::OnMove()                            // 移動遊戲元素
 		_PlayerTank.TurnFace(_HoldKey);
 		_PlayerTank.TankFront();
 		_tempcollision = Stage1.GetFrontGridsIndex(_PlayerTank.GetTankFront());
-		if (Stage1.GetMapItemInfo(_tempcollision[0][1], _tempcollision[0][0], 0) && \
-			Stage1.GetMapItemInfo(_tempcollision[1][1], _tempcollision[1][0], 0) && \
+		if ((Stage1.GetMapItemInfo(_tempcollision[0][1], _tempcollision[0][0], 0) && Stage1.GetMapItemInfo(_tempcollision[1][1], _tempcollision[1][0], 0)) /*|| \
+			(Stage1.GetMapItemInfo(_tempcollision[0][1], _tempcollision[0][0], 1) && Stage1.GetMapItemInfo(_tempcollision[1][1], _tempcollision[1][0], 1))*/ && \
 			Stage1.GetIfBoardEdge(_PlayerTank.GetX1(), _PlayerTank.GetY1(), _PlayerTank.GetHeight(), _PlayerTank.GetWidth(), _PlayerTank.GetOriginAngle())){
 			_PlayerTank.Move();
 		}
@@ -194,6 +195,17 @@ void CGameStateRun::OnInit()                                  // 遊戲的初值
 	_PlayerTankFrontX = 0;
 	_PlayerTankFrontY = 0;
 	Prop.OnInit(7);
+	/*for (auto num:EnemyTypeList){
+		EnemyTank.SetEnemyType(num);
+		EnemyTank.SetEnemyInit();
+		EnemyTank.SetXY(num*64,0);
+		EnemyTank.LoadBitmap();
+		EnemyList.push_back(EnemyTank);
+	}*/
+	EnemyTank.SetEnemyType(0);
+	EnemyTank.SetEnemyInit();
+	EnemyTank.SetXY(64+100, 0);
+	EnemyTank.LoadBitmap();
 }
 
 void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
@@ -253,6 +265,10 @@ void CGameStateRun::OnShow()
 	Stage1.OnShow();
 	Prop.OnShow();
 	_PlayerTank.OnShow();
+	EnemyTank.OnShow();
+	/*for (auto _Enemy:EnemyList){
+		_Enemy.OnShow();
+	}*/
 	OnShowText();
 }
 void CGameStateRun::OnShowText() {

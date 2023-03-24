@@ -21,12 +21,15 @@ Enemy::Enemy() : CTank() {
 int Enemy::GetEnemyScore() {
 	return _EnemyScore;
 }
+
 bool Enemy::isEnemuHaveItem() {
 	return _EnemyHaveItem;
 }
+
 void Enemy::SetEnemyHaveItem() {
 	_EnemyHaveItem = true;
 }
+
 void Enemy::SetEnemyInit() {
 	if (_EnemyType == LightTank){
 		_EnemyScore = 100;						// 坦克分數
