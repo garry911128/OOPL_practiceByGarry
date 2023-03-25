@@ -7,6 +7,9 @@
 #include "../Library/gamecore.h"
 #include "mygame.h"
 #include <string>
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
 
 using namespace game_framework;
 
@@ -26,24 +29,7 @@ void CGameStateRun::OnBeginState()
 {
 }
 
-void CGameStateRun::PlayerTankMoveinGame() {
-	if ((_isHoldRightKey == true || \
-		_isHoldLeftKey == true || \
-		_isHoldDownKey == true || \
-		_isHoldUpKey == true) && \
-		_PlayerTank.GetSpawnAnimationDone())
-	{
-		_PlayerTank.TurnFace(_HoldKey);
-		_PlayerTank.TankFront();
-		_tempcollision = Stage1.GetFrontGridsIndex(_PlayerTank.GetTankFront());
-		if ((Stage1.GetMapItemInfo(_tempcollision[0][1], _tempcollision[0][0], 0) && Stage1.GetMapItemInfo(_tempcollision[1][1], _tempcollision[1][0], 0)) /*|| \
-			(Stage1.GetMapItemInfo(_tempcollision[0][1], _tempcollision[0][0], 1) && Stage1.GetMapItemInfo(_tempcollision[1][1], _tempcollision[1][0], 1))*/ && \
-			Stage1.GetIfBoardEdge(_PlayerTank.GetX1(), _PlayerTank.GetY1(), _PlayerTank.GetHeight(), _PlayerTank.GetWidth(), _PlayerTank.GetOriginAngle())) {
-			_PlayerTank.Move();
-		}
-		_PlayerTank.Animation();
-	}
-}
+
 
 void CGameStateRun::OnMove()                            // 移動遊戲元素
 {
@@ -53,25 +39,10 @@ void CGameStateRun::OnMove()                            // 移動遊戲元素
 	if (_NowStage >= 1) {
 		event.TrigSetBattleMap(_NowStage,Stage1, _EnemyNum,ChooseStageScreen);
 		_PlayerTank.SetIfBattle(true);
-		EnemyTank.SetIfBattle(true);
+		_EnemyTank.SetIfBattle(true);
 	}
 	PlayerTankMoveinGame();
-	if ((_isHoldRightKey == true|| \
-		 _isHoldLeftKey == true || \
-		 _isHoldDownKey == true || \
-		 _isHoldUpKey == true)  && \
-		 _PlayerTank.GetSpawnAnimationDone())
-	{
-		_PlayerTank.TurnFace(_HoldKey);
-		_PlayerTank.TankFront();
-		_tempcollision = Stage1.GetFrontGridsIndex(_PlayerTank.GetTankFront());
-		if ((Stage1.GetMapItemInfo(_tempcollision[0][1], _tempcollision[0][0], 0) && Stage1.GetMapItemInfo(_tempcollision[1][1], _tempcollision[1][0], 0)) /*|| \
-			(Stage1.GetMapItemInfo(_tempcollision[0][1], _tempcollision[0][0], 1) && Stage1.GetMapItemInfo(_tempcollision[1][1], _tempcollision[1][0], 1))*/ && \
-			Stage1.GetIfBoardEdge(_PlayerTank.GetX1(), _PlayerTank.GetY1(), _PlayerTank.GetHeight(), _PlayerTank.GetWidth(), _PlayerTank.GetOriginAngle())){
-			_PlayerTank.Move();
-		}
-		_PlayerTank.Animation();
-	}
+	EnemyControl();
 
 	if (_PlayerTank.GetIfFire()) {
 		_PlayerTank.FireBullet();
@@ -96,6 +67,7 @@ void CGameStateRun::OnMove()                            // 移動遊戲元素
 }
 void CGameStateRun::OnInit()                                  // 遊戲的初值及圖形設定
 {
+	srand((unsigned)time(NULL));
 	_NowStage = -1;
 	ChooseStageScreen.LoadBitMap();
 	vector<vector<int>> tempstage1,tempstage2,tempstage5,tempstage17;
@@ -222,9 +194,9 @@ void CGameStateRun::OnInit()                                  // 遊戲的初值
 		EnemyTank.LoadBitmap();
 		EnemyList.push_back(EnemyTank);
 	}*/
-	EnemyTank.SetEnemyType(0);
-	EnemyTank.SetEnemyInit();
-	EnemyTank.LoadBitmap();
+	_EnemyTank.SetEnemyType(0);
+	_EnemyTank.SetEnemyInit();
+	_EnemyTank.LoadBitmap();
 }
 
 void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
@@ -284,7 +256,7 @@ void CGameStateRun::OnShow()
 	Stage1.OnShow();
 	Prop.OnShow();
 	_PlayerTank.OnShow();
-	EnemyTank.OnShow();
+	_EnemyTank.OnShow();
 	/*for (auto _Enemy:EnemyList){
 		_Enemy.OnShow();
 	}*/
@@ -316,3 +288,44 @@ void CGameStateRun::OnShowText() {
 	CDDraw::ReleaseBackCDC();
 }
 
+void CGameStateRun::PlayerTankMoveinGame() {
+	if ((_isHoldRightKey == true || \
+		_isHoldLeftKey == true || \
+		_isHoldDownKey == true || \
+		_isHoldUpKey == true) && \
+		_PlayerTank.GetSpawnAnimationDone())
+	{
+		_PlayerTank.TurnFace(_HoldKey);
+		_PlayerTank.TankFront();
+		_tempcollision = Stage1.GetFrontGridsIndex(_PlayerTank.GetTankFront());
+		if ((Stage1.GetMapItemInfo(_tempcollision[0][1], _tempcollision[0][0], 0) && Stage1.GetMapItemInfo(_tempcollision[1][1], _tempcollision[1][0], 0)) /*|| \
+			(Stage1.GetMapItemInfo(_tempcollision[0][1], _tempcollision[0][0], 1) && Stage1.GetMapItemInfo(_tempcollision[1][1], _tempcollision[1][0], 1))*/ && \
+			Stage1.GetIfBoardEdge(_PlayerTank.GetX1(), _PlayerTank.GetY1(), _PlayerTank.GetHeight(), _PlayerTank.GetWidth(), _PlayerTank.GetOriginAngle())) {
+			_PlayerTank.Move();
+		}
+		_PlayerTank.Animation();
+	}
+}
+
+void CGameStateRun::EnemyControl() {
+	int _RandomDirection = rand()%4;
+	if (_EnemyTank.GetSpawnAnimationDone()){
+		switch (_RandomDirection)
+		{
+		case Right:
+			_EnemyTank.TurnFace(VK_RIGHT);
+			break;
+		case Up:
+			_EnemyTank.TurnFace(VK_UP);
+			break;
+		case Down:
+			_EnemyTank.TurnFace(VK_DOWN);
+			break;
+		case Left:
+			_EnemyTank.TurnFace(VK_LEFT);
+			break;
+		}
+		_EnemyTank.Move();
+	}
+	_EnemyTank.Animation();
+}

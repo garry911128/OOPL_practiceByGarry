@@ -17,6 +17,7 @@ Enemy::Enemy() : CTank() {
 	_Y = Height * 0;
 	_OriginAngle = Down;
 	_TurnAngle = Down;
+	_NowGrid = { (_X - 100) / Width, _Y / Height };
 	SetFaceDirection();
 }
 int Enemy::GetEnemyScore() {

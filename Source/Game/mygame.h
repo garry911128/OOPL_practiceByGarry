@@ -103,13 +103,19 @@ namespace game_framework {
 		Map Stage1;
 		GameProps Prop;
 	protected:
+		enum Direction {
+			Right,
+			Down,
+			Left,
+			Up,
+		};
 		void OnShowText();
 		int _MouseX;
 		int _MouseY;
 		void OnMove();									// 移動遊戲元素
 		void OnShow();									// 顯示這個狀態的遊戲畫面
 		void PlayerTankMoveinGame();
-
+		void EnemyControl();
 		int _NowStage;
 		int _EnemyNum;
 		Event event;
@@ -121,9 +127,9 @@ namespace game_framework {
 		int _PlayerTankFrontX ;
 		int _PlayerTankFrontY ;
 		vector<vector<int>> _tempcollision;
-		Enemy EnemyTank;
+		Enemy _EnemyTank;
 		vector<Enemy> EnemyList;
-		vector<int> EnemyTypeList = { 0,1,2,3 };
+		//vector<int> EnemyTypeList = { 0,1,2,3 };
 	};
 
 	/////////////////////////////////////////////////////////////////////////////
