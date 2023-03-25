@@ -21,7 +21,7 @@ namespace game_framework {
 		void OnShow();						//SHOW
 		void SetXY(int x, int y);			//座標設定
 		void TurnFace(UINT nChar);			//調整圖片方向
-
+		void SetFaceDirection();
 		void FireBullet();
 		bool GetIfFire();
 		void SetBulletStatus(bool Status);
@@ -34,6 +34,7 @@ namespace game_framework {
 		int GetBulletHeight();
 		int GetBulletWidth();
 		void SetIfBattle(bool Battle);
+
 		void LoadSpawnBitmap();				//Load重生動畫
 		void ShowSpawnAnimation();			//Show重生動畫
 		bool GetSpawnAnimationDone();		//Get重生動畫播放完畢

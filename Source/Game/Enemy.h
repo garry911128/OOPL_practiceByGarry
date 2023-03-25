@@ -13,6 +13,7 @@ namespace game_framework {
 		void SetEnemyType(int _num);
 		void SetEnemyInit();
 		void LoadBitmap();
+		void SetOriginAngle(int _direction);
 	private:
 		int _EnemyType;
 		int _EnemyScore;

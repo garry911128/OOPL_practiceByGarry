@@ -17,6 +17,7 @@ Enemy::Enemy() : CTank() {
 	_Y = Height * 0;
 	_OriginAngle = Down;
 	_TurnAngle = Down;
+	SetFaceDirection();
 }
 int Enemy::GetEnemyScore() {
 	return _EnemyScore;
@@ -51,6 +52,10 @@ void Enemy::SetEnemyInit() {
 void Enemy::SetEnemyType(int num) {
 	_EnemyType = num;
 }
+void Enemy::SetOriginAngle(int direction) {
+	_OriginAngle = direction;
+}
+
 void Enemy::LoadBitmap() {
 	if (_EnemyType == LightTank){
 		_Tank.LoadBitmapByString({  "resources/Enemy_LightTank_Right1.bmp" ,"resources/Enemy_LightTank_Right2.bmp",

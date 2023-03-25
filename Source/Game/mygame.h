@@ -108,6 +108,7 @@ namespace game_framework {
 		int _MouseY;
 		void OnMove();									// 移動遊戲元素
 		void OnShow();									// 顯示這個狀態的遊戲畫面
+		void PlayerTankMoveinGame();
 
 		int _NowStage;
 		int _EnemyNum;
@@ -119,6 +120,7 @@ namespace game_framework {
 		int _HoldKey;
 		int _PlayerTankFrontX ;
 		int _PlayerTankFrontY ;
+		vector<vector<int>> _tempcollision;
 		Enemy EnemyTank;
 		vector<Enemy> EnemyList;
 		vector<int> EnemyTypeList = { 0,1,2,3 };

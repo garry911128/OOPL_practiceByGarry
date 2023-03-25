@@ -12,8 +12,13 @@
 using namespace game_framework;
 
 CPlayer::CPlayer() : CTank(){
+	_X = Width * 8 + 100;
+	_Y = Height * 24;
 	_PlayerScore = 0;
 	_KillEnemyList = {};
+	_OriginAngle = Up;
+	_TurnAngle = Up;
+	SetFaceDirection();
 }
 int CPlayer::GetPlayerScore() {
 	return _PlayerScore;

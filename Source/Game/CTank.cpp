@@ -26,13 +26,13 @@ CTank::CTank() :Width(32), Height(32) {
 	_AttackSpeedUP = false;
 	_CanBreakIron = false;
 	_DoubleAttack = false;
-	_Tank.SetAnimation(1, true);
 	_IfFire = false;
 	_IfBattle = false;
 	_FrontXY = { {0,0},{0,0} };						// 移動方向前方兩格子的XY
 	_NowGrid = { (_X-100) / Width, _Y / Height };	// 坦克現在的格子
 	_OffsetXY = { 0,0 };							// 偏移的XY距離
 	_SpawnAnimationDone = false;					// 重生動畫結束撥放
+	//_Tank.SetAnimation(1, true);
 	//_Bullet.LoadBitmap();
 }
 bool CTank::GetIfFire() {
@@ -122,21 +122,25 @@ void CTank::TurnFace(UINT nChar) {
 	if (_TurnAngle != _OriginAngle) {
 		LocationPoint();
 		_OriginAngle = _TurnAngle;
-		if (_OriginAngle == Right) {
-			_Frameindex = 0;
-		}
-		else if (_OriginAngle == Left) {
-			_Frameindex = 2;
-		}
-		else if (_OriginAngle == Up) {
-			_Frameindex = 4;
-		}
-		else if (_OriginAngle == Down) {
-			_Frameindex = 6;
-		}
+		SetFaceDirection();
 		_FrameTime= 0;
 	}
-	_Tank.SetFrameIndexOfBitmap(_Frameindex);
+	//_Tank.SetFrameIndexOfBitmap(_Frameindex);
+}
+
+void CTank::SetFaceDirection() {
+	if (_OriginAngle == Right) {
+		_Frameindex = 0;
+	}
+	else if (_OriginAngle == Left) {
+		_Frameindex = 2;
+	}
+	else if (_OriginAngle == Up) {
+		_Frameindex = 4;
+	}
+	else if (_OriginAngle == Down) {
+		_Frameindex = 6;
+	}
 }
 
 void CTank::Animation() {
@@ -187,6 +191,7 @@ void CTank::OnShow() {
 //	}
 //}
 
+/*Tank Front*/
 void CTank::TankFront() {		// 對坦克前方的兩格格子做XY定位
 	if (_OriginAngle == Right) {
 		_FrontXY[0][0] = _X + Width * 2;
@@ -216,7 +221,7 @@ void CTank::TankFront() {		// 對坦克前方的兩格格子做XY定位
 vector<vector<int>> CTank::GetTankFront(){
 	return _FrontXY;
 }
-
+/*Tank Spawn*/
 bool CTank::GetSpawnAnimationDone() {
 	return _SpawnAnimationDone;
 }
