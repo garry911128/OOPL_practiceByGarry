@@ -43,6 +43,7 @@
 #include "MapItem.h"
 #include "Map.h"
 #include "CPlayer.h"
+#include "Enemy.h"
 namespace game_framework {
 	/////////////////////////////////////////////////////////////////////////////
 	// Constants
@@ -78,6 +79,7 @@ namespace game_framework {
 		int _MouseY;
 		CMovingBitmap logo;								// csie的logo
 		CPlayer Player;
+		
 	};
 
 	/////////////////////////////////////////////////////////////////////////////
@@ -100,23 +102,35 @@ namespace game_framework {
 		void OnRButtonUp(UINT nFlags, CPoint point);	// 處理滑鼠的動作
 		Map Stage1;
 	protected:
+		enum Direction {
+			Right,
+			Down,
+			Left,
+			Up,
+		};
 		void OnShowText();
 		int _MouseX;
 		int _MouseY;
 		void OnMove();									// 移動遊戲元素
 		void OnShow();									// 顯示這個狀態的遊戲畫面
-
+		void PlayerTankMove(CPlayer *tank);
+		void EnemyTankMove(Enemy *tank);
 		int _NowStage;
 		int _EnemyNum;
 		Event event;
 		GameProps Prop;
 		Menu ChooseStageScreen;
+		clock_t _TimerStart,_TimerFinish;
 
 		CPlayer _PlayerTank;
 		bool _isHoldUpKey, _isHoldDownKey, _isHoldRightKey, _isHoldLeftKey;
 		int _HoldKey;
 		int _PlayerTankFrontX ;
 		int _PlayerTankFrontY ;
+		vector<vector<int>> _tempcollision;
+		Enemy _EnemyTank;
+		vector<Enemy> EnemyList;
+		//vector<int> EnemyTypeList = { 0,1,2,3 };
 	};
 
 	/////////////////////////////////////////////////////////////////////////////

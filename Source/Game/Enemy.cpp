@@ -13,9 +13,48 @@ using namespace game_framework;
 
 Enemy::Enemy() : CTank() {
 	_EnemyType = 0;
+	_X = Width * 14 + 100;
+	_Y = Height * 0;
+	_OriginAngle = Down;
+	_TurnAngle = Down;
+	_NowGrid = { (_X - 100) / Width, _Y / Height };
+	SetFaceDirection();
 }
+int Enemy::GetEnemyScore() {
+	return _EnemyScore;
+}
+
+bool Enemy::isEnemuHaveItem() {
+	return _EnemyHaveItem;
+}
+
+void Enemy::SetEnemyHaveItem() {
+	_EnemyHaveItem = true;
+}
+
+void Enemy::SetEnemyInit() {
+	if (_EnemyType == LightTank){
+		_EnemyScore = 100;						// 坦克分數
+	}
+	else if (_EnemyType == QuickTank) {
+		_AttackSpeedUP = true;
+		_EnemyScore = 300;						// 坦克分數
+	}
+	else if (_EnemyType == ArmorTank) {
+		_MovementSpeed = 4;						// 移動速度
+		_EnemyScore = 200;						// 坦克分數
+	}
+	else if (_EnemyType == HeavyTank) {
+		_Life = 4;								// 生命
+		_EnemyScore = 400;						// 坦克分數
+	}
+}
+
 void Enemy::SetEnemyType(int num) {
 	_EnemyType = num;
+}
+void Enemy::SetOriginAngle(int direction) {
+	_OriginAngle = direction;
 }
 
 void Enemy::LoadBitmap() {
