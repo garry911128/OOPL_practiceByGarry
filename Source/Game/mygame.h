@@ -101,7 +101,6 @@ namespace game_framework {
 		void OnRButtonDown(UINT nFlags, CPoint point);  // 處理滑鼠的動作
 		void OnRButtonUp(UINT nFlags, CPoint point);	// 處理滑鼠的動作
 		Map Stage1;
-		GameProps Prop;
 	protected:
 		enum Direction {
 			Right,
@@ -119,6 +118,7 @@ namespace game_framework {
 		int _NowStage;
 		int _EnemyNum;
 		Event event;
+		GameProps Prop;
 		Menu ChooseStageScreen;
 		clock_t _TimerStart,_TimerFinish;
 

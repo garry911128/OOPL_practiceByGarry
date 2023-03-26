@@ -140,7 +140,7 @@ int Menu::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) {
 			return finalselect;
 		}
 	}
-	return 0;
+	return -1;
 }
 
 void Menu::LoadBitMap() {

@@ -32,6 +32,7 @@ CTank::CTank() :Width(32), Height(32) {
 	_NowGrid = { (_X-100) / Width, _Y / Height };	// 坦克現在的格子
 	_OffsetXY = { 0,0 };							// 偏移的XY距離
 	_SpawnAnimationDone = false;					// 重生動畫結束撥放
+	//_Bullet.LoadBitmap(); // 加到player裡了
 	//_Tank.SetAnimation(1, true);
 	//_Bullet.LoadBitmap();
 }
@@ -287,4 +288,6 @@ int CTank::GetBulletWidth() {
 	return _Bullet.GetWidth();
 }
 
-
+CMovingBitmap CTank::GetTankBitmap() {
+	return _Tank;
+}

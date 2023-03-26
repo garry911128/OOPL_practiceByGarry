@@ -180,14 +180,18 @@ void CGameStateRun::OnInit()                                  // 遊戲的初值
 					,{ 4, 4, 4, 4, 5, 1, 1, 1, 1, 1, 1, 4, 5, 5, 4, 1, 1, 1, 4, 4, 1, 1, 4, 4, 1, 1 }
 					,{ 4, 4, 4, 4, 5, 1, 1, 1, 1, 1, 1, 4, 5, 5, 4, 1, 1, 1, 4, 4, 1, 1, 4, 4, 1, 1 }//25
 	};
+	
 	Stage1.OnInit(tempstage5);
+	
 	_MouseX = 0;
 	_MouseY = 0;
+	
 	_PlayerTank.LoadBitmap();
 	_PlayerTank.LoadSpawnBitmap();
 	_PlayerTankFrontX = 0;
 	_PlayerTankFrontY = 0;
-	Prop.OnInit(7);
+	Prop.OnInit();
+	event.TrigSetProps(Prop);
 	/*for (auto num:EnemyTypeList){
 		EnemyTank.SetEnemyType(num);
 		EnemyTank.SetEnemyInit();
@@ -218,7 +222,11 @@ void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 		_PlayerTank.Animation();
 	}*/
 	_NowStage = ChooseStageScreen.OnKeyDown(nChar, nRepCnt, nFlags);
-
+	
+	if (CMovingBitmap::IsOverlap(_PlayerTank.GetTankBitmap(),Prop.GetPropBitmap())) {
+		event.TrigGetProps(Prop,Stage1,_PlayerTank);
+	}
+	
 }
 
 void CGameStateRun::OnKeyUp(UINT nChar, UINT nRepCnt, UINT nFlags)

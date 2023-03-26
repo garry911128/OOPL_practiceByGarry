@@ -38,3 +38,15 @@ void Event::TrigSetBattleMap(int& NowStage,Map& StageMap,int& EnemyNum, Menu& Ba
 	NowStage = 0;
 	EnemyNum = 20;
 }
+void Event::TrigSetProps(GameProps& Props) {
+	Props.SetGameProps();
+}
+void Event::TrigGetProps(GameProps& Props,Map& StageMap,CPlayer& Player) {
+	int Type = Props.GetType();
+	if (Type == 5) {
+		bool IfFuncExit = StageMap.SetGetShovel();
+		if (IfFuncExit == false) {
+			Props.SetPropDisapear();
+		}
+	}
+}
