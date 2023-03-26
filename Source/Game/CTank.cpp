@@ -1,11 +1,11 @@
-﻿#include <vector>
-#include "stdafx.h"
+﻿#include "stdafx.h"
 #include "../Core/Resource.h"
 #include <mmsystem.h>
 #include <ddraw.h>
 #include "../Library/audio.h"
 #include "../Library/gameutil.h"
 #include "../Library/gamecore.h"
+#include <vector>
 #include "CTank.h"
 
 // Tank Parent
@@ -26,13 +26,13 @@ CTank::CTank() :Width(32), Height(32) {
 	_AttackSpeedUP = false;
 	_CanBreakIron = false;
 	_DoubleAttack = false;
-	_Tank.SetAnimation(1, true);
 	_IfFire = false;
 	_IfBattle = false;
 	_FrontXY = { {0,0},{0,0} };						// 移動方向前方兩格子的XY
 	_NowGrid = { (_X-100) / Width, _Y / Height };	// 坦克現在的格子
 	_OffsetXY = { 0,0 };							// 偏移的XY距離
 	_SpawnAnimationDone = false;					// 重生動畫結束撥放
+	//_Tank.SetAnimation(1, true);
 	//_Bullet.LoadBitmap();
 }
 bool CTank::GetIfFire() {
@@ -48,7 +48,7 @@ int CTank::GetOriginAngle() {
 	return _OriginAngle;
 }
 bool CTank::isBreak() {
-	if (_Life ==0){
+	if (_Life == 0){
 		return true;
 	}
 	return false;
@@ -93,7 +93,7 @@ void CTank::Move() {
 		_OffsetXY[1] += _MovementSpeed;
 	}
 	for (int i = 0; i < 2; i++){
-		if (abs(_OffsetXY[i]) >= 32){	//當坦克持續移動到下一格時 偏移要歸零 不然_NowGrid會加太多次
+		if (abs(_OffsetXY[i]) >= Width){	//當坦克持續移動到下一格時 偏移要歸零 不然_NowGrid會加太多次
 			_OffsetXY[i] = 0;
 		}
 		else if (abs(_OffsetXY[i]) == _LocationDistance){	//當坦克移動超過_LocationDistance 代表定位點要往下一格走
@@ -122,22 +122,27 @@ void CTank::TurnFace(UINT nChar) {
 	if (_TurnAngle != _OriginAngle) {
 		LocationPoint();
 		_OriginAngle = _TurnAngle;
-		if (_OriginAngle == Right) {
-			_Frameindex = 0;
-		}
-		else if (_OriginAngle == Left) {
-			_Frameindex = 2;
-		}
-		else if (_OriginAngle == Up) {
-			_Frameindex = 4;
-		}
-		else if (_OriginAngle == Down) {
-			_Frameindex = 6;
-		}
+		SetFaceDirection();
 		_FrameTime= 0;
 	}
-	_Tank.SetFrameIndexOfBitmap(_Frameindex);
+	//_Tank.SetFrameIndexOfBitmap(_Frameindex);
 }
+
+void CTank::SetFaceDirection() {
+	if (_OriginAngle == Right) {
+		_Frameindex = 0;
+	}
+	else if (_OriginAngle == Left) {
+		_Frameindex = 2;
+	}
+	else if (_OriginAngle == Up) {
+		_Frameindex = 4;
+	}
+	else if (_OriginAngle == Down) {
+		_Frameindex = 6;
+	}
+}
+
 void CTank::Animation() {
 	if (_FrameTime%_FrameSecond==0){
 		if (_Frameindex%2==0){
@@ -158,37 +163,35 @@ void CTank::LocationPoint() {
 
 void CTank::OnShow() {
 	if (_IfBattle) {
-		_Tank.SetFrameIndexOfBitmap(_Frameindex);
-		_Tank.SetTopLeft(_X, _Y);
-		_Tank.ShowBitmap();
+		if (!GetSpawnAnimationDone()) {
+			LoadSpawnBitmap();
+			ShowSpawnAnimation();
+		}
+		else {
+			_Tank.SetFrameIndexOfBitmap(_Frameindex);
+			_Tank.SetTopLeft(_X, _Y);
+			_Tank.ShowBitmap();
+		}
 		_Bullet.OnShow();
 	}
-	/*if (!GetSpawnAnimationDone()) {
-		LoadSpawnBitmap();
-		ShowSpawnAnimation();
-	}
-	else {
-		_Tank.SetFrameIndexOfBitmap(_Frameindex);
-		_Tank.SetTopLeft(_X, _Y);
-		_Tank.ShowBitmap();
-	}
-	_Bullet.OnShow();*/
 }
 
-void CTank::LevelUP() {
-	if (_Level <5){
-		_Level += 1;
-		if (_Level == 2){
-			_AttackSpeedUP = true;
-		}
-		else if (_Level == 3) {
-			_DoubleAttack = true;
-		}
-		else if (_Level == 4) {
-			_CanBreakIron = true;
-		}
-	}
-}
+//void CTank::LevelUP() {
+//	if (_Level <5){
+//		_Level += 1;
+//		if (_Level == 2){
+//			_AttackSpeedUP = true;
+//		}
+//		else if (_Level == 3) {
+//			_DoubleAttack = true;
+//		}
+//		else if (_Level == 4) {
+//			_CanBreakIron = true;
+//		}
+//	}
+//}
+
+/*Tank Front*/
 void CTank::TankFront() {		// 對坦克前方的兩格格子做XY定位
 	if (_OriginAngle == Right) {
 		_FrontXY[0][0] = _X + Width * 2;
@@ -218,7 +221,7 @@ void CTank::TankFront() {		// 對坦克前方的兩格格子做XY定位
 vector<vector<int>> CTank::GetTankFront(){
 	return _FrontXY;
 }
-
+/*Tank Spawn*/
 bool CTank::GetSpawnAnimationDone() {
 	return _SpawnAnimationDone;
 }
@@ -248,6 +251,7 @@ void CTank::ShowSpawnAnimation() {
 	_SpawnAnimation.SetTopLeft(_X, _Y);
 	_SpawnAnimation.ShowBitmap();
 }
+
 /*Bullet*/
 vector<vector<int>> CTank::GetBulletPlace() {
 	return _Bullet._GetNowPlace();

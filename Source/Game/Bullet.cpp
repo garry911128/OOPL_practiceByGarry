@@ -24,8 +24,8 @@ CBullet::CBullet() {
 }
 
 void CBullet::LoadBitmap() {
-	_Bulletimage.LoadBitmapByString({ "resources/Bullet0.bmp","resources/Bullet1.bmp","resources/Bullet2.bmp","resources/Bullet3.bmp" }, RGB(105, 105, 105));
-	_Boom.LoadBitmapByString({ "resources/Boom0.bmp","resources/Boom1.bmp","resources/Boom2.bmp" }, RGB(105, 105, 105));
+	_Bulletimage.LoadBitmapByString({ "resources/Bullet0.bmp","resources/Bullet1.bmp","resources/Bullet2.bmp","resources/Bullet3.bmp" }, RGB(0,0,0));
+	_Boom.LoadBitmapByString({ "resources/Boom0.bmp","resources/Boom1.bmp","resources/Boom2.bmp" }, RGB(0,0,0));
 	_Boom.SetAnimation(50, true);
 }
 bool CBullet::GetAlreadyFire() {
