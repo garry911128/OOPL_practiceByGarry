@@ -13,7 +13,7 @@ using namespace game_framework;
 
 Enemy::Enemy() : CTank() {
 	_EnemyType = 0;
-	_X = Width * 12 + 100;
+	_X = Width * 14 + 100;
 	_Y = Height * 0;
 	_OriginAngle = Down;
 	_TurnAngle = Down;

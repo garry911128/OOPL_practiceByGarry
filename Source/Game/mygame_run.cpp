@@ -41,8 +41,9 @@ void CGameStateRun::OnMove()                            // 移動遊戲元素
 		_PlayerTank.SetIfBattle(true);
 		_EnemyTank.SetIfBattle(true);
 	}
-	PlayerTankMoveinGame();
-	EnemyControl();
+	PlayerTankMove(&_PlayerTank);
+	EnemyTankMove(&_EnemyTank);
+	_TimerFinish = clock();
 
 	if (_PlayerTank.GetIfFire()) {
 		_PlayerTank.FireBullet();
@@ -197,6 +198,7 @@ void CGameStateRun::OnInit()                                  // 遊戲的初值
 	_EnemyTank.SetEnemyType(0);
 	_EnemyTank.SetEnemyInit();
 	_EnemyTank.LoadBitmap();
+	_TimerStart = clock();
 }
 
 void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
@@ -268,13 +270,8 @@ void CGameStateRun::OnShowText() {
 	pDC->SetBkMode(TRANSPARENT);
 	pDC->SetTextColor(RGB(0, 180, 0));
 
-	vector<vector<int>> _tempcollision;
-	_tempcollision = Stage1.GetFrontGridsIndex(_PlayerTank.GetBulletPlace());
-	CTextDraw::Print(pDC, 0, 0, (to_string(_PlayerTankFrontY) + " " + to_string(_PlayerTankFrontX).c_str()));
-	CTextDraw::Print(pDC, 0, 25, (to_string(_MouseX) + " " + to_string(_MouseY).c_str()));
-	CTextDraw::Print(pDC, 0, 50, (to_string(_tempcollision[0][0]) + "," + to_string(_tempcollision[0][1]).c_str()));
-	CTextDraw::Print(pDC, 0, 75, (to_string(_tempcollision[1][0]) + "," + to_string(_tempcollision[1][1]).c_str()));
-	CTextDraw::Print(pDC, 0, 95, ( to_string(_1POr2P).c_str()));
+	CTextDraw::Print(pDC, 0, 0, (to_string(_TimerStart / CLOCKS_PER_SEC)+" "+ to_string(_TimerFinish / CLOCKS_PER_SEC)));
+	//CTextDraw::Print(pDC, 0, 25, (to_string(_MouseX) + " " + to_string(_MouseY).c_str()));
 	ChooseStageScreen.OnShowText(pDC,fp);
 	/*
 	CTextDraw::ChangeFontLog( pDC, 10, "TRANSPARENT", RGB(0, 180, 0));
@@ -288,44 +285,55 @@ void CGameStateRun::OnShowText() {
 	CDDraw::ReleaseBackCDC();
 }
 
-void CGameStateRun::PlayerTankMoveinGame() {
+void CGameStateRun::PlayerTankMove(CPlayer *tank) {
 	if ((_isHoldRightKey == true || \
 		_isHoldLeftKey == true || \
 		_isHoldDownKey == true || \
 		_isHoldUpKey == true) && \
-		_PlayerTank.GetSpawnAnimationDone())
+		tank->GetSpawnAnimationDone())
 	{
-		_PlayerTank.TurnFace(_HoldKey);
-		_PlayerTank.TankFront();
-		_tempcollision = Stage1.GetFrontGridsIndex(_PlayerTank.GetTankFront());
+		tank->TurnFace(_HoldKey);
+		tank->TankFront();
+		_tempcollision = Stage1.GetFrontGridsIndex(tank->GetTankFront());
 		if ((Stage1.GetMapItemInfo(_tempcollision[0][1], _tempcollision[0][0], 0) && Stage1.GetMapItemInfo(_tempcollision[1][1], _tempcollision[1][0], 0)) /*|| \
 			(Stage1.GetMapItemInfo(_tempcollision[0][1], _tempcollision[0][0], 1) && Stage1.GetMapItemInfo(_tempcollision[1][1], _tempcollision[1][0], 1))*/ && \
-			Stage1.GetIfBoardEdge(_PlayerTank.GetX1(), _PlayerTank.GetY1(), _PlayerTank.GetHeight(), _PlayerTank.GetWidth(), _PlayerTank.GetOriginAngle())) {
-			_PlayerTank.Move();
+			Stage1.GetIfBoardEdge(tank->GetX1(), tank->GetY1(), tank->GetHeight(), tank->GetWidth(), tank->GetOriginAngle())) {
+			tank->Move();
 		}
-		_PlayerTank.Animation();
+		tank->Animation();
 	}
 }
 
-void CGameStateRun::EnemyControl() {
+void CGameStateRun::EnemyTankMove(Enemy *tank) {
 	int _RandomDirection = rand()%4;
-	if (_EnemyTank.GetSpawnAnimationDone()){
-		switch (_RandomDirection)
-		{
-		case Right:
-			_EnemyTank.TurnFace(VK_RIGHT);
-			break;
-		case Up:
-			_EnemyTank.TurnFace(VK_UP);
-			break;
-		case Down:
-			_EnemyTank.TurnFace(VK_DOWN);
-			break;
-		case Left:
-			_EnemyTank.TurnFace(VK_LEFT);
-			break;
+	int _RandomMoveTime = rand() % 13 * 7 * 23 % 17 * 29 % 3 +1;
+	if (tank->GetSpawnAnimationDone()){
+		if ((_TimerFinish - _TimerStart) / CLOCKS_PER_SEC >_RandomMoveTime){
+			switch (_RandomDirection)
+			{
+			case Right:
+				tank->TurnFace(VK_RIGHT);
+				break;
+			case Up:
+				tank->TurnFace(VK_UP);
+				break;
+			case Down:
+				tank->TurnFace(VK_DOWN);
+				break;
+			case Left:
+				tank->TurnFace(VK_LEFT);
+				break;
+			}
+			_TimerStart = clock();
 		}
-		_EnemyTank.Move();
+		tank->TankFront();
+		_tempcollision = Stage1.GetFrontGridsIndex(tank->GetTankFront());
+		if ((Stage1.GetMapItemInfo(_tempcollision[0][1], _tempcollision[0][0], 0) && Stage1.GetMapItemInfo(_tempcollision[1][1], _tempcollision[1][0], 0)) /*|| \
+			(Stage1.GetMapItemInfo(_tempcollision[0][1], _tempcollision[0][0], 1) && Stage1.GetMapItemInfo(_tempcollision[1][1], _tempcollision[1][0], 1))*/ && \
+			Stage1.GetIfBoardEdge(tank->GetX1(), tank->GetY1(), tank->GetHeight(), tank->GetWidth(), tank->GetOriginAngle())) {
+			tank->Move();
+		}
+		tank->Animation();
 	}
-	_EnemyTank.Animation();
+	
 }

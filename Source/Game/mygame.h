@@ -114,12 +114,13 @@ namespace game_framework {
 		int _MouseY;
 		void OnMove();									// 移動遊戲元素
 		void OnShow();									// 顯示這個狀態的遊戲畫面
-		void PlayerTankMoveinGame();
-		void EnemyControl();
+		void PlayerTankMove(CPlayer *tank);
+		void EnemyTankMove(Enemy *tank);
 		int _NowStage;
 		int _EnemyNum;
 		Event event;
 		Menu ChooseStageScreen;
+		clock_t _TimerStart,_TimerFinish;
 
 		CPlayer _PlayerTank;
 		bool _isHoldUpKey, _isHoldDownKey, _isHoldRightKey, _isHoldLeftKey;
