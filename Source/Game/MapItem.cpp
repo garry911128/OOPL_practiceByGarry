@@ -12,9 +12,11 @@ using namespace game_framework;
 
 MapItem::MapItem() {
 	_Type = 0;
+	_IfGetShovel = false;
 }
 MapItem::MapItem(int ItemType) { //傳某一個格子 type 進去
 	_Type = ItemType;
+	_IfGetShovel = false;
 	if (_Type == 1) { // 1是 黑色格子(可以走,不行射擊(穿過), 不行破壞)
 		_IfShoot = false;
 		_IfBreak = false;
@@ -39,7 +41,10 @@ MapItem::MapItem(int ItemType) { //傳某一個格子 type 進去
 		_IfShoot = true;
 		_IfBreak = true;
 		_IfWalk = false;
-		_OneGrid.LoadBitmapByString({ "resources/wall.bmp","resources/WallLeftBreak.bmp","resources/WallTopBreak.bmp", "resources/WallRightBreak.bmp","resources/WallBottomBreak.bmp" }, RGB(0, 0, 0));
+		_OneGrid.LoadBitmapByString({ "resources/wall.bmp","resources/WallLeftBreak.bmp","resources/WallTopBreak.bmp", "resources/WallRightBreak.bmp","resources/WallBottomBreak.bmp"}, RGB(0, 0, 0));
+		_ShovelAnimaetion.LoadBitmapByString({ "resources/IronWall.bmp" }, RGB(0, 0, 0));
+		// I add the Iron wall because the Item Shovel must change the type ,but bitmap was load at the first
+		// so i add Iron wall bitmap in it. 
 	}
 	else if (_Type == 5) { //5是 鐵牆(無法行走(可破壞後走), 可射擊(無法穿過) ,不可破壞(拿道具後可破壞) )
 		_Health = 3;
@@ -92,12 +97,39 @@ bool MapItem::GetIfWalk() {
 }
 void MapItem::SetTopLeft(int x, int y) {
 	_OneGrid.SetTopLeft(x, y);
+	if (_Type == 4) {
+		_ShovelAnimaetion.SetTopLeft(x, y);
+	}
 }
 void MapItem::OnShow() {
+	if (_IfGetShovel && (_Type == 5)) {
+		_ShovelAnimaetion.ShowBitmap();
+		//if(clock() - _StartTime > 0.5 )
+		return;
+	}
 	if (_Type != 1) {
 		_OneGrid.ShowBitmap();
 	}
+	
 }
 CMovingBitmap MapItem::GetMapItmeBitmap() {
 	return _OneGrid;
+}
+void MapItem::ChangeType(int type) {
+	if (type == 5) {
+		_IfGetShovel = true;
+		_IfShoot = true;
+		_IfBreak = false;
+		_IfWalk = false;
+		_Type = 5;
+	}
+	else if (type == 4) {
+		_Health = 2;
+		_OneGrid.SetFrameIndexOfBitmap(0);
+		_IfGetShovel = false;
+		_IfShoot = true;
+		_IfBreak = true;
+		_IfWalk = false;
+		_Type = 4;
+	}
 }

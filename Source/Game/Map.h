@@ -19,10 +19,15 @@ namespace game_framework {
 		bool GetIfShowMap();
 
 		void ShootWall(int Direction, int Attack, int x, int y); //Iron wall or wall was shot
+
+		bool SetGetShovel();
 	private:
 		enum ObjectDirection {
 			Right, Down, Left, Up
 		};
+		
+		clock_t _StartTime; // last time to get that we have get item shovel
+		bool _IfGetShovel; 
 
 		bool _IfShowMap;
 		CMovingBitmap _BlackGrid;

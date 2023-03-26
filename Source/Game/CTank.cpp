@@ -33,7 +33,7 @@ CTank::CTank() :Width(32), Height(32) {
 	_NowGrid = { (_X-100) / Width, _Y / Height };	// 坦克現在的格子
 	_OffsetXY = { 0,0 };							// 偏移的XY距離
 	_SpawnAnimationDone = false;					// 重生動畫結束撥放
-	//_Bullet.LoadBitmap();
+	//_Bullet.LoadBitmap(); // 加到player裡了
 }
 bool CTank::GetIfFire() {
 	return _IfFire;
@@ -158,21 +158,17 @@ void CTank::LocationPoint() {
 
 void CTank::OnShow() {
 	if (_IfBattle) {
-		_Tank.SetFrameIndexOfBitmap(_Frameindex);
-		_Tank.SetTopLeft(_X, _Y);
-		_Tank.ShowBitmap();
+		if (!GetSpawnAnimationDone()) {
+			LoadSpawnBitmap();
+			ShowSpawnAnimation();
+		}
+		else {
+			_Tank.SetFrameIndexOfBitmap(_Frameindex);
+			_Tank.SetTopLeft(_X, _Y);
+			_Tank.ShowBitmap();
+		}
 		_Bullet.OnShow();
 	}
-	/*if (!GetSpawnAnimationDone()) {
-		LoadSpawnBitmap();
-		ShowSpawnAnimation();
-	}
-	else {
-		_Tank.SetFrameIndexOfBitmap(_Frameindex);
-		_Tank.SetTopLeft(_X, _Y);
-		_Tank.ShowBitmap();
-	}
-	_Bullet.OnShow();*/
 }
 
 void CTank::LevelUP() {
@@ -283,4 +279,6 @@ int CTank::GetBulletWidth() {
 	return _Bullet.GetWidth();
 }
 
-
+CMovingBitmap CTank::GetTankBitmap() {
+	return _Tank;
+}

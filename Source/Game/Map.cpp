@@ -17,6 +17,7 @@ Map::Map() {
 }
 void Map::OnInit(vector<vector<int>> stage) {
 	_IfShowMap = false;
+	_IfGetShovel = false;
 	_BlackGrid.LoadBitmapByString({ "resources/BlackGrid.bmp" }, RGB(105, 105, 105));
 	_BlackGrid.SetTopLeft(100, 0);
 	for (int i = 0; i < 26; i++) {
@@ -98,9 +99,11 @@ bool Map::GetMapItemInfo(int x, int y, int gettype) {
 	}
 	return true;
 }
+
 int Map::GetType(int x, int y) {
 	return _Stage[x][y].GetType();
 }
+
 vector<vector<int>> Map::GetFrontGridsIndex(vector<vector<int>> GridXY) { // u should give the two of pixel xy in front of your object
 	vector<vector<int>> FrontIndex = { {0,0},{0,0} };
 	FrontIndex[0][0] = (GridXY[0][0] - 100)/ 32;
@@ -142,4 +145,31 @@ bool Map::GetIfBoardEdge(int Nowx, int Nowy,int NowHeight,int NowWidth,int NowDi
 
 void Map::ShootWall(int Direction, int Attack,int x,int y) { //vector<CTank>
 	_Stage[x][y].ChangeGridState(Direction, Attack);
+}
+
+bool Map::SetGetShovel(){
+	if (_IfGetShovel == false) { // i let this func only use at first one call.
+		_Stage[25][11].ChangeType(5);
+		_Stage[24][11].ChangeType(5);
+		_Stage[23][11].ChangeType(5);
+		_Stage[23][12].ChangeType(5);
+		_Stage[23][13].ChangeType(5);
+		_Stage[23][14].ChangeType(5);
+		_Stage[24][14].ChangeType(5);
+		_Stage[25][14].ChangeType(5);
+		_StartTime = clock();
+		_IfGetShovel = true;
+	}
+	else if (_IfGetShovel == true && clock() - _StartTime > 21) { // after the first call,all judge this.
+		_Stage[25][11].ChangeType(4);
+		_Stage[24][11].ChangeType(4);
+		_Stage[23][11].ChangeType(4);
+		_Stage[23][12].ChangeType(4);
+		_Stage[23][13].ChangeType(4);
+		_Stage[23][14].ChangeType(4);
+		_Stage[24][14].ChangeType(4);
+		_Stage[25][14].ChangeType(4);
+		_IfGetShovel = false;
+	}
+	return _IfGetShovel;
 }

@@ -99,7 +99,6 @@ namespace game_framework {
 		void OnRButtonDown(UINT nFlags, CPoint point);  // 處理滑鼠的動作
 		void OnRButtonUp(UINT nFlags, CPoint point);	// 處理滑鼠的動作
 		Map Stage1;
-		GameProps Prop;
 	protected:
 		void OnShowText();
 		int _MouseX;
@@ -110,6 +109,7 @@ namespace game_framework {
 		int _NowStage;
 		int _EnemyNum;
 		Event event;
+		GameProps Prop;
 		Menu ChooseStageScreen;
 
 		CPlayer _PlayerTank;

@@ -37,7 +37,8 @@ namespace game_framework {
 		void LoadSpawnBitmap();				//Load重生動畫
 		void ShowSpawnAnimation();			//Show重生動畫
 		bool GetSpawnAnimationDone();		//Get重生動畫播放完畢
-		//CMovingBitmap GetTankBitmap();
+
+		CMovingBitmap GetTankBitmap();
 	protected:
 		enum Direction {
 			Right,

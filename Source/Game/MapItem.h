@@ -8,6 +8,7 @@ namespace game_framework {
 		void SetTopLeft(int x, int y);
 		void OnShow();
 		void ChangeGridState(int Direction,int Attack); // 子彈方向
+		void ChangeType(int type); // The mapitem that get shovel will changetype to Iron wall
 		bool GetIfShoot();
 		bool GetIfBreak();
 		bool GetIfWalk();
@@ -15,6 +16,11 @@ namespace game_framework {
 		CMovingBitmap GetMapItmeBitmap();
 	private:
 		CMovingBitmap _OneGrid;
+
+		CMovingBitmap _ShovelAnimaetion;
+		clock_t _StartTime;
+		bool _IfGetShovel;
+
 		int _Health;
 		int _Type;
 		bool _IfShoot;  //是否可以射擊 false 不行,true可以
