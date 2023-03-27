@@ -39,10 +39,14 @@ void CGameStateRun::OnMove()                            // 移動遊戲元素
 	if (_NowStage >= 1) {
 		event.TrigSetBattleMap(_NowStage,Stage1, _EnemyNum,ChooseStageScreen);
 		_PlayerTank.SetIfBattle(true);
-		_EnemyTank.SetIfBattle(true);
+		for (int i = 0; i < 4; i++) {
+			EnemyList[i].SetIfBattle(true);
+		}
 	}
 	PlayerTankMove(&_PlayerTank);
-	EnemyTankMove(&_EnemyTank);
+	for (int i = 0; i < 4; i++) {
+		EnemyTankMove(&EnemyList[i]);
+	}
 	_TimerFinish = clock();
 }
 void CGameStateRun::OnInit()                                  // 遊戲的初值及圖形設定
@@ -171,9 +175,15 @@ void CGameStateRun::OnInit()                                  // 遊戲的初值
 	_PlayerTankFrontY = 0;
 	Prop.OnInit();
 	event.TrigSetProps(Prop);
-	_EnemyTank.SetEnemyType(0);
-	_EnemyTank.SetEnemyInit();
-	_EnemyTank.LoadBitmap();
+	EnemyList.push_back(_EnemyTank1);
+	EnemyList.push_back(_EnemyTank2);
+	EnemyList.push_back(_EnemyTank3);
+	EnemyList.push_back(_EnemyTank4);
+	for (int i = 0; i < 4; i++){
+		EnemyList[i].SetEnemyType(i);
+		EnemyList[i].SetEnemyInit();
+		EnemyList[i].LoadBitmap();
+	}
 	_TimerStart = clock();
 }
 
@@ -232,7 +242,9 @@ void CGameStateRun::OnShow()
 	Stage1.OnShow();
 	Prop.OnShow();
 	_PlayerTank.OnShow();
-	_EnemyTank.OnShow();
+	for (int i = 0; i < 4; i++) {
+		EnemyList[i].OnShow();
+	}
 	OnShowText();
 }
 void CGameStateRun::OnShowText() {

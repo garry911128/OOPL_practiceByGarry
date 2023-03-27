@@ -8,7 +8,7 @@ namespace game_framework {
 	public:
 		Enemy();
 		int GetEnemyScore();
-		bool isEnemuHaveItem();
+		bool isEnemyHaveItem();
 		void SetEnemyHaveItem();
 		void SetEnemyType(int _num);
 		void SetEnemyInit();

@@ -24,7 +24,7 @@ int Enemy::GetEnemyScore() {
 	return _EnemyScore;
 }
 
-bool Enemy::isEnemuHaveItem() {
+bool Enemy::isEnemyHaveItem() {
 	return _EnemyHaveItem;
 }
 
