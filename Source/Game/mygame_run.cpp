@@ -41,6 +41,10 @@ void CGameStateRun::OnMove()                            // 移動遊戲元素
 		_PlayerTank.SetIfBattle(true);
 		_EnemyTank.SetIfBattle(true);
 	}
+	if (CMovingBitmap::IsOverlap(_PlayerTank.GetTankBitmap(), Prop.GetPropBitmap()) || Prop.GetIfTouched() ) {
+		event.TrigGetProps(Prop, Stage1, _PlayerTank);
+	}
+
 	PlayerTankMove(&_PlayerTank);
 	EnemyTankMove(&_EnemyTank);
 	_TimerFinish = clock();
@@ -150,8 +154,8 @@ void CGameStateRun::OnInit()                                  // 遊戲的初值
 ,{ 1, 1, 1, 1, 1, 1, 1, 1, 4, 4, 1, 1, 1, 1, 1, 1, 4, 4, 4, 4, 1, 1, 1, 1, 1, 1 }
 ,{ 4, 4, 4, 4, 4, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 4, 4, 4, 4, 1, 1, 1, 1 } 
 ,{ 4, 4, 4, 4, 1, 1, 1, 1, 1, 1, 1, 4, 4, 4, 4, 1, 1, 1, 1, 1, 4, 4, 1, 1, 1, 1 }
-,{ 4, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 4, 5, 5, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }
-,{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 4, 5, 5, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }
+,{ 4, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 4, 7, 7, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }
+,{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 4, 7, 7, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }
 	};
 	tempstage17 = { { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }
 					,{ 1, 1, 1, 1, 1, 1, 1, 1, 4, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 4, 4, 1, 1, 1, 1 }
@@ -223,9 +227,6 @@ void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	}*/
 	_NowStage = ChooseStageScreen.OnKeyDown(nChar, nRepCnt, nFlags);
 	
-	if (CMovingBitmap::IsOverlap(_PlayerTank.GetTankBitmap(),Prop.GetPropBitmap())) {
-		event.TrigGetProps(Prop,Stage1,_PlayerTank);
-	}
 	
 }
 
@@ -279,7 +280,7 @@ void CGameStateRun::OnShowText() {
 	pDC->SetTextColor(RGB(0, 180, 0));
 
 	CTextDraw::Print(pDC, 0, 0, (to_string(_TimerStart / CLOCKS_PER_SEC)+" "+ to_string(_TimerFinish / CLOCKS_PER_SEC)));
-	//CTextDraw::Print(pDC, 0, 25, (to_string(_MouseX) + " " + to_string(_MouseY).c_str()));
+	CTextDraw::Print(pDC, 0, 25, (to_string(_MouseX) + " " + to_string(_MouseY).c_str()));
 	ChooseStageScreen.OnShowText(pDC,fp);
 	/*
 	CTextDraw::ChangeFontLog( pDC, 10, "TRANSPARENT", RGB(0, 180, 0));

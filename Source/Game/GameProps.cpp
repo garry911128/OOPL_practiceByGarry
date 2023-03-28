@@ -21,6 +21,8 @@ void GameProps::OnInit() {
 }
 void GameProps::SetGameProps() {
 	_IfShow = true;
+	_IfCountDown = false;
+	_IfTouched = false;
 	//_Type = rand() % 8;
 	_Type = 5;
 	_Props.SetFrameIndexOfBitmap(_Type);
@@ -29,8 +31,8 @@ void GameProps::SetGameProps() {
 	_Props.SetTopLeft(_X,_Y);
 }
 
-void GameProps::SetPropDisapear() {
-	_Type = -1;
+bool GameProps::GetIfTouched() {
+	return _IfTouched;
 }
 int GameProps::GetType() {
 	return _Type;
@@ -42,22 +44,33 @@ bool GameProps::GetIfShow() {
 	return _IfShow;
 }
 void GameProps::OnShow() {
-	if (_IfShow && _Type != -1) {
+	if (_IfShow) {
 		_Props.ShowBitmap();
 	}
 }
-int GameProps::GetPropLeftX() {
-	return _X;
-}
-int GameProps::GetPropRightX() {
-	return _X + _Props.GetWidth();
-}
-int GameProps::GetPropTopY() {
-	return _Y;
-}
-int GameProps::GetPropDownY() {
-	return _Y + _Props.GetHeight();
-}
+
 CMovingBitmap GameProps::GetPropBitmap() {
 	return _Props;
+}
+
+int GameProps::IfEffectExit() { // 1 is effect,-1 is no effect, 0 is 19second
+	int EffectTime = 0;
+	if (!_IfCountDown) {
+		_IfCountDown = true;
+		_IfTouched = true;
+		_StartTime = clock();
+	}
+	if (_Type == 5) {
+		EffectTime = 10000;
+	}
+	if (EffectTime > clock() - _StartTime && clock() - _StartTime  >= EffectTime - 3000) {
+		return 0;
+	}
+	if (clock() - _StartTime >= EffectTime) {
+		_IfCountDown = false;
+		_IfTouched = false;
+		_Type = -1;
+		return -1;
+	}
+	return 1;
 }

@@ -18,13 +18,14 @@ Map::Map() {
 void Map::OnInit(vector<vector<int>> stage) {
 	_IfShowMap = false;
 	_IfGetShovel = false;
+	_IfShovelShine = false;
 	_BlackGrid.LoadBitmapByString({ "resources/BlackGrid.bmp" }, RGB(105, 105, 105));
 	_BlackGrid.SetTopLeft(100, 0);
 	for (int i = 0; i < 26; i++) {
 		vector<MapItem> temp;
 		for (int j = 0; j < 26; j++) {
 			temp.push_back(MapItem(stage[i][j]));
-			if (stage[i][j] != 1) {
+			if (stage[i][j] != 1 && stage[i][j] != 7) {
 				temp[j].SetTopLeft(j * 32 + 100, i * 32);
 			}
 		}
@@ -147,29 +148,28 @@ void Map::ShootWall(int Direction, int Attack,int x,int y) { //vector<CTank>
 	_Stage[x][y].ChangeGridState(Direction, Attack);
 }
 
-bool Map::SetGetShovel(){
-	if (_IfGetShovel == false) { // i let this func only use at first one call.
-		_Stage[25][11].ChangeType(5);
-		_Stage[24][11].ChangeType(5);
-		_Stage[23][11].ChangeType(5);
-		_Stage[23][12].ChangeType(5);
-		_Stage[23][13].ChangeType(5);
-		_Stage[23][14].ChangeType(5);
-		_Stage[24][14].ChangeType(5);
-		_Stage[25][14].ChangeType(5);
-		_StartTime = clock();
-		_IfGetShovel = true;
+void Map::SetGetShovel(int EffectTime) {
+	int Type = 0;
+	bool IfShine = false;
+	if (EffectTime == 1) { // EffectTime >= 0 mean the effect is exist
+		Type = 5;
 	}
-	else if (_IfGetShovel == true && clock() - _StartTime > 21) { // after the first call,all judge this.
-		_Stage[25][11].ChangeType(4);
-		_Stage[24][11].ChangeType(4);
-		_Stage[23][11].ChangeType(4);
-		_Stage[23][12].ChangeType(4);
-		_Stage[23][13].ChangeType(4);
-		_Stage[23][14].ChangeType(4);
-		_Stage[24][14].ChangeType(4);
-		_Stage[25][14].ChangeType(4);
-		_IfGetShovel = false;
+	else if (EffectTime == 0 ) {
+		Type = 5;
+		if (_IfShovelShine == false) {
+			_IfShovelShine = true;
+			IfShine = true;
+		}
 	}
-	return _IfGetShovel;
+	else if(EffectTime == -1){
+		Type = 4;
+	}
+	_Stage[25][11].SetShovelChangeType(Type, IfShine);
+	_Stage[24][11].SetShovelChangeType(Type, IfShine);
+	_Stage[23][11].SetShovelChangeType(Type, IfShine);
+	_Stage[23][12].SetShovelChangeType(Type, IfShine);
+	_Stage[23][13].SetShovelChangeType(Type, IfShine);
+	_Stage[23][14].SetShovelChangeType(Type, IfShine);
+	_Stage[24][14].SetShovelChangeType(Type, IfShine);
+	_Stage[25][14].SetShovelChangeType(Type, IfShine);
 }

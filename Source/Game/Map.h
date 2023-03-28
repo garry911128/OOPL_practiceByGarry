@@ -20,7 +20,7 @@ namespace game_framework {
 
 		void ShootWall(int Direction, int Attack, int x, int y); //Iron wall or wall was shot
 
-		bool SetGetShovel();
+		void SetGetShovel(int Type);
 	private:
 		enum ObjectDirection {
 			Right, Down, Left, Up
@@ -28,6 +28,7 @@ namespace game_framework {
 		
 		clock_t _StartTime; // last time to get that we have get item shovel
 		bool _IfGetShovel; 
+		bool _IfShovelShine; // last 3 sec will shine
 
 		bool _IfShowMap;
 		CMovingBitmap _BlackGrid;
