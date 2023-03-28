@@ -43,7 +43,11 @@ void Event::TrigSetProps(GameProps& Props) {
 }
 void Event::TrigGetProps(GameProps& Props,Map& StageMap,CPlayer& Player) {
 	Props.SetIfShow(false);
-	if (Props.GetType() == 5) {
+	int type = Props.GetType();
+	if (type == 5) {
 		StageMap.SetGetShovel(Props.IfEffectExit());
+	}
+	else if (type == 7) {
+		Player.SetIfGetShip(true);
 	}
 }

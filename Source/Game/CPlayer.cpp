@@ -12,6 +12,7 @@
 using namespace game_framework;
 
 CPlayer::CPlayer() : CTank(){
+	_IfGetShip = false;
 	_X = Width * 8 + 100;
 	_Y = Height * 24;
 	_PlayerScore = 0;
@@ -54,6 +55,13 @@ void CPlayer::KillEnemy(int type) {
 
 void CPlayer::PlusPlayerScore(int score) {
 	_PlayerScore += score;
+}
+
+void CPlayer::SetIfGetShip(bool Status) {
+	_IfGetShip = Status;
+}
+bool CPlayer::GetIfGetShip() {
+	return _IfGetShip;
 }
 
 void CPlayer::LevelUP() {

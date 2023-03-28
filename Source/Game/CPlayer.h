@@ -12,7 +12,11 @@ namespace game_framework {
 		void SpawnAfter5Second();
 		void PlusPlayerScore(int score);
 		void LevelUP();
+
+		bool GetIfGetShip();
+		void SetIfGetShip(bool Status);
 	private:
+		bool _IfGetShip;
 		int _Invicible;
 		int _PlayerScore;
 		vector<int> _KillEnemyList;

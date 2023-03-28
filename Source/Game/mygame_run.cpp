@@ -309,6 +309,10 @@ void CGameStateRun::PlayerTankMove(CPlayer *tank) {
 			Stage1.GetIfBoardEdge(tank->GetX1(), tank->GetY1(), tank->GetHeight(), tank->GetWidth(), tank->GetOriginAngle())) {
 			tank->Move();
 		}
+		if ((Stage1.GetType(_tempcollision[0][1], _tempcollision[0][0]) == 2 || \
+			Stage1.GetType(_tempcollision[1][1], _tempcollision[1][0]) == 2) && tank->GetIfGetShip() == true) {
+			tank->Move();
+		}
 		tank->Animation();
 	}
 }
