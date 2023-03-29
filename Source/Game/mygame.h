@@ -115,7 +115,7 @@ namespace game_framework {
 		void OnShow();									// 顯示這個狀態的遊戲畫面
 		void PlayerTankMove(CPlayer *tank);
 		void EnemyTankMove(Enemy *tank);
-		void TankCollision(CTank *tank);
+		void TankCollisionMap(CTank *tank);
 		void TankShoot(CTank *tank);
 		int _NowStage;
 		int _EnemyNum;

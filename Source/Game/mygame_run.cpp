@@ -47,7 +47,6 @@ void CGameStateRun::OnMove()                            // 移動遊戲元素
 	for (int i = 0; i < 4; i++) {
 		EnemyTankMove(&EnemyList[i]);
 	}
-	_TimerFinish = clock();
 }
 void CGameStateRun::OnInit()                                  // 遊戲的初值及圖形設定
 {
@@ -170,7 +169,6 @@ void CGameStateRun::OnInit()                                  // 遊戲的初值
 	_MouseY = 0;
 	
 	_PlayerTank.LoadBitmap();
-	_PlayerTank.LoadSpawnBitmap();
 	_PlayerTankFrontX = 0;
 	_PlayerTankFrontY = 0;
 	Prop.OnInit();
@@ -184,7 +182,6 @@ void CGameStateRun::OnInit()                                  // 遊戲的初值
 		EnemyList[i].SetEnemyInit();
 		EnemyList[i].LoadBitmap();
 	}
-	_TimerStart = clock();
 }
 
 void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
@@ -252,7 +249,7 @@ void CGameStateRun::OnShowText() {
 	CFont *fp;
 	pDC->SetBkMode(TRANSPARENT);
 	pDC->SetTextColor(RGB(0, 180, 0));
-
+	_TimerFinish = clock();
 	CTextDraw::Print(pDC, 0, 0, (to_string(_TimerStart / CLOCKS_PER_SEC)+" "+ to_string(_TimerFinish / CLOCKS_PER_SEC)));
 	//CTextDraw::Print(pDC, 0, 25, (to_string(_MouseX) + " " + to_string(_MouseY).c_str()));
 	ChooseStageScreen.OnShowText(pDC,fp);
@@ -276,34 +273,15 @@ void CGameStateRun::PlayerTankMove(CPlayer *tank) {
 		tank->GetSpawnAnimationDone())
 	{
 		tank->TurnFace(_HoldKey);
-		TankCollision(tank);
+		TankCollisionMap(tank);
 	}
 	TankShoot(tank);
 }
 
 void CGameStateRun::EnemyTankMove(Enemy *tank) {
-	int _RandomDirection = rand()%4;
-	int _RandomMoveTime = rand() % 13 * 7 * 23 % 17 * 29 % 3 +1;
 	if (tank->GetSpawnAnimationDone()){
-		if ((_TimerFinish - _TimerStart) / CLOCKS_PER_SEC >_RandomMoveTime){
-			switch (_RandomDirection)
-			{
-			case Right:
-				tank->TurnFace(VK_RIGHT);
-				break;
-			case Up:
-				tank->TurnFace(VK_UP);
-				break;
-			case Down:
-				tank->TurnFace(VK_DOWN);
-				break;
-			case Left:
-				tank->TurnFace(VK_LEFT);
-				break;
-			}
-			_TimerStart = clock();
-		}
-		TankCollision(tank);
+		tank->EnemyRandomDirection();
+		TankCollisionMap(tank);
 		tank->FireBullet();
 		TankShoot(tank);
 	}
@@ -331,7 +309,7 @@ void  CGameStateRun::TankShoot(CTank *tank) {
 		}
 	}
 }
-void CGameStateRun::TankCollision(CTank *tank) {
+void CGameStateRun::TankCollisionMap(CTank *tank) {
 	tank->TankFront();
 	_tempcollision = Stage1.GetFrontGridsIndex(tank->GetTankFront());
 	if ((Stage1.GetMapItemInfo(_tempcollision[0][1], _tempcollision[0][0], 0) && Stage1.GetMapItemInfo(_tempcollision[1][1], _tempcollision[1][0], 0)) && \
