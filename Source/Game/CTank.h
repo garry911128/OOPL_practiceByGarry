@@ -22,6 +22,8 @@ namespace game_framework {
 		void SetXY(int x, int y);			//座標設定
 		void TurnFace(UINT nChar);			//調整圖片方向
 		void SetFaceDirection();
+		void TankbeHit();
+
 		void FireBullet();
 		bool GetIfFire();
 		void SetBulletStatus(bool Status);
@@ -35,10 +37,10 @@ namespace game_framework {
 		int GetBulletWidth();
 		void SetIfBattle(bool Battle);
 
-		void LoadSpawnBitmap();				//Load重生動畫
+		void LoadBitmap();					//Load重生動畫
 		void ShowSpawnAnimation();			//Show重生動畫
 		bool GetSpawnAnimationDone();		//Get重生動畫播放完畢
-
+		
 		CMovingBitmap GetTankBitmap();
 	protected:
 		enum Direction {
@@ -61,7 +63,9 @@ namespace game_framework {
 
 		CMovingBitmap _Tank;
 		CMovingBitmap _SpawnAnimation;
+		CMovingBitmap _TankBrokenAnimation;
 		bool _SpawnAnimationDone;
+		bool _TankBrokenAnimationDone;
 		int Width,Height;							//OneGrid寬,高
 		int _X,_Y;									//地圖座標								
 		int _FrameTime,_Frameindex,_FrameSecond;	//動畫計時器,動畫初始禎,計時秒數

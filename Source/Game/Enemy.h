@@ -8,16 +8,19 @@ namespace game_framework {
 	public:
 		Enemy();
 		int GetEnemyScore();
-		bool isEnemuHaveItem();
-		void SetEnemyHaveItem();
-		void SetEnemyType(int _num);
-		void SetEnemyInit();
-		void LoadBitmap();
-		void SetOriginAngle(int _direction);
+		bool isEnemyHaveItem();					// 是否有道具
+		void SetEnemyHaveItem();				// 設定有道具
+		void SetEnemyType(int _num);			// 設定敵人類型
+		void SetEnemyInit();					// 設定初始化
+		void LoadBitmap();						
+		void SetOriginAngle(int _direction);	// 設定轉向方向 
+		void EnemyRandomDirection();			// 隨機設定前進方向
 	private:
 		int _EnemyType;
 		int _EnemyScore;
-		bool _EnemyHaveItem;
+		int _RandomDirection,_RandomMoveTime;	// 隨機轉向方向,隨機移動時間
+		clock_t _TimeFinish, _TimeStart;		// 計時器 (結束-開始 = 經過時間)
+		bool _EnemyHaveItem;					// 道具
 	};
 
 }

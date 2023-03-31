@@ -33,6 +33,7 @@ CTank::CTank() :Width(32), Height(32) {
 	_OffsetXY = { 0,0 };							// 偏移的XY距離
 	_SpawnAnimationDone = false;					// 重生動畫結束撥放
 	_BulletFlySpeed = 15;
+	_TankBrokenAnimationDone = false;
 	//_Bullet.LoadBitmap(); // 加到player裡了
 	//_Tank.SetAnimation(1, true);
 	//_Bullet.LoadBitmap();
@@ -144,6 +145,30 @@ void CTank::SetFaceDirection() {
 		_Frameindex = 6;
 	}
 }
+void CTank::TankbeHit() {
+	_Tank.UnshowBitmap();
+	if (_FrameTime % 20 == 0) {
+		_TankBrokenAnimation.SetFrameIndexOfBitmap(0);
+	}
+	else if (_FrameTime % 20 == 4) {
+		_TankBrokenAnimation.SetFrameIndexOfBitmap(1);
+	}
+	else if (_FrameTime % 20 == 8) {
+		_TankBrokenAnimation.SetFrameIndexOfBitmap(2);
+	}
+	else if (_FrameTime % 20 == 12) {
+		_TankBrokenAnimation.SetFrameIndexOfBitmap(3);
+	}
+	else if (_FrameTime % 20 == 16) {
+		_TankBrokenAnimation.SetFrameIndexOfBitmap(4);
+	}
+	else if (_FrameTime % 20 == 20) {
+		_TankBrokenAnimation.SetFrameIndexOfBitmap(1);
+	}
+	_FrameTime += 1;
+	_TankBrokenAnimation.SetTopLeft(_X, _Y);
+	_TankBrokenAnimation.ShowBitmap();
+}
 
 void CTank::Animation() {
 	if (_FrameTime%_FrameSecond==0){
@@ -164,9 +189,9 @@ void CTank::LocationPoint() {
 } 
 
 void CTank::OnShow() {
-	if (_IfBattle) {
+	if (_IfBattle && _Life !=0) {
 		if (!GetSpawnAnimationDone()) {
-			LoadSpawnBitmap();
+			LoadBitmap();
 			ShowSpawnAnimation();
 		}
 		else {
@@ -175,6 +200,9 @@ void CTank::OnShow() {
 			_Tank.ShowBitmap();
 		}
 		_Bullet.OnShow();
+	}
+	else if (_Life == 0) {
+		TankbeHit();
 	}
 }
 
@@ -227,11 +255,16 @@ vector<vector<int>> CTank::GetTankFront(){
 bool CTank::GetSpawnAnimationDone() {
 	return _SpawnAnimationDone;
 }
-void CTank::LoadSpawnBitmap() {
+void CTank::LoadBitmap() {
 	_SpawnAnimation.LoadBitmapByString({"resources/Spawn_1.bmp",
 										"resources/Spawn_2.bmp",
 										"resources/Spawn_3.bmp", 
 										"resources/Spawn_4.bmp"}, RGB(0, 0, 0));
+	_TankBrokenAnimation.LoadBitmapByString({"resources/Boom0.bmp",
+											 "resources/Boom1.bmp",
+											 "resources/Boom2.bmp",
+											 "resources/Boom3.bmp",
+											 "resources/Boom4.bmp" },RGB(0 ,0 ,0));
 }
 void CTank::ShowSpawnAnimation() {
 	if (_FrameTime % 12 == 0) {
