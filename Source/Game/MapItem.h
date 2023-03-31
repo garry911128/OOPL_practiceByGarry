@@ -7,19 +7,21 @@ namespace game_framework {
 		MapItem(int Type);
 		void SetTopLeft(int x, int y);
 		void OnShow();
-		void ChangeGridState(int Direction,int Attack); // 子彈方向
-		void ChangeType(int type); // The mapitem that get shovel will changetype to Iron wall
+		void ChangeGridState(int Direction,int Attack); // 子彈方向(磚牆)
+
 		bool GetIfShoot();
 		bool GetIfBreak();
 		bool GetIfWalk();
 		int GetType();
 		CMovingBitmap GetMapItmeBitmap();
+
+		void SetShovelChangeType(int type,bool IfShine);
 	private:
 		CMovingBitmap _OneGrid;
 
 		CMovingBitmap _ShovelAnimaetion;
-		clock_t _StartTime;
 		bool _IfGetShovel;
+		bool _IfShine;
 
 		int _Health;
 		int _Type;

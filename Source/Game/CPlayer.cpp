@@ -12,6 +12,7 @@
 using namespace game_framework;
 
 CPlayer::CPlayer() : CTank(){
+	_IfGetShip = false;
 	_X = Width * 8 + 100;
 	_Y = Height * 24;
 	_PlayerScore = 0;
@@ -56,11 +57,21 @@ void CPlayer::PlusPlayerScore(int score) {
 	_PlayerScore += score;
 }
 
+void CPlayer::SetIfGetShip(bool Status) {
+	_IfGetShip = Status;
+}
+bool CPlayer::GetIfGetShip() {
+	return _IfGetShip;
+}
+void CPlayer::SetMoveOnIce(bool IfOnIce) {
+	
+}
 void CPlayer::LevelUP() {
 	if (_Level < 5) {
 		_Level += 1;
 		if (_Level == 2) {
 			_AttackSpeedUP = true;
+			_BulletFlySpeed = 30;
 		}
 		else if (_Level == 3) {
 			_DoubleAttack = true;

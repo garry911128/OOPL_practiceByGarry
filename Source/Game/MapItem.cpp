@@ -17,6 +17,7 @@ MapItem::MapItem() {
 MapItem::MapItem(int ItemType) { //傳某一個格子 type 進去
 	_Type = ItemType;
 	_IfGetShovel = false;
+	_IfShine = false;
 	if (_Type == 1) { // 1是 黑色格子(可以走,不行射擊(穿過), 不行破壞)
 		_IfShoot = false;
 		_IfBreak = false;
@@ -42,9 +43,10 @@ MapItem::MapItem(int ItemType) { //傳某一個格子 type 進去
 		_IfBreak = true;
 		_IfWalk = false;
 		_OneGrid.LoadBitmapByString({ "resources/wall.bmp","resources/WallLeftBreak.bmp","resources/WallTopBreak.bmp", "resources/WallRightBreak.bmp","resources/WallBottomBreak.bmp"}, RGB(0, 0, 0));
-		_ShovelAnimaetion.LoadBitmapByString({ "resources/IronWall.bmp" }, RGB(0, 0, 0));
+		_ShovelAnimaetion.LoadBitmapByString({ "resources/wall.bmp","resources/IronWall.bmp" }, RGB(0, 0, 0));
 		// I add the Iron wall because the Item Shovel must change the type ,but bitmap was load at the first
 		// so i add Iron wall bitmap in it. 
+		_ShovelAnimaetion.SetAnimation(500, false);
 	}
 	else if (_Type == 5) { //5是 鐵牆(無法行走(可破壞後走), 可射擊(無法穿過) ,不可破壞(拿道具後可破壞) )
 		_Health = 3;
@@ -58,6 +60,14 @@ MapItem::MapItem(int ItemType) { //傳某一個格子 type 進去
 		_IfBreak = false;
 		_IfWalk = true;
 		_OneGrid.LoadBitmapByString({ "resources/Grass.bmp" }, RGB(0, 0, 0));
+	}
+	else if (_Type == 7) {
+		_Health = 1;
+		_IfShoot = true;
+		_IfBreak = true;
+		_IfWalk = false;
+		_OneGrid.LoadBitmapByString({ "resources/Home.bmp" }, RGB(0, 0, 0));
+		_OneGrid.SetTopLeft(484, 768);
 	}
 }
 void MapItem::ChangeGridState(int Direction,int Attack) { // direction  1 是磚牆左邊被打到(子彈往右飛) 
@@ -102,9 +112,8 @@ void MapItem::SetTopLeft(int x, int y) {
 	}
 }
 void MapItem::OnShow() {
-	if (_IfGetShovel && (_Type == 5)) {
+	if (_IfGetShovel) {
 		_ShovelAnimaetion.ShowBitmap();
-		//if(clock() - _StartTime > 0.5 )
 		return;
 	}
 	if (_Type != 1) {
@@ -115,21 +124,30 @@ void MapItem::OnShow() {
 CMovingBitmap MapItem::GetMapItmeBitmap() {
 	return _OneGrid;
 }
-void MapItem::ChangeType(int type) {
-	if (type == 5) {
+
+void MapItem::SetShovelChangeType(int Type,bool IfShine) {
+	if (Type == 5) {
 		_IfGetShovel = true;
+		_Type = 5;
+		_Health = 3;
 		_IfShoot = true;
 		_IfBreak = false;
 		_IfWalk = false;
-		_Type = 5;
+		if (IfShine && _IfShine == false) {
+			_ShovelAnimaetion.ToggleAnimation();
+			_IfShine = true;
+		}
+		else if( !IfShine && _IfShine == false){
+			_ShovelAnimaetion.SetFrameIndexOfBitmap(1);
+		}
 	}
-	else if (type == 4) {
-		_Health = 2;
-		_OneGrid.SetFrameIndexOfBitmap(0);
+	else {
 		_IfGetShovel = false;
+		_Type = 4;
+		_Health = 2;
 		_IfShoot = true;
 		_IfBreak = true;
 		_IfWalk = false;
-		_Type = 4;
+		_OneGrid.SetFrameIndexOfBitmap(0);
 	}
 }
