@@ -6,6 +6,7 @@
 #include "../Library/audio.h"
 #include "../Library/gameutil.h"
 #include "../Library/gamecore.h"
+#include <random>
 #include "Enemy.h"
 
 // Tank Child
@@ -18,13 +19,15 @@ Enemy::Enemy() : CTank() {
 	_OriginAngle = Down;
 	_TurnAngle = Down;
 	_NowGrid = { (_X - 100) / Width, _Y / Height };
+	_TimeStart = clock();
+	_TimeFinish = clock();
 	SetFaceDirection();
 }
 int Enemy::GetEnemyScore() {
 	return _EnemyScore;
 }
 
-bool Enemy::isEnemuHaveItem() {
+bool Enemy::isEnemyHaveItem() {
 	return _EnemyHaveItem;
 }
 
@@ -37,16 +40,16 @@ void Enemy::SetEnemyInit() {
 		_EnemyScore = 100;						// 坦克分數
 	}
 	else if (_EnemyType == QuickTank) {
-		_AttackSpeedUP = true;
+		_AttackSpeedUP = true;					// 射速
 		_EnemyScore = 300;						// 坦克分數
 	}
 	else if (_EnemyType == ArmorTank) {
 		_MovementSpeed = 4;						// 移動速度
-		_EnemyScore = 200;						// 坦克分數
+		_EnemyScore = 200;						
 	}
 	else if (_EnemyType == HeavyTank) {
 		_Life = 4;								// 生命
-		_EnemyScore = 400;						// 坦克分數
+		_EnemyScore = 400;						
 	}
 }
 
@@ -56,7 +59,32 @@ void Enemy::SetEnemyType(int num) {
 void Enemy::SetOriginAngle(int direction) {
 	_OriginAngle = direction;
 }
-
+void Enemy::EnemyRandomDirection(){
+	_RandomDirection = rand() % 4;		// 隨機移動四個方向
+	_RandomMoveTime = rand() % 5 + 1;	// 移動時間 1~6sec
+	_TimeFinish = clock();
+	if ((_TimeFinish - _TimeStart) / CLOCKS_PER_SEC > _RandomMoveTime) {	// > :因為要播放重生動畫
+		switch (_RandomDirection)
+		{
+		case Right:
+			TurnFace(VK_RIGHT);
+			break;
+		case Up:
+			TurnFace(VK_UP);
+			break;
+		case Down:
+			TurnFace(VK_DOWN);
+			break;
+		case Left:
+			TurnFace(VK_LEFT);
+			break;
+		}
+		_TimeStart = clock();			// 重新開始計時
+	}
+	if (_TimeFinish / CLOCKS_PER_SEC == 15){
+		_Life -= 1;
+	}
+}
 void Enemy::LoadBitmap() {
 	if (_EnemyType == LightTank){
 		_Tank.LoadBitmapByString({  "resources/Enemy_LightTank_Right1.bmp" ,"resources/Enemy_LightTank_Right2.bmp",
