@@ -18,7 +18,6 @@ namespace game_framework {
 		bool isBreak();
 		void TankFront();					//坦克前方的格子做定位
 		void Animation();							
-		//void LevelUP();						//升級
 		void LocationPoint();				//位置校正
 		void Move();						//移動
 		void OnShow();						//SHOW
@@ -26,18 +25,15 @@ namespace game_framework {
 		void TurnFace(UINT nChar);			//調整圖片方向
 		void SetFaceDirection();
 		void TankbeHit();
-
-		void FireBullet();
-		bool GetIfFire();
-		void SetBulletStatus(bool Status);
-		void SetIfFire(bool Status);
-		vector<vector<int>> GetBulletPlace();
 		vector<vector<int>> GetTankFront();
-		int GetBulletDirection();
-		int GetBulletX();
-		int GetBulletY();
-		int GetBulletHeight();
-		int GetBulletWidth();
+
+		// bullet
+		void FireBullet();
+		void SetBulletStatus(bool Status);
+		bool GetIfFire();
+		void SetIfFire(bool Status);
+		CBullet _Bullet;
+
 		void SetIfBattle(bool Battle);
 
 		void LoadBitmap();					//Load重生動畫
@@ -61,7 +57,6 @@ namespace game_framework {
 		bool _IfBattle; //the var that decide onshow
 		bool _IfFire;
 		clock_t _Last_time; // last time that bullet move; (we can consider it as delay)
-		CBullet _Bullet;
 		int _BulletFlySpeed;
 		bool _isNeedRespawn;
 		CMovingBitmap _Tank;

@@ -18,8 +18,8 @@ CBullet::CBullet() {
 	//"resources/Bullet0.bmp","resources/Bullet1.bmp","resources/Bullet2.bmp","resources/Bullet3.bmp"
 	//_Boom.LoadBitmapByString({ "resources/Boom0.bmp","resources/Boom1.bmp","resources/Boom2.bmp" }, RGB(0, 0, 0));
 	_AlreadyFire = false;
-	_NextMove = { {0,0},{0,0} };
-	_NowPlace = { {0,0},{0,0} };
+	_NowBackPlace = { {0,0},{0,0} };
+	_NowFrontPlace = { {0,0},{0,0} };
 }
 
 void CBullet::LoadBitmap() {
@@ -32,44 +32,53 @@ bool CBullet::GetAlreadyFire() {
 }
 void CBullet::SetBulletFire(int TankX,int TankY,int TankDirect,int BulletSpeed) {
 	if (_AlreadyFire == false) {
-		_AlreadyFire = true;
-		_NowPlace[0][0] = TankX;
-		_NowPlace[0][1] = TankY;
-		_Direction = TankDirect;
-		if (_Direction == Right || _Direction == Left) {
-			_NowPlace[1][0] = TankX;
-			_NowPlace[1][1] = TankY + 10;
-		}
-		else if (_Direction == Down || _Direction == Up) {
-			_NowPlace[1][0] = TankX + 10;
-			_NowPlace[1][1] = TankY;
-		}
 		_Bulletimage.SetFrameIndexOfBitmap(TankDirect);
-		_NextMove[0][0] = _NowPlace[0][0] + _Move[TankDirect][0] * BulletSpeed;
-		_NextMove[0][1] = _NowPlace[0][1] + _Move[TankDirect][1] * BulletSpeed;
-		_NextMove[1][0] = _NowPlace[1][0] + _Move[TankDirect][0] * BulletSpeed;
-		_NextMove[1][1] = _NowPlace[1][1] + _Move[TankDirect][1] * BulletSpeed;
-		_Bulletimage.SetTopLeft(_NowPlace[0][0], _NowPlace[0][1]);
+		_AlreadyFire = true;
+		_Direction = TankDirect;
+		_NowBackPlace[0][0] = TankX;
+		_NowBackPlace[0][1] = TankY;
+		if (_Direction == Right || _Direction == Left) {
+			_NowBackPlace[1][0] = TankX;
+			_NowBackPlace[1][1] = TankY + _Bulletimage.GetHeight();	
+			
+			_NowFrontPlace[0][0] = TankX + _Move[_Direction][0] * _Bulletimage.GetWidth();
+			_NowFrontPlace[0][1] = TankY;
+
+			_NowFrontPlace[1][0] = _NowFrontPlace[0][0];
+			_NowFrontPlace[1][1] = TankY + _Bulletimage.GetHeight();
+		}
+		else if(_Direction == Down || _Direction == Up){
+			_NowBackPlace[1][0] = TankX + _Bulletimage.GetWidth();
+			_NowBackPlace[1][1] = TankY;
+
+			_NowFrontPlace[0][0] = TankX;
+			_NowFrontPlace[0][1] = TankY + _Move[_Direction][1] * _Bulletimage.GetHeight();
+
+			_NowFrontPlace[1][0] = TankX + _Bulletimage.GetWidth();
+			_NowFrontPlace[1][1] = _NowFrontPlace[0][1];
+		}
+		
+		_Bulletimage.SetTopLeft(_NowBackPlace[0][0], _NowBackPlace[0][1]);
 	}
 	else {
-		_NowPlace[0][0] = _NextMove[0][0];
-		_NowPlace[0][1] = _NextMove[0][1];
-		_NowPlace[1][0] = _NextMove[1][0];
-		_NowPlace[1][1] = _NextMove[1][1];
+		_NowBackPlace[0][0] += _Move[_Direction][0] * BulletSpeed;
+		_NowBackPlace[0][1] += _Move[_Direction][1] * BulletSpeed;
+		_NowBackPlace[1][0] += _Move[_Direction][0] * BulletSpeed;
+		_NowBackPlace[1][1] += _Move[_Direction][1] * BulletSpeed;
 
-		_NextMove[0][0] = _NowPlace[0][0] + _Move[_Direction][0] * BulletSpeed;
-		_NextMove[0][1] = _NowPlace[0][1] + _Move[_Direction][1] * BulletSpeed;
-		_NextMove[1][0] = _NowPlace[1][0] + _Move[_Direction][0] * BulletSpeed;
-		_NextMove[1][1] = _NowPlace[1][1] + _Move[_Direction][1] * BulletSpeed;
+		_NowFrontPlace[0][0] += _Move[_Direction][0] * BulletSpeed;
+		_NowFrontPlace[0][1] += _Move[_Direction][1] * BulletSpeed;
+		_NowFrontPlace[1][0] += _Move[_Direction][0] * BulletSpeed;
+		_NowFrontPlace[1][1] += _Move[_Direction][1] * BulletSpeed;
 	
-		_Bulletimage.SetTopLeft(_NowPlace[0][0], _NowPlace[0][1]);
+		_Bulletimage.SetTopLeft(_NowBackPlace[0][0], _NowBackPlace[0][1]);
 	}
 	if (_IfBoom == false) {
 		if (_Direction == Right || _Direction == Left) {
-			_Boom.SetTopLeft(_NowPlace[0][0], _NowPlace[0][1] - 18);
+			_Boom.SetTopLeft(_NowBackPlace[0][0], _NowBackPlace[0][1] - 18);
 		}
 		else{
-			_Boom.SetTopLeft(_NowPlace[0][0] - 18, _NowPlace[0][1]);
+			_Boom.SetTopLeft(_NowBackPlace[0][0] - 18, _NowBackPlace[0][1]);
 		}
 	}
 }
@@ -91,8 +100,11 @@ void CBullet::OnShow() {
 void CBullet::SetBulletAlreadyFire(bool BulletAlreadyFire) {
 	_AlreadyFire = BulletAlreadyFire;
 }
-vector<vector<int>> CBullet::_GetNowPlace() {
-	return _NowPlace;
+vector<vector<int>> CBullet::GetNowBackPlace() {
+	return _NowBackPlace;
+}
+vector<vector<int>> CBullet::GetNowFrontPlace() {
+	return _NowFrontPlace;
 }
 int CBullet::GetDirection() {
 	return _Direction;

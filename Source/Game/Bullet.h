@@ -14,7 +14,8 @@ namespace game_framework {
 		void SetIfBoom(bool Status);
 		int GetDirection();
 		static vector<vector<int>> _Move;
-		vector<vector<int>> _GetNowPlace();
+		vector<vector<int>> GetNowBackPlace();
+		vector<vector<int>> GetNowFrontPlace();
 		int GetHeight();
 		int GetWidth();
 	private:
@@ -23,7 +24,8 @@ namespace game_framework {
 		};
 		bool _AlreadyFire;
 		bool _IfBoom;
-		vector<vector<int>> _NowPlace; //the place that stand on your left and right
+		vector<vector<int>> _NowBackPlace; //the place that stand on your left and right , but doesnt plus width and height
+		vector<vector<int>> _NowFrontPlace; //plus width and height
 		int _Direction;
 		vector<vector<int>> _NextMove;
 		CMovingBitmap _Bulletimage; //all bullet image in here ,index 0 is Go to east Bullet image,1 is south,2 is west,3 is north
