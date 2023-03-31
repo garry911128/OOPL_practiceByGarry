@@ -15,7 +15,6 @@ namespace game_framework {
 		bool isBreak();
 		void TankFront();					//坦克前方的格子做定位
 		void Animation();							
-		//void LevelUP();						//升級
 		void LocationPoint();				//位置校正
 		void Move();						//移動
 		void OnShow();						//SHOW

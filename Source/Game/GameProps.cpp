@@ -24,7 +24,7 @@ void GameProps::SetGameProps() {
 	_IfCountDown = false;
 	_IfTouched = false;
 	//_Type = rand() % 8;
-	_Type = 1;
+	_Type = 0;
 	_Props.SetFrameIndexOfBitmap(_Type);
 	_X = 100 + rand() % 768;
 	_Y = rand() % 768;
