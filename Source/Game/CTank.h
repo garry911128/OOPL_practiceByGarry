@@ -12,6 +12,9 @@ namespace game_framework {
 		int GetWidth();
 		int GetHeight();
 		int GetOriginAngle();
+		int GetLife();
+		bool GetEnemyisNeedRespawn();
+		void SetLife(int num);
 		bool isBreak();
 		void TankFront();					//坦克前方的格子做定位
 		void Animation();							
@@ -55,12 +58,12 @@ namespace game_framework {
 		bool _IfFire;
 		clock_t _Last_time; // last time that bullet move; (we can consider it as delay)
 		int _BulletFlySpeed;
-
+		bool _isNeedRespawn;
 		CMovingBitmap _Tank;
 		CMovingBitmap _SpawnAnimation;
 		CMovingBitmap _TankBrokenAnimation;
 		bool _SpawnAnimationDone;
-		bool _TankBrokenAnimationDone;
+		bool _isTankBrokenAnimationDone;
 		int Width,Height;							//OneGrid寬,高
 		int _X,_Y;									//地圖座標								
 		int _FrameTime,_Frameindex,_FrameSecond;	//動畫計時器,動畫初始禎,計時秒數

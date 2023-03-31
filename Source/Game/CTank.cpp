@@ -33,10 +33,8 @@ CTank::CTank() :Width(32), Height(32) {
 	_OffsetXY = { 0,0 };							// 偏移的XY距離
 	_SpawnAnimationDone = false;					// 重生動畫結束撥放
 	_BulletFlySpeed = 15;
-	_TankBrokenAnimationDone = false;
-	//_Bullet.LoadBitmap(); // 加到player裡了
-	//_Tank.SetAnimation(1, true);
-	//_Bullet.LoadBitmap();
+	_isTankBrokenAnimationDone = false;
+	_isNeedRespawn = false;
 }
 int CTank::GetX1(){
 	return _X;
@@ -47,11 +45,20 @@ int CTank::GetY1() {
 int CTank::GetOriginAngle() {
 	return _OriginAngle;
 }
+int CTank::GetLife() {
+	return _Life;
+}
+void CTank::SetLife(int num) {
+	_Life = num;
+}
 bool CTank::isBreak() {
 	if (_Life == 0){
 		return true;
 	}
 	return false;
+}
+bool CTank::GetEnemyisNeedRespawn() {
+	return _isNeedRespawn;
 }
 void CTank::SetXY(int _x, int _y) {
 	_X = _x;
@@ -93,65 +100,33 @@ void CTank::Move() {
 		}
 	}
 }
-void CTank::TurnFace(UINT nChar) {
-	if (nChar == VK_RIGHT) {
-		_TurnAngle = Right;
-	}
-	else if (nChar == VK_LEFT) {
-		_TurnAngle = Left;
-	}
-	else if (nChar == VK_UP) {
-		_TurnAngle = Up;
-	}
-	else if (nChar == VK_DOWN) {
-		_TurnAngle = Down;
-	}
-	if (_TurnAngle != _OriginAngle) {
-		LocationPoint();
-		_OriginAngle = _TurnAngle;
-		SetFaceDirection();
-		_FrameTime= 0;
-	}
-	//_Tank.SetFrameIndexOfBitmap(_Frameindex);
-}
 
-void CTank::SetFaceDirection() {
-	if (_OriginAngle == Right) {
-		_Frameindex = 0;
-	}
-	else if (_OriginAngle == Left) {
-		_Frameindex = 2;
-	}
-	else if (_OriginAngle == Up) {
-		_Frameindex = 4;
-	}
-	else if (_OriginAngle == Down) {
-		_Frameindex = 6;
-	}
-}
 void CTank::TankbeHit() {
-	_Tank.UnshowBitmap();
-	if (_FrameTime % 20 == 0) {
-		_TankBrokenAnimation.SetFrameIndexOfBitmap(0);
+	if (_FrameTime % 26 == 25){
+		_isTankBrokenAnimationDone = true;
 	}
-	else if (_FrameTime % 20 == 4) {
-		_TankBrokenAnimation.SetFrameIndexOfBitmap(1);
+	else {
+		if (_FrameTime % 26 == 0) {
+			_TankBrokenAnimation.SetFrameIndexOfBitmap(0);
+		}
+		else if (_FrameTime % 26 == 4) {
+			_TankBrokenAnimation.SetFrameIndexOfBitmap(1);
+		}
+		else if (_FrameTime % 26 == 8) {
+			_TankBrokenAnimation.SetFrameIndexOfBitmap(2);
+		}
+		else if (_FrameTime % 26 == 12) {
+			_TankBrokenAnimation.SetFrameIndexOfBitmap(3);
+		}
+		else if (_FrameTime % 26 == 16) {
+			_TankBrokenAnimation.SetFrameIndexOfBitmap(4);
+		}
+		else if (_FrameTime % 26 == 20) {
+			_TankBrokenAnimation.SetFrameIndexOfBitmap(1);
+		}
+		_FrameTime += 1;
+		_TankBrokenAnimation.ShowBitmap();
 	}
-	else if (_FrameTime % 20 == 8) {
-		_TankBrokenAnimation.SetFrameIndexOfBitmap(2);
-	}
-	else if (_FrameTime % 20 == 12) {
-		_TankBrokenAnimation.SetFrameIndexOfBitmap(3);
-	}
-	else if (_FrameTime % 20 == 16) {
-		_TankBrokenAnimation.SetFrameIndexOfBitmap(4);
-	}
-	else if (_FrameTime % 20 == 20) {
-		_TankBrokenAnimation.SetFrameIndexOfBitmap(1);
-	}
-	_FrameTime += 1;
-	_TankBrokenAnimation.SetTopLeft(_X, _Y);
-	_TankBrokenAnimation.ShowBitmap();
 }
 
 void CTank::Animation() {
@@ -173,7 +148,7 @@ void CTank::LocationPoint() {
 } 
 
 void CTank::OnShow() {
-	if (_IfBattle && _Life !=0) {
+	if (_IfBattle && !isBreak()) {
 		if (!GetSpawnAnimationDone()) {
 			LoadBitmap();
 			ShowSpawnAnimation();
@@ -185,13 +160,55 @@ void CTank::OnShow() {
 		}
 		_Bullet.OnShow();
 	}
-	else if (_Life == 0) {
+	else if (isBreak() && _IfBattle){
+		_Tank.UnshowBitmap();
+		_FrameTime = 0;
+		_IfBattle = false;
+		_TankBrokenAnimation.SetTopLeft(_X, _Y);
+		_isNeedRespawn = true;
+	}
+	else if (isBreak() && !_isTankBrokenAnimationDone) {
 		TankbeHit();
 	}
 }
 
 
-/*Tank Front*/
+/*Tank Front & Direction*/
+void CTank::SetFaceDirection() {
+	if (_OriginAngle == Right) {
+		_Frameindex = 0;
+	}
+	else if (_OriginAngle == Left) {
+		_Frameindex = 2;
+	}
+	else if (_OriginAngle == Up) {
+		_Frameindex = 4;
+	}
+	else if (_OriginAngle == Down) {
+		_Frameindex = 6;
+	}
+}
+void CTank::TurnFace(UINT nChar) {
+	if (nChar == VK_RIGHT) {
+		_TurnAngle = Right;
+	}
+	else if (nChar == VK_LEFT) {
+		_TurnAngle = Left;
+	}
+	else if (nChar == VK_UP) {
+		_TurnAngle = Up;
+	}
+	else if (nChar == VK_DOWN) {
+		_TurnAngle = Down;
+	}
+	if (_TurnAngle != _OriginAngle) {
+		LocationPoint();
+		_OriginAngle = _TurnAngle;
+		SetFaceDirection();
+		_FrameTime= 0;
+	}
+	//_Tank.SetFrameIndexOfBitmap(_Frameindex);
+}
 void CTank::TankFront() {		// 對坦克前方的兩格格子做XY定位
 	if (_OriginAngle == Right) {
 		_FrontXY[0][0] = _X + Width * 2;
@@ -258,6 +275,18 @@ void CTank::ShowSpawnAnimation() {
 }
 
 /*Bullet*/
+void CTank::FireBullet() {
+	//if (clock() - _Last_time >= 1) {
+		if (_OriginAngle == Right || _OriginAngle == Left) {
+			_Bullet.SetBulletFire(_X, _Y + 25, _OriginAngle,_BulletFlySpeed);
+		}
+		else {
+			_Bullet.SetBulletFire(_X + 25, _Y, _OriginAngle, _BulletFlySpeed);
+		}
+		_Last_time = clock();
+		_IfFire = _Bullet.GetAlreadyFire();
+	//}
+}
 void CTank::SetBulletStatus(bool Status) {
 	if (_Bullet.GetAlreadyFire() == true && Status == false) {
 		_Bullet.SetIfBoom(true);
