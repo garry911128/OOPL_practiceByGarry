@@ -36,6 +36,15 @@ void Enemy::SetEnemyHaveItem() {
 }
 
 void Enemy::SetEnemyInit() {
+	_X = Width * 14 + 100;
+	_Y = Height * 0;
+	_OriginAngle = Down;
+	_TurnAngle = Down;
+	_NowGrid = { (_X - 100) / Width, _Y / Height };
+	_SpawnAnimationDone = false;					// 重生動畫結束撥放
+	_isTankBrokenAnimationDone = false;
+	_Life = 1;
+	_isNeedRespawn = false;
 	if (_EnemyType == LightTank){
 		_EnemyScore = 100;						// 坦克分數
 	}
@@ -51,8 +60,8 @@ void Enemy::SetEnemyInit() {
 		_Life = 4;								// 生命
 		_EnemyScore = 400;						
 	}
+	SetFaceDirection();
 }
-
 void Enemy::SetEnemyType(int num) {
 	_EnemyType = num;
 }
@@ -81,9 +90,6 @@ void Enemy::EnemyRandomDirection(){
 		}
 		_TimeStart = clock();			// 重新開始計時
 	}
-	if (_TimeFinish / CLOCKS_PER_SEC == 15){
-		_Life -= 1;
-	}
 }
 void Enemy::LoadBitmap() {
 	if (_EnemyType == LightTank){
@@ -111,4 +117,10 @@ void Enemy::LoadBitmap() {
 									"resources/Enemy_HeavyTank_Bottom1.bmp","resources/Enemy_HeavyTank_Bottom2.bmp" }, RGB(0, 0, 0));
 	}
 	_Bullet.LoadBitmap();
+}
+void Enemy::EnemyRespawn(int type) {
+	SetEnemyType(type);
+	SetEnemyInit();
+	SetIfBattle(true);
+	LoadBitmap();
 }

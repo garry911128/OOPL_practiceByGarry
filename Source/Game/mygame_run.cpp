@@ -49,8 +49,19 @@ void CGameStateRun::OnMove()                            // 移動遊戲元素
 
 	PlayerTankMove(&_PlayerTank);
 	for (int i = 0; i < 4; i++) {
-		EnemyTankMove(&EnemyList[i]);
+		if (_TimerFinish >= 17000 && !(EnemyList[0].isBreak())) {
+			EnemyList[0].SetLife(0);
+		}
+		/*else if (_TimerFinish >= 20000 && EnemyList[0].isBreak() && EnemyList[0].GetEnemyisNeedRespawn()) {
+			EnemyList[0].EnemyRespawn(3);
+		}*/
+		else if(!(EnemyList[i].isBreak())) {
+			EnemyTankMove(&EnemyList[i]);
+		}
 	}
+	_TimerFinish = clock();
+	
+
 }
 void CGameStateRun::OnInit()                                  // 遊戲的初值及圖形設定
 {
@@ -251,18 +262,13 @@ void CGameStateRun::OnShowText() {
 	pDC->SetBkMode(TRANSPARENT);
 	pDC->SetTextColor(RGB(0, 180, 0));
 	_TimerFinish = clock();
-	CTextDraw::Print(pDC, 0, 0, (to_string(_TimerStart / CLOCKS_PER_SEC)+" "+ to_string(_TimerFinish / CLOCKS_PER_SEC)));
+	CTextDraw::Print(pDC, 0, 0, (to_string(_TimerStart / CLOCKS_PER_SEC)+" "+ to_string(_TimerFinish )));
+	CTextDraw::Print(pDC, 0, 50, (to_string(EnemyList[0].isBreak())));
+	CTextDraw::Print(pDC, 0, 70, (to_string(EnemyList[1].isBreak())));
+	CTextDraw::Print(pDC, 0, 90, (to_string(EnemyList[2].isBreak())));
+	CTextDraw::Print(pDC, 0, 110, (to_string(EnemyList[3].isBreak())));
 	CTextDraw::Print(pDC, 0, 25, (to_string(_MouseX) + " " + to_string(_MouseY).c_str()));
 	ChooseStageScreen.OnShowText(pDC,fp);
-	/*
-	CTextDraw::ChangeFontLog( pDC, 10, "TRANSPARENT", RGB(0, 180, 0));
-	for (int i = 0; i < 26; i++) {
-		for (int j = 0; j < 26; j++) {
-			CTextDraw::Print(pDC, j * 32 + 110, i * 32, (to_string(i) + "," + to_string(j).c_str()));
-		}
-	}
-	*/
-
 	CDDraw::ReleaseBackCDC();
 }
 
@@ -317,9 +323,9 @@ void CGameStateRun::TankCollisionMap(CTank *tank) {
 		Stage1.GetIfBoardEdge(tank->GetX1(), tank->GetY1(), tank->GetHeight(), tank->GetWidth(), tank->GetOriginAngle())) {
 		tank->Move();
 	}
-	if ((Stage1.GetType(_tempcollision[0][1], _tempcollision[0][0]) == 2 || 
+	/*if ((Stage1.GetType(_tempcollision[0][1], _tempcollision[0][0]) == 2 || 
 			Stage1.GetType(_tempcollision[1][1], _tempcollision[1][0]) == 2) && tank->GetIfGetShip() == true) {
 			tank->Move();
-		}
+		}*/
 	tank->Animation();
 }
