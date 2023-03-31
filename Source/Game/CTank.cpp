@@ -38,9 +38,6 @@ CTank::CTank() :Width(32), Height(32) {
 	//_Tank.SetAnimation(1, true);
 	//_Bullet.LoadBitmap();
 }
-bool CTank::GetIfFire() {
-	return _IfFire;
-}
 int CTank::GetX1(){
 	return _X;
 }
@@ -63,19 +60,6 @@ void CTank::SetXY(int _x, int _y) {
 
 void CTank::SetIfBattle(bool Status) {
 	_IfBattle = Status;
-}
-
-void CTank::FireBullet() {
-	//if (clock() - _Last_time >= 1) {
-		if (_OriginAngle == Right || _OriginAngle == Left) {
-			_Bullet.SetBulletFire(_X, _Y + 25, _OriginAngle,_BulletFlySpeed);
-		}
-		else {
-			_Bullet.SetBulletFire(_X + 25, _Y, _OriginAngle, _BulletFlySpeed);
-		}
-		_Last_time = clock();
-		_IfFire = _Bullet.GetAlreadyFire();
-	//}
 }
 
 void CTank::Move() {
@@ -206,20 +190,6 @@ void CTank::OnShow() {
 	}
 }
 
-//void CTank::LevelUP() {
-//	if (_Level <5){
-//		_Level += 1;
-//		if (_Level == 2){
-//			_AttackSpeedUP = true;
-//		}
-//		else if (_Level == 3) {
-//			_DoubleAttack = true;
-//		}
-//		else if (_Level == 4) {
-//			_CanBreakIron = true;
-//		}
-//	}
-//}
 
 /*Tank Front*/
 void CTank::TankFront() {		// 對坦克前方的兩格格子做XY定位
@@ -288,9 +258,6 @@ void CTank::ShowSpawnAnimation() {
 }
 
 /*Bullet*/
-vector<vector<int>> CTank::GetBulletPlace() {
-	return _Bullet._GetNowPlace();
-}
 void CTank::SetBulletStatus(bool Status) {
 	if (_Bullet.GetAlreadyFire() == true && Status == false) {
 		_Bullet.SetIfBoom(true);
@@ -300,26 +267,29 @@ void CTank::SetBulletStatus(bool Status) {
 void CTank::SetIfFire(bool Status) {
 	_IfFire = Status;
 }
-int CTank::GetBulletDirection() {
-	return _Bullet.GetDirection();
+void CTank::FireBullet() {
+	if (clock() - _Last_time >= 10) {
+		if (_OriginAngle == Right || _OriginAngle == Left) {
+			_Bullet.SetBulletFire(_X, _Y + 25, _OriginAngle, _BulletFlySpeed);
+		}
+		else {
+			_Bullet.SetBulletFire(_X + 25, _Y, _OriginAngle, _BulletFlySpeed);
+		}
+		_Last_time = clock();
+		_IfFire = _Bullet.GetAlreadyFire();
+	}
 }
+bool CTank::GetIfFire() {
+	return _IfFire;
+}
+//Tank
+
+
 int CTank::GetHeight() {
 	return _Tank.GetHeight();
 }
 int CTank::GetWidth() {
 	return _Tank.GetWidth();
-}
-int CTank::GetBulletX() {
-	return _Bullet._GetNowPlace()[0][0];
-}
-int CTank::GetBulletY() {
-	return _Bullet._GetNowPlace()[0][1];
-}
-int CTank::GetBulletHeight() {
-	return _Bullet.GetHeight();
-}
-int CTank::GetBulletWidth() {
-	return _Bullet.GetWidth();
 }
 
 CMovingBitmap CTank::GetTankBitmap() {
