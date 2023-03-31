@@ -15,6 +15,8 @@ namespace game_framework {
 
 		bool GetIfGetShip();
 		void SetIfGetShip(bool Status);
+
+		void SetMoveOnIce(bool IfOnIce);
 	private:
 		bool _IfGetShip;
 		int _Invicible;

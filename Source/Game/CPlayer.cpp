@@ -63,12 +63,15 @@ void CPlayer::SetIfGetShip(bool Status) {
 bool CPlayer::GetIfGetShip() {
 	return _IfGetShip;
 }
-
+void CPlayer::SetMoveOnIce(bool IfOnIce) {
+	
+}
 void CPlayer::LevelUP() {
 	if (_Level < 5) {
 		_Level += 1;
 		if (_Level == 2) {
 			_AttackSpeedUP = true;
+			_BulletFlySpeed = 30;
 		}
 		else if (_Level == 3) {
 			_DoubleAttack = true;

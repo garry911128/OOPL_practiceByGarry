@@ -57,6 +57,8 @@ namespace game_framework {
 		bool _IfFire;
 		clock_t _Last_time; // last time that bullet move; (we can consider it as delay)
 		CBullet _Bullet;
+		int _BulletFlySpeed;
+
 		CMovingBitmap _Tank;
 		CMovingBitmap _SpawnAnimation;
 		bool _SpawnAnimationDone;

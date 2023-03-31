@@ -6,7 +6,7 @@ namespace game_framework {
 	public:
 		CBullet();
 		void LoadBitmap();
-		void SetBulletFire(int TankX, int TankY,int TankDirect);
+		void SetBulletFire(int TankX, int TankY, int TankDirect, int BulletSpeed);
 		void OnShow();
 		void SetBulletAlreadyFire(bool AlreadyFire);
 		bool GetAlreadyFire();
@@ -26,7 +26,6 @@ namespace game_framework {
 		vector<vector<int>> _NowPlace; //the place that stand on your left and right
 		int _Direction;
 		vector<vector<int>> _NextMove;
-		int _FlySpeed;
 		CMovingBitmap _Bulletimage; //all bullet image in here ,index 0 is Go to east Bullet image,1 is south,2 is west,3 is north
 		CMovingBitmap _Boom; // the Animation of Boom (Bullet touch the wall or sth)
 	};

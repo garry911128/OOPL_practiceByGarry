@@ -17,7 +17,6 @@ vector<vector<int>> CBullet::_Move = { {1,0},{0,1},{-1,0},{0,-1} }; //Vector 2D
 CBullet::CBullet() {
 	//"resources/Bullet0.bmp","resources/Bullet1.bmp","resources/Bullet2.bmp","resources/Bullet3.bmp"
 	//_Boom.LoadBitmapByString({ "resources/Boom0.bmp","resources/Boom1.bmp","resources/Boom2.bmp" }, RGB(0, 0, 0));
-	_FlySpeed = 15;
 	_AlreadyFire = false;
 	_NextMove = { {0,0},{0,0} };
 	_NowPlace = { {0,0},{0,0} };
@@ -31,7 +30,7 @@ void CBullet::LoadBitmap() {
 bool CBullet::GetAlreadyFire() {
 	return _AlreadyFire;
 }
-void CBullet::SetBulletFire(int TankX,int TankY,int TankDirect) {
+void CBullet::SetBulletFire(int TankX,int TankY,int TankDirect,int BulletSpeed) {
 	if (_AlreadyFire == false) {
 		_AlreadyFire = true;
 		_NowPlace[0][0] = TankX;
@@ -46,10 +45,10 @@ void CBullet::SetBulletFire(int TankX,int TankY,int TankDirect) {
 			_NowPlace[1][1] = TankY;
 		}
 		_Bulletimage.SetFrameIndexOfBitmap(TankDirect);
-		_NextMove[0][0] = _NowPlace[0][0] + _Move[TankDirect][0] * _FlySpeed;
-		_NextMove[0][1] = _NowPlace[0][1] + _Move[TankDirect][1] * _FlySpeed;
-		_NextMove[1][0] = _NowPlace[1][0] + _Move[TankDirect][0] * _FlySpeed;
-		_NextMove[1][1] = _NowPlace[1][1] + _Move[TankDirect][1] * _FlySpeed;
+		_NextMove[0][0] = _NowPlace[0][0] + _Move[TankDirect][0] * BulletSpeed;
+		_NextMove[0][1] = _NowPlace[0][1] + _Move[TankDirect][1] * BulletSpeed;
+		_NextMove[1][0] = _NowPlace[1][0] + _Move[TankDirect][0] * BulletSpeed;
+		_NextMove[1][1] = _NowPlace[1][1] + _Move[TankDirect][1] * BulletSpeed;
 		_Bulletimage.SetTopLeft(_NowPlace[0][0], _NowPlace[0][1]);
 	}
 	else {
@@ -58,10 +57,10 @@ void CBullet::SetBulletFire(int TankX,int TankY,int TankDirect) {
 		_NowPlace[1][0] = _NextMove[1][0];
 		_NowPlace[1][1] = _NextMove[1][1];
 
-		_NextMove[0][0] = _NowPlace[0][0] + _Move[_Direction][0] * _FlySpeed;
-		_NextMove[0][1] = _NowPlace[0][1] + _Move[_Direction][1] * _FlySpeed;
-		_NextMove[1][0] = _NowPlace[1][0] + _Move[_Direction][0] * _FlySpeed;
-		_NextMove[1][1] = _NowPlace[1][1] + _Move[_Direction][1] * _FlySpeed;
+		_NextMove[0][0] = _NowPlace[0][0] + _Move[_Direction][0] * BulletSpeed;
+		_NextMove[0][1] = _NowPlace[0][1] + _Move[_Direction][1] * BulletSpeed;
+		_NextMove[1][0] = _NowPlace[1][0] + _Move[_Direction][0] * BulletSpeed;
+		_NextMove[1][1] = _NowPlace[1][1] + _Move[_Direction][1] * BulletSpeed;
 	
 		_Bulletimage.SetTopLeft(_NowPlace[0][0], _NowPlace[0][1]);
 	}

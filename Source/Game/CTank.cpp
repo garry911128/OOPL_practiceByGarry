@@ -32,6 +32,7 @@ CTank::CTank() :Width(32), Height(32) {
 	_NowGrid = { (_X-100) / Width, _Y / Height };	// 坦克現在的格子
 	_OffsetXY = { 0,0 };							// 偏移的XY距離
 	_SpawnAnimationDone = false;					// 重生動畫結束撥放
+	_BulletFlySpeed = 15;
 	//_Bullet.LoadBitmap(); // 加到player裡了
 	//_Tank.SetAnimation(1, true);
 	//_Bullet.LoadBitmap();
@@ -64,16 +65,16 @@ void CTank::SetIfBattle(bool Status) {
 }
 
 void CTank::FireBullet() {
-	if (clock() - _Last_time >= 10) {
+	//if (clock() - _Last_time >= 1) {
 		if (_OriginAngle == Right || _OriginAngle == Left) {
-			_Bullet.SetBulletFire(_X, _Y + 25, _OriginAngle);
+			_Bullet.SetBulletFire(_X, _Y + 25, _OriginAngle,_BulletFlySpeed);
 		}
 		else {
-			_Bullet.SetBulletFire(_X + 25, _Y, _OriginAngle);
+			_Bullet.SetBulletFire(_X + 25, _Y, _OriginAngle, _BulletFlySpeed);
 		}
 		_Last_time = clock();
 		_IfFire = _Bullet.GetAlreadyFire();
-	}
+	//}
 }
 
 void CTank::Move() {
