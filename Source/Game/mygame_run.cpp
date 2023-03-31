@@ -50,12 +50,13 @@ void CGameStateRun::OnMove()                            // 移動遊戲元素
 
 	PlayerTankMove(&_PlayerTank);
 	for (int i = 0; i < 4; i++) {
-		if (_TimerFinish >= 17000 && !(EnemyList[0].isBreak())) {
+		if (_TimerFinish >= 11000 && !(EnemyList[0].isBreak())) {
 			EnemyList[0].SetLife(0);
+			/*EnemyList[0].TankbeHit();*/
+			//if (!EnemyList[0].GetSpawnAnimationDone()){
+			//	EnemyList[0].EnemyRespawn(3);
+			//}
 		}
-		/*else if (_TimerFinish >= 20000 && EnemyList[0].isBreak() && EnemyList[0].GetEnemyisNeedRespawn()) {
-			EnemyList[0].EnemyRespawn(3);
-		}*/
 		else if(!(EnemyList[i].isBreak())) {
 			EnemyTankMove(&EnemyList[i]);
 		}
