@@ -49,12 +49,13 @@ void CGameStateRun::OnMove()                            // 移動遊戲元素
 
 	PlayerTankMove(&_PlayerTank);
 	for (int i = 0; i < 4; i++) {
-		if (_TimerFinish >= 17000 && !(EnemyList[0].isBreak())) {
+		if (_TimerFinish >= 11000 && !(EnemyList[0].isBreak())) {
 			EnemyList[0].SetLife(0);
+			/*EnemyList[0].TankbeHit();*/
+			//if (!EnemyList[0].GetSpawnAnimationDone()){
+			//	EnemyList[0].EnemyRespawn(3);
+			//}
 		}
-		/*else if (_TimerFinish >= 20000 && EnemyList[0].isBreak() && EnemyList[0].GetEnemyisNeedRespawn()) {
-			EnemyList[0].EnemyRespawn(3);
-		}*/
 		else if(!(EnemyList[i].isBreak())) {
 			EnemyTankMove(&EnemyList[i]);
 		}
@@ -202,7 +203,7 @@ void CGameStateRun::OnInit()                                  // 遊戲的初值
 void CGameStateRun::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
 	if (nChar == 0x5A || nChar == 0x58) {
-		_PlayerTank.FireBullet();
+		_PlayerTank.SetIfFire(true);
 	}
 	if (nChar == VK_DOWN)	_isHoldDownKey = true;
 	if (nChar == VK_UP)		_isHoldUpKey   = true;
