@@ -55,7 +55,7 @@ void CGameStateRun::OnMove()                            // 移動遊戲元素
 		/*else if (_TimerFinish >= 20000 && EnemyList[0].isBreak() && EnemyList[0].GetEnemyisNeedRespawn()) {
 			EnemyList[0].EnemyRespawn(3);
 		}*/
-		else if((EnemyList[i].isBreak())) {
+		else if(!(EnemyList[i].isBreak())) {
 			EnemyTankMove(&EnemyList[i]);
 		}
 	}

@@ -41,8 +41,6 @@ void Enemy::SetEnemyInit() {
 	_OriginAngle = Down;
 	_TurnAngle = Down;
 	_NowGrid = { (_X - 100) / Width, _Y / Height };
-	_TimeStart = clock();
-	_TimeFinish = clock();
 	_SpawnAnimationDone = false;					// 重生動畫結束撥放
 	_isTankBrokenAnimationDone = false;
 	_Life = 1;
@@ -92,9 +90,6 @@ void Enemy::EnemyRandomDirection(){
 		}
 		_TimeStart = clock();			// 重新開始計時
 	}
-	//if (_TimeFinish / CLOCKS_PER_SEC == 15){
-	//	_Life -= 1;
-	//}
 }
 void Enemy::LoadBitmap() {
 	if (_EnemyType == LightTank){
