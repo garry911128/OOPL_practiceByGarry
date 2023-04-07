@@ -1,5 +1,4 @@
 ﻿#pragma once
-
 namespace game_framework {
 	class CBullet
 	{
@@ -7,6 +6,7 @@ namespace game_framework {
 		CBullet();
 		void LoadBitmap();
 		void SetBulletFire(int TankX, int TankY, int TankDirect, int BulletSpeed);
+		void BulletFly();
 		void OnShow();
 		void SetBulletAlreadyFire(bool AlreadyFire);
 		bool GetAlreadyFire();
@@ -27,6 +27,7 @@ namespace game_framework {
 		vector<vector<int>> _NowBackPlace; //the place that stand on your left and right , but doesnt plus width and height
 		vector<vector<int>> _NowFrontPlace; //plus width and height
 		int _Direction;
+		int _BulletSpeed;
 		vector<vector<int>> _NextMove;
 		CMovingBitmap _Bulletimage; //all bullet image in here ,index 0 is Go to east Bullet image,1 is south,2 is west,3 is north
 		CMovingBitmap _Boom; // the Animation of Boom (Bullet touch the wall or sth)
